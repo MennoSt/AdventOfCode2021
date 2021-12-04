@@ -26,4 +26,9 @@ class SolutionProvider:
         
         print("The answer of Day 2 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 2 part 2 is equal to " + str(answerPart2))
+    
+    def SolutionThree():
+        data = pd.read_csv("input/inputday3",names = ["BinaryValue"])
+
+        print(data)
 
