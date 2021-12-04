@@ -1,10 +1,5 @@
-import pandas as pd
-
 class SubmarineCalculator:
-    
-    # def __init__(self):
 
-    
     def IsDepthIncreased(self, depth, previousDepth):
         if (depth < previousDepth):
             return True
@@ -13,17 +8,26 @@ class SubmarineCalculator:
 
     def IsDepthIncreasedArray(self, data):
         array = []
-        df_depth = data
 
-        for index in range(0,df_depth.size):
+        for index in range(0,len(data)):
             if index == 0:
                 array.append("No previous measurement")
             else:
-                array.append(self.IsDepthIncreased(df_depth[index-1], df_depth[index]))
+                array.append(self.IsDepthIncreased(data[index-1], data[index]))
         
         return array
     
-    def GetNumberOfIncreasedDepths(self, data):
+    def getSummedDepth(self, data):
+        array = []
+        summedDepth = 0
+
+        for index in range(0,len(data)-2):
+            summedDepth = data[index] + data[index+1] + data[index+2]
+            array.append(summedDepth)
+
+        return array
+    
+    def GetIncreasedDepthsPart1(self, data):
 
         increases = 0
         
@@ -33,28 +37,12 @@ class SubmarineCalculator:
                 increases+=1
         
         return increases
-    
-    def getSummedDepth(self, df_depth):
-
-        array = []
-        summedDepth = 0
-
-        for index in range(0,df_depth.size):
-            summedDepth += df_depth[index]
-            if (index+1) % 3 == 0:
-                array.append(summedDepth)
-                summedDepth = 0
-
-        array.append(summedDepth)
-
-        return array
 
         
-    def getNumberOfIncreasesSummedDepth(self, df_depth):
+    def GetIncreasedDepthsPart2(self, data):
 
-        array = self.getSummedDepth(df_depth)
-        df = pd.DataFrame(array)
-        numberOfIncreasedSummedDepths = self.GetNumberOfIncreasedDepths(df)
+        array = self.getSummedDepth(data)
+        numberOfIncreasedSummedDepths = self.GetIncreasedDepthsPart1(array)
 
         return numberOfIncreasedSummedDepths
 
