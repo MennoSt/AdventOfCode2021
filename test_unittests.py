@@ -1,4 +1,5 @@
 import unittest
+from PowerManager import PowerManager
 
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
@@ -31,6 +32,32 @@ class Test_TestDirectionCalculator(unittest.TestCase):
     def test_CalculateMultiplication(self):
         multiplicationPart2 = self.directionCalculator.getMultiplicationPart2(self.testdataDirection, self.testdataAmmount)
         self.assertEqual(multiplicationPart2, 900)
+
+class Test_TestBitCalculator(unittest.TestCase):
+
+    def setUp(self):
+        self.powerManager = PowerManager()
+        self.testdataPower = ["00100", 
+                              "11110", 
+                              "10110", 
+                              "10111",
+                              "10101",
+                              "01111",
+                              "00111",
+                              "11100",
+                              "10000",
+                              "11001",
+                              "00010",
+                              "01010"]
+
+    def test_CalculatePowerConsumption(self):
+        consumedPower = self.powerManager.CalculateRequiredPower(self.testdataPower)
+        self.assertEqual(consumedPower, 198)
+    
+    def test_CalculateLifeSupport(self):
+        consumedPower = self.powerManager.CalculateLifeSupport(self.testdataPower)
+        self.assertEqual(consumedPower, 230)
+
 
 if __name__ == '__main__':
     unittest.main()

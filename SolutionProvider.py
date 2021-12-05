@@ -1,4 +1,6 @@
 import pandas as pd
+from PowerManager import PowerManager
+# from BitCalculator import BitCalculator
 
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
@@ -28,7 +30,11 @@ class SolutionProvider:
         print("The answer of Day 2 part 2 is equal to " + str(answerPart2))
     
     def SolutionThree():
-        data = pd.read_csv("input/inputday3",names = ["BinaryValue"])
+        powerManager = PowerManager()
+        data = pd.read_csv("input/inputday3", dtype=str, names = ["BinaryValue"])
 
-        print(data)
+        answerPart1 = powerManager.CalculateRequiredPower(data["BinaryValue"].astype(str).values.tolist())
+        answerPart2 = powerManager.CalculateLifeSupport(data["BinaryValue"].astype(str).values.tolist()) 
 
+        print("The answer of Day 3 part 1 is equal to " + str(answerPart1))
+        print("The answer of Day 3 part 2 is equal to " + str(answerPart2))
