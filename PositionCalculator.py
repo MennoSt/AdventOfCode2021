@@ -24,7 +24,7 @@ class PositionCalculator:
             else:
                 raise Exception("Invalid Direction")
     
-    def getMultiplication(self, directionArray, positionArray):
+    def getMultiplicationPart1(self, directionArray, positionArray):
 
         self.UpdatePosition(directionArray, positionArray)
         multiplication = self.horizontalP * self.depthP

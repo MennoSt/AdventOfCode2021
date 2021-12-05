@@ -26,7 +26,7 @@ class Test_TestDirectionCalculator(unittest.TestCase):
         self.testdataDirection = ["forward", "down", "forward", "up", "down", "forward"]
     
     def test_CalculateMultiplication(self):
-        multiplication = self.directionCalculator.getMultiplication(self.testdataDirection, self.testdataAmmount)
+        multiplication = self.directionCalculator.getMultiplicationPart1(self.testdataDirection, self.testdataAmmount)
         self.assertEqual(multiplication, 150)
 
     def test_CalculateMultiplication(self):
