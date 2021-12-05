@@ -1,4 +1,3 @@
-
 class PowerManager:
     
     def __init__(self):

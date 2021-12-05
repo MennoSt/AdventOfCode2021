@@ -1,4 +1,3 @@
-
 class PositionCalculator:
     
     def __init__(self):

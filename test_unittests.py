@@ -1,6 +1,6 @@
 import unittest
-from PowerManager import PowerManager
 
+from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
 
@@ -55,8 +55,8 @@ class Test_TestBitCalculator(unittest.TestCase):
         self.assertEqual(consumedPower, 198)
     
     def test_CalculateLifeSupport(self):
-        consumedPower = self.powerManager.CalculateLifeSupport(self.testdataPower)
-        self.assertEqual(consumedPower, 230)
+        lifeSupport = self.powerManager.CalculateLifeSupport(self.testdataPower)
+        self.assertEqual(lifeSupport, 230)
 
 
 if __name__ == '__main__':

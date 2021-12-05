@@ -1,7 +1,6 @@
 import pandas as pd
-from PowerManager import PowerManager
-# from BitCalculator import BitCalculator
 
+from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
 
