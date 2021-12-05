@@ -49,8 +49,7 @@ class PositionCalculator:
                 self.aim += positionArray[index]
             elif (directionArray[index] == "forward"):
                 self.horizontalP += positionArray[index]
-                depth_increase = self.aim * positionArray[index]
-                self.depthP += depth_increase
+                self.depthP += self.aim * positionArray[index]
             else:
                 raise Exception("Invalid Direction")
     

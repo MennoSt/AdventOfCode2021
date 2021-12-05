@@ -7,7 +7,7 @@ from PositionCalculator import PositionCalculator
 
 class SolutionProvider:
 
-    def SolutionOne():
+    def SolutionDayOne():
         submarineCalculator = SubmarineCalculator()
         data = pd.read_csv("input/inputday1",names = ["Depth"])
         data['Depth'] = data['Depth'].astype(int)
@@ -18,18 +18,17 @@ class SolutionProvider:
         print("The answer of Day 1 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 1 part 2 is equal to " + str(answerPart2))
 
-    def SolutionTwo():
+    def SolutionDayTwo():
         positionCalculator = PositionCalculator()
         data = pd.read_csv("input/inputday2",names = ["Direction", "Ammount"], delim_whitespace=True)
 
-        print(data)
         answerPart1 = positionCalculator.getMultiplication(data["Direction"].astype(str).values.tolist(), data["Ammount"].to_numpy())
         answerPart2 = positionCalculator.getMultiplicationPart2(data["Direction"].astype(str).values.tolist(), data["Ammount"].to_numpy())
         
         print("The answer of Day 2 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 2 part 2 is equal to " + str(answerPart2))
     
-    def SolutionThree():
+    def SolutionDayThree():
         powerManager = PowerManager()
         data = pd.read_csv("input/inputday3", dtype=str, names = ["BinaryValue"])
 
