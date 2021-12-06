@@ -29,16 +29,22 @@ class BingoManager:
 
     def getLastBingoScore(self, numbers):
         lastBingoScore = 0
+        indexesToPop = []
+
         for number in numbers:
             leftBingoCharts = self.bingoChartArray
-            # length = len(leftBingoCharts)
             for index in range (0, len(leftBingoCharts)):
-                if len(leftBingoCharts) == 1:
+                length = len(leftBingoCharts)
+                if length == 1:
                     index = 0
-                self.bingoChartArray[index].strikeThroughNumber(number)
-                if self.bingoChartArray[index].hasBingo() == True:
-                    lastBingoScore = self.bingoChartArray[index].GetBingoScore(number)
-                    self.bingoChartArray.pop(index)
+                leftBingoCharts[index].strikeThroughNumber(number)
+                if leftBingoCharts[index].hasBingo() == True:
+                    lastBingoScore = leftBingoCharts[index].GetBingoScore(number)
+                    indexesToPop.append(index)
+            
+            for index in sorted(indexesToPop, reverse = True):
+                del self.bingoChartArray[index]
+                indexesToPop =[]
 
         return lastBingoScore
   
