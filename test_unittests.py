@@ -3,6 +3,8 @@ import unittest
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
+from BingoFileReader import BingoFileReader
+from BingoManager import BingoManager
 
 class Test_TestSumbarineCalculator(unittest.TestCase):
 
@@ -57,6 +59,26 @@ class Test_TestBitCalculator(unittest.TestCase):
     def test_CalculateLifeSupport(self):
         lifeSupport = self.powerManager.CalculateLifeSupport(self.testdataPower)
         self.assertEqual(lifeSupport, 230)
+
+
+class Test_TestBingoManager(unittest.TestCase):
+    
+    def setUp(self):
+        self.bingoFileReader = BingoFileReader()
+        self.bingoFileReader.readFile("unittestinputday4")
+        self.bingoManager = BingoManager()
+        self.bingoNumbers = self.bingoFileReader.getBingoNumbers()
+        self.intChartArray = self.bingoFileReader.getintChartArray()
+        self.bingoManager.CreateBingoCharts(self.intChartArray)
+
+    def test_CalculateBingoManagerPart1(self):
+
+        bingoScore = self.bingoManager.getFirstBingoScore(self.bingoNumbers)
+        self.assertEqual(bingoScore, 4512)
+    
+    def test_CalculateBingoManagerPart2(self):
+        bingoScore = self.bingoManager.getLastBingoScore(self.bingoNumbers)
+        self.assertEqual(bingoScore, 1924)
 
 
 if __name__ == '__main__':

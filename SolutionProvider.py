@@ -1,9 +1,12 @@
 import pandas as pd
+import re
 
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
 from BingoChart import BingoChart
+from BingoManager import BingoManager
+from BingoFileReader import BingoFileReader
 
 class SolutionProvider:
 
@@ -39,44 +42,15 @@ class SolutionProvider:
         print("The answer of Day 3 part 2 is equal to " + str(answerPart2))
     
     def SolutionDayFour():
-        data = pd.read_csv("input/inputday4", dtype=str, names = ["BingoChart"], delim_whitespace=True)
-        bingoNumbers = list(map(int, data["BingoChart"][0].split(",")))
-
-        with open ("input/inputday4", "r") as myfile:
-            dataread = myfile.read().rstrip()
-
+        bingoManager = BingoManager()
+        bingoFileReader = BingoFileReader()
+        bingoFileReader.readFile("input/inputday4")
+        bingoNumbers = bingoFileReader.getBingoNumbers()
+        intChartArray = bingoFileReader.getintChartArray()
         
-        chartData = dataread.split('\n\n')
-        chartData.pop(0)
-        bingochart = BingoChart(chartData[0])
+        bingoManager.CreateBingoCharts(intChartArray)
+        bingoScorefirst = bingoManager.getFirstBingoScore(bingoNumbers)
+        bingoScorelast = bingoManager.getLastBingoScore(bingoNumbers)
 
-        bingochart.hasBingo(bingoNumbers)
-        
-        print(chartData[0])
-
-
-
-        # for index in range(0,len(bingoNumbers)):
-        #     # bingoNumbers[index] = bingoNumbers[index].replace('\n', '')
-        #     bingoNumbers[index] = int(bingoNumbers[index])
-        
-        # print(bingoNumbers)
-        
-        # with open("input/inputday4") as f:
-        #     first_line = f.readline()
-        #     print(first_line)
-
-        # bingoNumbers = first_line.split(",")
-
-        # for index in range(0,len(bingoNumbers)):
-        #     bingoNumbers[index] = bingoNumbers[index].replace('\n', '')
-        #     bingoNumbers[index] = int(bingoNumbers[index])
-
-        # print(bingoNumbers)
-
-        # print(data)
-        # answerPart1 = powerManager.CalculateRequiredPower(data["BinaryValue"].astype(str).values.tolist())
-        # answerPart2 = powerManager.CalculateLifeSupport(data["BinaryValue"].astype(str).values.tolist()) 
-
-        # print("The answer of Day 3 part 1 is equal to " + str(answerPart1))
-        # print("The answer of Day 3 part 2 is equal to " + str(answerPart2))
+        print("The answer of Day 4 part 1 is equal to " + str(bingoScorefirst))
+        print("The answer of Day 4 part 2 is equal to " + str(bingoScorelast))
