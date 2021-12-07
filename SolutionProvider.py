@@ -84,9 +84,9 @@ class SolutionProvider:
         crabPositioner = CrabPositioner()
 
         answerPart1 = crabPositioner.getLeastAmmountOfFuel(intArray)
-        # answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, daysanswer2)
+        answerPart2 = crabPositioner.getLeastAmmountOfFuel(intArray, True)
         
         print("The answer of Day 7 part 1 is equal to " + str(answerPart1))
-        # print("The answer of Day 6 part 2 is equal to " + str(answerPart2))
+        print("The answer of Day 7 part 2 is equal to " + str(answerPart2))
 
         

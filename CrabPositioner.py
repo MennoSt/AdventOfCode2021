@@ -4,17 +4,25 @@ class CrabPositioner:
         self.sumChart = 0
         self.lastNumber = 0
     
+    def recursiveFunction(self,x):
+        value = int(x*(x+1)/2)
+        return value
 
     def calculateFuel(self, horPos, suggestedPos):
         return abs(horPos-suggestedPos)
     
-    # def calculateFuelIncreasedRate(self, horPos, sugestedPos):
-    #     hor
+    def calculateIncreasedFuel(self, horPos, sugestedPos):
+        difference = abs(horPos - sugestedPos)
+        fuel = self.recursiveFunction(difference)
+        return fuel
     
-    def calculateFuelSum(self, positionArray, suggestedPos):
+    def calculateFuelSum(self, positionArray, suggestedPos, increasedRate = False):
         fuelSum = 0
         for horPostion in positionArray:
-            fuelSum += self.calculateFuel(horPostion, suggestedPos)
+            if increasedRate == False:
+                fuelSum += self.calculateFuel(horPostion, suggestedPos)
+            else:
+                fuelSum += self.calculateIncreasedFuel(horPostion, suggestedPos)
         
         return fuelSum
     
@@ -25,7 +33,10 @@ class CrabPositioner:
         highLimit = max(positionArray)
         
         for sugestedPos in range(lowerLimit, highLimit):
-            fuelSum = self.calculateFuelSum(positionArray, sugestedPos)
+            if increasedRate == True:
+                fuelSum = self.calculateFuelSum(positionArray, sugestedPos, True)
+            else:
+                fuelSum = self.calculateFuelSum(positionArray, sugestedPos)
             fuelSumArray.append(fuelSum)
         
         minimumFuel = min(fuelSumArray)

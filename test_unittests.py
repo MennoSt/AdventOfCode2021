@@ -129,6 +129,9 @@ class Test_CrabPositioner(unittest.TestCase):
         leastFuel = self.crabPositioner.getLeastAmmountOfFuel(self.testPositions)
         self.assertEqual(leastFuel, 37)
 
+    def test_CalculateLeastFuel_IncreasedRate(self):
+        leastFuel = self.crabPositioner.getLeastAmmountOfFuel(self.testPositions, True)
+        self.assertEqual(leastFuel, 168)
 
 if __name__ == '__main__':
     unittest.main()
