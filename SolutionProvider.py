@@ -10,7 +10,7 @@ from LaunterFishCalculator import LaunterFishCalculator
 
 class SolutionProvider:
 
-    def SolutionDayOne():
+    def solutionDayOne():
         submarineCalculator = SubmarineCalculator()
         data = pd.read_csv("input/inputday1",names = ["Depth"])
         data['Depth'] = data['Depth'].astype(int)
@@ -21,7 +21,7 @@ class SolutionProvider:
         print("The answer of Day 1 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 1 part 2 is equal to " + str(answerPart2))
 
-    def SolutionDayTwo():
+    def solutionDayTwo():
         positionCalculator = PositionCalculator()
         data = pd.read_csv("input/inputday2",names = ["Direction", "Ammount"], delim_whitespace=True)
 
@@ -31,17 +31,17 @@ class SolutionProvider:
         print("The answer of Day 2 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 2 part 2 is equal to " + str(answerPart2))
     
-    def SolutionDayThree():
+    def solutionDayThree():
         powerManager = PowerManager()
         data = pd.read_csv("input/inputday3", dtype=str, names = ["BinaryValue"])
 
-        answerPart1 = powerManager.CalculateRequiredPower(data["BinaryValue"].astype(str).values.tolist())
-        answerPart2 = powerManager.CalculateLifeSupport(data["BinaryValue"].astype(str).values.tolist()) 
+        answerPart1 = powerManager.calculateRequiredPower(data["BinaryValue"].astype(str).values.tolist())
+        answerPart2 = powerManager.calculateLifeSupport(data["BinaryValue"].astype(str).values.tolist()) 
 
         print("The answer of Day 3 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 3 part 2 is equal to " + str(answerPart2))
     
-    def SolutionDayFour():
+    def solutionDayFour():
         bingoManager = BingoManager()
         bingoFileReader = FileReader()
         bingoFileReader.readBingoFile("input/inputday4")
@@ -49,24 +49,24 @@ class SolutionProvider:
         bingoNumbers = bingoFileReader.getBingoNumbers()
         intChartArray = bingoFileReader.getintChartArray()
         
-        bingoManager.CreateBingoCharts(intChartArray)
+        bingoManager.createBingoCharts(intChartArray)
         bingoScorefirst = bingoManager.getFirstBingoScore(bingoNumbers)
         bingoScorelast = bingoManager.getLastBingoScore(bingoNumbers)
 
         print("The answer of Day 4 part 1 is equal to " + str(bingoScorefirst))
         print("The answer of Day 4 part 2 is equal to " + str(bingoScorelast))
     
-    def SolutionDayFive():
+    def solutionDayFive():
 
         ventDetector = VentDetector()
         ventDetector.readVentFile("input/inputday5")
-        answerPart1 = ventDetector.getNumberOfOverlaps()
+        answerPart1 = ventDetector.getNumberOfOverlapsPart1()
         answerPart2 = ventDetector.getNumberOfOverlapsPart2()
         
         print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 5 part 2 is equal to " + str(answerPart2))
 
-    def SolutionDaySix():
+    def solutionDaySix():
         fileObj = open("input/inputday6", "r")
         fileString = fileObj.read().splitlines()
         fileObj.close()
@@ -76,10 +76,10 @@ class SolutionProvider:
         daysanswer1 = 80
         daysanswer2 = 256
 
-        answerPart1 = launterFishCalulator.GetNumberOfFishes(initalState, daysanswer1)
-        answerPart2 = launterFishCalulator.GetNumberOfFishes(initalState, daysanswer2)
+        answerPart1 = launterFishCalulator.getNumberOfFishes(initalState, daysanswer1)
+        answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, daysanswer2)
         
-        print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 5 part 2 is equal to " + str(answerPart2))
+        print("The answer of Day 6 part 1 is equal to " + str(answerPart1))
+        print("The answer of Day 6 part 2 is equal to " + str(answerPart2))
 
         

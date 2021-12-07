@@ -1,6 +1,6 @@
 import unittest
-from LaunterFishCalculator import LaunterFishCalculator
 
+from LaunterFishCalculator import LaunterFishCalculator
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
@@ -8,7 +8,7 @@ from FileReader import FileReader
 from BingoManager import BingoManager
 from VentDetector import VentDetector
 
-class Test_TestSumbarineCalculator(unittest.TestCase):
+class Test_SumbarineCalculator(unittest.TestCase):
 
     def setUp(self):
         self.submarineCalculator = SubmarineCalculator()
@@ -22,22 +22,22 @@ class Test_TestSumbarineCalculator(unittest.TestCase):
         increases = self.submarineCalculator.GetIncreasedDepthsPart2(self.testdata)
         self.assertEqual(increases, 5)
 
-class Test_TestDirectionCalculator(unittest.TestCase):
+class Test_PositionCalculator(unittest.TestCase):
 
     def setUp(self):
-        self.directionCalculator = PositionCalculator()
+        self.positionCalculator = PositionCalculator()
         self.testdataAmmount = [5,5,8,3,8,2]
         self.testdataDirection = ["forward", "down", "forward", "up", "down", "forward"]
     
     def test_CalculateMultiplication(self):
-        multiplication = self.directionCalculator.getMultiplicationPart1(self.testdataDirection, self.testdataAmmount)
+        multiplication = self.positionCalculator.getMultiplicationPart1(self.testdataDirection, self.testdataAmmount)
         self.assertEqual(multiplication, 150)
 
     def test_CalculateMultiplication(self):
-        multiplicationPart2 = self.directionCalculator.getMultiplicationPart2(self.testdataDirection, self.testdataAmmount)
+        multiplicationPart2 = self.positionCalculator.getMultiplicationPart2(self.testdataDirection, self.testdataAmmount)
         self.assertEqual(multiplicationPart2, 900)
 
-class Test_TestBitCalculator(unittest.TestCase):
+class Test_PowerManager(unittest.TestCase):
 
     def setUp(self):
         self.powerManager = PowerManager()
@@ -55,23 +55,23 @@ class Test_TestBitCalculator(unittest.TestCase):
                               "01010"]
 
     def test_CalculatePowerConsumption(self):
-        consumedPower = self.powerManager.CalculateRequiredPower(self.testdataPower)
+        consumedPower = self.powerManager.calculateRequiredPower(self.testdataPower)
         self.assertEqual(consumedPower, 198)
     
     def test_CalculateLifeSupport(self):
-        lifeSupport = self.powerManager.CalculateLifeSupport(self.testdataPower)
+        lifeSupport = self.powerManager.calculateLifeSupport(self.testdataPower)
         self.assertEqual(lifeSupport, 230)
 
 
-class Test_TestBingoManager(unittest.TestCase):
+class Test_BingoManager(unittest.TestCase):
     
     def setUp(self):
         self.bingoFileReader = FileReader()
-        self.bingoFileReader.readBingoFile("unittestinputday4")
+        self.bingoFileReader.readBingoFile("testinput/unittestinputday4")
         self.bingoManager = BingoManager()
         self.bingoNumbers = self.bingoFileReader.getBingoNumbers()
         self.intChartArray = self.bingoFileReader.getintChartArray()
-        self.bingoManager.CreateBingoCharts(self.intChartArray)
+        self.bingoManager.createBingoCharts(self.intChartArray)
 
     def test_CalculateBingoManagerPart1(self):
 
@@ -82,19 +82,17 @@ class Test_TestBingoManager(unittest.TestCase):
         bingoScore = self.bingoManager.getLastBingoScore(self.bingoNumbers)
         self.assertEqual(bingoScore, 1924)
 
-class Test_TestVentCalculator(unittest.TestCase):
+class Test_TestVentDetector(unittest.TestCase):
     
     def setUp(self):
         self.ventDetector = VentDetector()
-        self.ventDetector.readVentFile("unittestinputday5")
+        self.ventDetector.readVentFile("testinput/unittestinputday5")
 
     def test_CalculateOverlapsPart1(self):
-
-        numberOfOverlaps = self.ventDetector.getNumberOfOverlaps()
+        numberOfOverlaps = self.ventDetector.getNumberOfOverlapsPart1()
         self.assertEqual(numberOfOverlaps, 5)
 
     def test_CalculateOverlapsPart2(self):
-
         numberOfOverlaps = self.ventDetector.getNumberOfOverlapsPart2()
         self.assertEqual(numberOfOverlaps, 12)
 
@@ -105,22 +103,18 @@ class Test_TestLaunterFishCalculator(unittest.TestCase):
         self.initialState = [3,4,3,1,2]
 
     def test_calculateFishesAfter18Days(self):
-
-        testarray = [3,4,3,1,2]
         days = 18
-        totalFishes = self.launterFishCalculator.GetNumberOfFishes(testarray, days)
+        totalFishes = self.launterFishCalculator.getNumberOfFishes(self.initialState, days)
         self.assertEqual(totalFishes, 26)
 
     def test_calculateFishesAfter80Days(self):
-        testarray = [3,4,3,1,2]
         days = 80
-        totalFishes = self.launterFishCalculator.GetNumberOfFishes(testarray, days)
+        totalFishes = self.launterFishCalculator.getNumberOfFishes(self.initialState, days)
         self.assertEqual(totalFishes, 5934)
 
     def test_calculateFishesAfter256Days(self):
-        testarray = [3,4,3,1,2]
         days = 256
-        totalFishes = self.launterFishCalculator.GetNumberOfFishes(testarray, days)
+        totalFishes = self.launterFishCalculator.getNumberOfFishes(self.initialState, days)
         self.assertEqual(totalFishes, 26984457539)
 
 

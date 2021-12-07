@@ -2,10 +2,9 @@ class LaunterFishCalculator:
     
     def __init__(self):
         self.fishArray = []
-        self.fishArrayFast = []
         self.initialState = []
 
-    def ConvertArrayToCounterArray(self, initialState):
+    def convertArrayToCounterArray(self, initialState):
         countArray = []
         for i in range(0,8):
             countArray.append(initialState.count(i))
@@ -15,34 +14,31 @@ class LaunterFishCalculator:
 
         return countArray
 
-    def GetNumberOfFishes(self, initialstate, days):
-        self.fishArrayFast = self.ConvertArrayToCounterArray(initialstate)
-        self.UpdateToNextGeneration()
+    def getNumberOfFishes(self, initialstate, days):
+        self.fishArray = self.convertArrayToCounterArray(initialstate)
+        self.updateToNextGeneration()
 
         for _ in range(days-1):
-            self.UpdateToNextGeneration()
+            self.updateToNextGeneration()
     
-        sumFishes = sum(self.fishArrayFast)
+        sumFishes = sum(self.fishArray)
 
         return sumFishes
 
-    def UpdateToNextGeneration(self):
+    def updateToNextGeneration(self):
         
-        newArray = []
-        additionalEights = self.fishArrayFast[0]
-        additionalSixes = self.fishArrayFast[0] + self.fishArrayFast[7]
-        
-        newArray.append(self.fishArrayFast[1])
-        newArray.append(self.fishArrayFast[2])
-        newArray.append(self.fishArrayFast[3])
-        newArray.append(self.fishArrayFast[4])
-        newArray.append(self.fishArrayFast[5])
-        newArray.append(self.fishArrayFast[6])
-        newArray.append(additionalSixes)
-        newArray.append(self.fishArrayFast[8])
-        newArray.append(additionalEights)
+        updatedArray = []
+        additionalEights = self.fishArray[0]
+        additionalSixes = self.fishArray[0] + self.fishArray[7]
 
-        self.fishArrayFast = newArray
+        for i in range(1,7):
+            updatedArray.append(self.fishArray[i])
+            
+        updatedArray.append(additionalSixes)
+        updatedArray.append(self.fishArray[8])
+        updatedArray.append(additionalEights)
+
+        self.fishArray = updatedArray
 
   
 

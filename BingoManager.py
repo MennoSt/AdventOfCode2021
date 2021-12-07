@@ -7,7 +7,7 @@ class BingoManager:
         self.sumChart = 0
         self.lastNumber = 0
     
-    def CreateBingoCharts(self, chartData):
+    def createBingoCharts(self, chartData):
         self.bingoChartArray = []
         for chart in chartData:
             bingochart = BingoChart(chart)
@@ -21,7 +21,7 @@ class BingoManager:
                 if bingo == False:
                     self.bingoChartArray[index].strikeThroughNumber(number)
                 if self.bingoChartArray[index].hasBingo() == True and bingo == False:
-                    bingoScore = self.bingoChartArray[index].GetBingoScore(number)
+                    bingoScore = self.bingoChartArray[index].getBingoScore(number)
                     self.lastNumber = number
                     bingo = True
 
@@ -39,7 +39,7 @@ class BingoManager:
                     index = 0
                 leftBingoCharts[index].strikeThroughNumber(number)
                 if leftBingoCharts[index].hasBingo() == True:
-                    lastBingoScore = leftBingoCharts[index].GetBingoScore(number)
+                    lastBingoScore = leftBingoCharts[index].getBingoScore(number)
                     indexesToPop.append(index)
             
             for index in sorted(indexesToPop, reverse = True):

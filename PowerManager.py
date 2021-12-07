@@ -33,8 +33,7 @@ class PowerManager:
         if commonBit == "0":
             return "1"
 
-
-    def InvertBitString(self, b_string):
+    def invertBitString(self, b_string):
         ib_string = ""
 
         for bit in b_string:
@@ -45,7 +44,7 @@ class PowerManager:
 
         return ib_string
 
-    def CalculateRequiredPower(self, binList):
+    def calculateRequiredPower(self, binList):
         
         numberOfCharacters = len(binList[0])
         string = ""
@@ -54,14 +53,14 @@ class PowerManager:
             mostCommonBitValue = self.getMostCommenBit(binList, index)
             string += mostCommonBitValue
             
-        inverted_str = self.InvertBitString(string)
+        inverted_str = self.invertBitString(string)
 
         gammaRate = int(string,2)
         epsilonRate = int(inverted_str,2)
 
         return gammaRate*epsilonRate
     
-    def UpdateOxygenArray(self, mostCommonBith, index):
+    def updateOxygenArray(self, mostCommonBith, index):
         
         listLength = len(self.oxygenRating)
         arrayTmpOxy = []
@@ -73,7 +72,7 @@ class PowerManager:
 
         self.oxygenRating = arrayTmpOxy
     
-    def UpdateScrubArray(self, leastCommonBith, index):
+    def updateScrubArray(self, leastCommonBith, index):
         
         listLength = len(self.co2ScrubberRating)
         arrayTmpScrub = []
@@ -85,7 +84,7 @@ class PowerManager:
 
         self.co2ScrubberRating = arrayTmpScrub
 
-    def CalculateLifeSupport(self, binList):
+    def calculateLifeSupport(self, binList):
         
         self.binList = binList
         self.oxygenRating = binList
@@ -98,9 +97,9 @@ class PowerManager:
             leastCommonBitValue = self.getLeastCommenBit(self.co2ScrubberRating, index)
 
             if len(self.oxygenRating) > 1:
-                self.UpdateOxygenArray(mostCommonBitValue, index)
+                self.updateOxygenArray(mostCommonBitValue, index)
             if len(self.co2ScrubberRating) > 1:    
-                self.UpdateScrubArray(leastCommonBitValue, index)
+                self.updateScrubArray(leastCommonBitValue, index)
         
         oxygenRating = int(self.oxygenRating[0],2)
         scrubRating = int(self.co2ScrubberRating[0],2)

@@ -52,7 +52,7 @@ class VentDetector:
                     self.indexArray.append(array)
 
             
-    def getNumberOfOverlaps(self):
+    def getNumberOfOverlapsPart1(self):
         for coordinate in self.ventCoordinates:
             self.AddVent(coordinate[0], coordinate[1], coordinate[2], coordinate[3])
         

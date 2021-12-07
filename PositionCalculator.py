@@ -5,7 +5,7 @@ class PositionCalculator:
         self.depthP = 0
         self.aim = 0
 
-    def UpdatePosition(self, directionArray, positionArray):
+    def updatePosition(self, directionArray, positionArray):
         self.horizontalP = 0
         self.depthP = 0
         length_dir = len(directionArray)
@@ -26,12 +26,12 @@ class PositionCalculator:
     
     def getMultiplicationPart1(self, directionArray, positionArray):
 
-        self.UpdatePosition(directionArray, positionArray)
+        self.updatePosition(directionArray, positionArray)
         multiplication = self.horizontalP * self.depthP
 
         return multiplication
     
-    def UpdatePositionPart2(self, directionArray, positionArray):
+    def updatePositionPart2(self, directionArray, positionArray):
         length_dir = len(directionArray)
         length_pos = len(positionArray) 
         self.horizontalP = 0
@@ -54,7 +54,7 @@ class PositionCalculator:
     
     def getMultiplicationPart2(self, directionArray, positionArray):
 
-        self.UpdatePositionPart2(directionArray, positionArray)
+        self.updatePositionPart2(directionArray, positionArray)
 
         multiplication = self.horizontalP * self.depthP
 

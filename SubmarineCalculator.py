@@ -30,8 +30,8 @@ class SubmarineCalculator:
     def GetIncreasedDepthsPart1(self, data):
 
         increases = 0
-        
         measureResult = self.IsDepthIncreasedArray(data)
+        
         for data in measureResult:
             if data == True:
                 increases+=1
