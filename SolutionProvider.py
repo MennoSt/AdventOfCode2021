@@ -1,6 +1,4 @@
 import pandas as pd
-import numpy as np
-import re
 
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
@@ -8,6 +6,7 @@ from PositionCalculator import PositionCalculator
 from BingoManager import BingoManager
 from FileReader import FileReader
 from VentDetector import VentDetector
+from LaunterFishCalculator import LaunterFishCalculator
 
 class SolutionProvider:
 
@@ -66,6 +65,21 @@ class SolutionProvider:
         
         print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 5 part 2 is equal to " + str(answerPart2))
-            
+
+    def SolutionDaySix():
+        fileObj = open("input/inputday6", "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+        initalState = list(map(int,fileString[0].split(",")))
+
+        launterFishCalulator = LaunterFishCalculator()
+        daysanswer1 = 80
+        daysanswer2 = 256
+
+        answerPart1 = launterFishCalulator.GetNumberOfFishes(initalState, daysanswer1)
+        answerPart2 = launterFishCalulator.GetNumberOfFishes(initalState, daysanswer2)
+        
+        print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
+        print("The answer of Day 5 part 2 is equal to " + str(answerPart2))     
 
         

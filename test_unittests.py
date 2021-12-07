@@ -1,4 +1,5 @@
 import unittest
+from LaunterFishCalculator import LaunterFishCalculator
 
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
@@ -96,6 +97,32 @@ class Test_TestVentCalculator(unittest.TestCase):
 
         numberOfOverlaps = self.ventDetector.getNumberOfOverlapsPart2()
         self.assertEqual(numberOfOverlaps, 12)
+
+class Test_TestLaunterFishCalculator(unittest.TestCase):
+    
+    def setUp(self):
+        self.launterFishCalculator = LaunterFishCalculator()
+        self.initialState = [3,4,3,1,2]
+
+    def test_calculateFishesAfter18Days(self):
+
+        testarray = [3,4,3,1,2]
+        days = 18
+        totalFishes = self.launterFishCalculator.GetNumberOfFishes(testarray, days)
+        self.assertEqual(totalFishes, 26)
+
+    def test_calculateFishesAfter80Days(self):
+        testarray = [3,4,3,1,2]
+        days = 80
+        totalFishes = self.launterFishCalculator.GetNumberOfFishes(testarray, days)
+        self.assertEqual(totalFishes, 5934)
+
+    def test_calculateFishesAfter256Days(self):
+        testarray = [3,4,3,1,2]
+        days = 256
+        totalFishes = self.launterFishCalculator.GetNumberOfFishes(testarray, days)
+        self.assertEqual(totalFishes, 26984457539)
+
 
 if __name__ == '__main__':
     unittest.main()
