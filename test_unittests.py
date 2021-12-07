@@ -3,8 +3,9 @@ import unittest
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
-from BingoFileReader import BingoFileReader
+from FileReader import FileReader
 from BingoManager import BingoManager
+from VentDetector import VentDetector
 
 class Test_TestSumbarineCalculator(unittest.TestCase):
 
@@ -64,8 +65,8 @@ class Test_TestBitCalculator(unittest.TestCase):
 class Test_TestBingoManager(unittest.TestCase):
     
     def setUp(self):
-        self.bingoFileReader = BingoFileReader()
-        self.bingoFileReader.readFile("unittestinputday4")
+        self.bingoFileReader = FileReader()
+        self.bingoFileReader.readBingoFile("unittestinputday4")
         self.bingoManager = BingoManager()
         self.bingoNumbers = self.bingoFileReader.getBingoNumbers()
         self.intChartArray = self.bingoFileReader.getintChartArray()
@@ -80,6 +81,21 @@ class Test_TestBingoManager(unittest.TestCase):
         bingoScore = self.bingoManager.getLastBingoScore(self.bingoNumbers)
         self.assertEqual(bingoScore, 1924)
 
+class Test_TestVentCalculator(unittest.TestCase):
+    
+    def setUp(self):
+        self.ventDetector = VentDetector()
+        self.ventDetector.readVentFile("unittestinputday5")
+
+    def test_CalculateOverlapsPart1(self):
+
+        numberOfOverlaps = self.ventDetector.getNumberOfOverlaps()
+        self.assertEqual(numberOfOverlaps, 5)
+
+    def test_CalculateOverlapsPart2(self):
+
+        numberOfOverlaps = self.ventDetector.getNumberOfOverlapsPart2()
+        self.assertEqual(numberOfOverlaps, 12)
 
 if __name__ == '__main__':
     unittest.main()

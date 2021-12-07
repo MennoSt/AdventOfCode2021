@@ -1,12 +1,12 @@
 import re
 
-class BingoFileReader:
+class FileReader:
     
     def __init__(self):
         self.bingoNumbers = ""
         self.intChartArray = []
 
-    def readFile(self, inputFile):
+    def readBingoFile(self, inputFile):
         self.intChartArray = []
 
         with open (inputFile, "r") as myfile:

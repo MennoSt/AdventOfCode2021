@@ -1,12 +1,13 @@
 import pandas as pd
+import numpy as np
 import re
 
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
 from PositionCalculator import PositionCalculator
-from BingoChart import BingoChart
 from BingoManager import BingoManager
-from BingoFileReader import BingoFileReader
+from FileReader import FileReader
+from VentDetector import VentDetector
 
 class SolutionProvider:
 
@@ -43,8 +44,9 @@ class SolutionProvider:
     
     def SolutionDayFour():
         bingoManager = BingoManager()
-        bingoFileReader = BingoFileReader()
-        bingoFileReader.readFile("input/inputday4")
+        bingoFileReader = FileReader()
+        bingoFileReader.readBingoFile("input/inputday4")
+
         bingoNumbers = bingoFileReader.getBingoNumbers()
         intChartArray = bingoFileReader.getintChartArray()
         
@@ -54,3 +56,16 @@ class SolutionProvider:
 
         print("The answer of Day 4 part 1 is equal to " + str(bingoScorefirst))
         print("The answer of Day 4 part 2 is equal to " + str(bingoScorelast))
+    
+    def SolutionDayFive():
+
+        ventDetector = VentDetector()
+        ventDetector.readVentFile("input/inputday5")
+        answerPart1 = ventDetector.getNumberOfOverlaps()
+        answerPart2 = ventDetector.getNumberOfOverlapsPart2()
+        
+        print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
+        print("The answer of Day 5 part 2 is equal to " + str(answerPart2))
+            
+
+        
