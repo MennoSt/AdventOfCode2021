@@ -30,16 +30,19 @@ class BingoChart:
     def updateSums(self):
         self.horizontalSums = []
         self.verticalSums = []     
-
         bingochart = self.bingoChart
 
         for index in range(0,5):
             addition = index*5
-            sumH = bingochart[addition]+bingochart[1+addition]+bingochart[2+addition]+bingochart[3+addition]+bingochart[4+addition]
+            sumH = 0
+            for i in range(0,5):
+                sumH += bingochart[addition+i]
             self.horizontalSums.append(sumH)
 
         for index in range(0,5):
-            sumV = bingochart[index]+bingochart[index+5]+bingochart[index+10]+bingochart[index+15]+bingochart[index+20]
+            sumV = 0
+            for i in range(0,25,5):
+                sumV += bingochart[index+i]
             self.verticalSums.append(sumV)
 
 

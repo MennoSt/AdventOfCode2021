@@ -1,9 +1,5 @@
 class CrabPositioner:
     
-    def __init__(self):
-        self.sumChart = 0
-        self.lastNumber = 0
-    
     def recursiveFunction(self,x):
         value = int(x*(x+1)/2)
         return value
