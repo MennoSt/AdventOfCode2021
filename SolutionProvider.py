@@ -1,4 +1,5 @@
 import pandas as pd
+from CrabPositioner import CrabPositioner
 
 from PowerManager import PowerManager
 from SubmarineCalculator import SubmarineCalculator
@@ -9,6 +10,9 @@ from VentDetector import VentDetector
 from LaunterFishCalculator import LaunterFishCalculator
 
 class SolutionProvider:
+
+    def __init__(self ):
+        self.fileReader = FileReader()
 
     def solutionDayOne():
         submarineCalculator = SubmarineCalculator()
@@ -45,7 +49,6 @@ class SolutionProvider:
         bingoManager = BingoManager()
         bingoFileReader = FileReader()
         bingoFileReader.readBingoFile("input/inputday4")
-
         bingoNumbers = bingoFileReader.getBingoNumbers()
         intChartArray = bingoFileReader.getintChartArray()
         
@@ -57,29 +60,33 @@ class SolutionProvider:
         print("The answer of Day 4 part 2 is equal to " + str(bingoScorelast))
     
     def solutionDayFive():
-
         ventDetector = VentDetector()
         ventDetector.readVentFile("input/inputday5")
+
         answerPart1 = ventDetector.getNumberOfOverlapsPart1()
         answerPart2 = ventDetector.getNumberOfOverlapsPart2()
         
         print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 5 part 2 is equal to " + str(answerPart2))
 
-    def solutionDaySix():
-        fileObj = open("input/inputday6", "r")
-        fileString = fileObj.read().splitlines()
-        fileObj.close()
-        initalState = list(map(int,fileString[0].split(",")))
-
+    def solutionDaySix(self):
+        initalState = self.fileReader.readToIntArray("input/inputday6")
         launterFishCalulator = LaunterFishCalculator()
-        daysanswer1 = 80
-        daysanswer2 = 256
 
-        answerPart1 = launterFishCalulator.getNumberOfFishes(initalState, daysanswer1)
-        answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, daysanswer2)
+        answerPart1 = launterFishCalulator.getNumberOfFishes(initalState, 80)
+        answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, 256)
         
         print("The answer of Day 6 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 6 part 2 is equal to " + str(answerPart2))
+    
+    def solutionDaySeven(self):      
+        intArray = self.fileReader.readToIntArray("input/inputday7")
+        crabPositioner = CrabPositioner()
+
+        answerPart1 = crabPositioner.getLeastAmmountOfFuel(intArray)
+        # answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, daysanswer2)
+        
+        print("The answer of Day 7 part 1 is equal to " + str(answerPart1))
+        # print("The answer of Day 6 part 2 is equal to " + str(answerPart2))
 
         

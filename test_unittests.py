@@ -1,4 +1,5 @@
 import unittest
+from CrabPositioner import CrabPositioner
 
 from LaunterFishCalculator import LaunterFishCalculator
 from PowerManager import PowerManager
@@ -7,6 +8,7 @@ from PositionCalculator import PositionCalculator
 from FileReader import FileReader
 from BingoManager import BingoManager
 from VentDetector import VentDetector
+from CrabPositioner import CrabPositioner
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -96,7 +98,7 @@ class Test_TestVentDetector(unittest.TestCase):
         numberOfOverlaps = self.ventDetector.getNumberOfOverlapsPart2()
         self.assertEqual(numberOfOverlaps, 12)
 
-class Test_TestLaunterFishCalculator(unittest.TestCase):
+class Test_LaunterFishCalculator(unittest.TestCase):
     
     def setUp(self):
         self.launterFishCalculator = LaunterFishCalculator()
@@ -116,6 +118,16 @@ class Test_TestLaunterFishCalculator(unittest.TestCase):
         days = 256
         totalFishes = self.launterFishCalculator.getNumberOfFishes(self.initialState, days)
         self.assertEqual(totalFishes, 26984457539)
+
+class Test_CrabPositioner(unittest.TestCase):
+    
+    def setUp(self):
+        self.crabPositioner = CrabPositioner()
+        self.testPositions = [16,1,2,0,4,2,7,1,2,14]
+
+    def test_CalculateLeastFuel(self):
+        leastFuel = self.crabPositioner.getLeastAmmountOfFuel(self.testPositions)
+        self.assertEqual(leastFuel, 37)
 
 
 if __name__ == '__main__':

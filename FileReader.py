@@ -5,6 +5,13 @@ class FileReader:
     def __init__(self):
         self.bingoNumbers = ""
         self.intChartArray = []
+    
+    def readToIntArray(self, inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+        intArray = list(map(int,fileString[0].split(",")))
+        return intArray
 
     def readBingoFile(self, inputFile):
         self.intChartArray = []
