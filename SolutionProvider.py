@@ -101,7 +101,6 @@ class SolutionProvider:
         fourDigitArray = patternReader.fourDigitArray
 
         answerPart1 = patternAnalyzer.getNumberOfDigitInstances(fourDigitArray)
-        answerPart2 = patternAnalyzer.calculateSumAdditionPart2(fourDigitArray, uniquePatternArray)
-
+        answerPart2 = patternAnalyzer.calculateSumOfFourDigits(fourDigitArray, uniquePatternArray)
         print("The answer of Day 8 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 8 part 1 is equal to " + str(answerPart2))

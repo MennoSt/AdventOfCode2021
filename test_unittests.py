@@ -167,7 +167,7 @@ class Test_PatternAnalyzer(unittest.TestCase):
 
         fourDigitArray = self.patternReader.fourDigitArray
         uniquePatternArray = self.patternReader.uniquePatternArray
-        digitCounts = self.patternAnalyser.calculateSumAdditionPart2(fourDigitArray, uniquePatternArray)
+        digitCounts = self.patternAnalyser.calculateSumOfFourDigits(fourDigitArray, uniquePatternArray)
         self.assertEqual(digitCounts, 61229)
 
 if __name__ == '__main__':

@@ -8,15 +8,25 @@ class PatternAnalyzer:
 
         totalDigitSum = 0
         for pattern in digitArray:
-            totalDigitSum += self.calculateDigitSum(pattern)
+            totalDigitSum += self.__calculateDigitSum(pattern)
+            
+        return totalDigitSum
+    
+    def calculateSumOfFourDigits(self, digitArrayAll, uniquePatternArrayAll):
+        lengthData = len(digitArrayAll)
+        totalDigitSum = 0
+
+        for index in range(0,lengthData):
+            self.__updateInitalStrings(uniquePatternArrayAll[index])
+            totalDigitSum += self.__determineIntNumberTotal(digitArrayAll[index])
             
         return totalDigitSum
 
-    def calculateDigitSum(self, pattern):
+    def __calculateDigitSum(self, pattern):
 
         digitSum = 0
         intArray = [1,4,7,8]
-        digitsArray = self.convertIntToDigitLengthArray(intArray)
+        digitsArray = self.__convertIntToDigitLengthArray(intArray)
         
         for value in pattern:
             length = len(value)
@@ -25,7 +35,7 @@ class PatternAnalyzer:
 
         return digitSum 
 
-    def convertIntToDigitLengthArray(self, IntArray):
+    def __convertIntToDigitLengthArray(self, IntArray):
         
         digitsArray = []
         for value in IntArray:
@@ -40,28 +50,17 @@ class PatternAnalyzer:
         
         return digitsArray
     
-
-    def calculateSumAdditionPart2(self, digitArrayAll, uniquePatternArrayAll):
-        lengthData = len(digitArrayAll)
-        totalDigitSum = 0
-
-        for index in range(0,lengthData):
-            self.UpdateInitalStrings(uniquePatternArrayAll[index])
-            totalDigitSum += self.determineIntNumberTotal(digitArrayAll[index])
-            
-        return totalDigitSum
-    
-    def determineIntNumberTotal(self, digitArray):
+    def __determineIntNumberTotal(self, digitArray):
         result = ""
 
         for pattern in digitArray:
-            result += str(self.determineIntNumber(pattern))
+            result += str(self.__determineIntNumber(pattern))
         
         return int(result)
     
-    def UpdateInitalStrings(self,array):
+    def __updateInitalStrings(self,array):
         returnArray = [1,4,7,8]
-        digitsArray = self.convertIntToDigitLengthArray(returnArray)
+        digitsArray = self.__convertIntToDigitLengthArray(returnArray)
 
         for element in array:
             length = len(element)
@@ -75,10 +74,10 @@ class PatternAnalyzer:
                 else:
                     Exception("length is not valid")
 
-    def determineIntNumber(self, string):
+    def __determineIntNumber(self, string):
         
         returnArray = [1,4,7,8]
-        digitsArray = self.convertIntToDigitLengthArray(returnArray)
+        digitsArray = self.__convertIntToDigitLengthArray(returnArray)
         length = len(string)
         number = None
 
