@@ -8,6 +8,8 @@ from BingoManager import BingoManager
 from FileReader import FileReader
 from VentDetector import VentDetector
 from LaunterFishCalculator import LaunterFishCalculator
+from PatternAnalyzer import PatternAnalyzer
+from PatternReader import PatternReader
 
 class SolutionProvider:
 
@@ -88,5 +90,17 @@ class SolutionProvider:
         
         print("The answer of Day 7 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 7 part 2 is equal to " + str(answerPart2))
+    
+    def solutionDaySeven(self):      
 
+        patternReader = PatternReader()
+        patternAnalyzer = PatternAnalyzer()
+        patternReader.readPattern("input/inputday8")
         
+        uniquePatternArray = patternReader.uniquePatternArray
+        fourDigitArray = patternReader.fourDigitArray
+
+        answerPart1 = patternAnalyzer.getNumberOfDigitInstances(fourDigitArray)
+
+        print("The answer of Day 8 part 1 is equal to " + str(answerPart1))
+

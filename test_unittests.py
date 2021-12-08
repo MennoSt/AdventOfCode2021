@@ -9,6 +9,8 @@ from FileReader import FileReader
 from BingoManager import BingoManager
 from VentDetector import VentDetector
 from CrabPositioner import CrabPositioner
+from PatternAnalyzer import PatternAnalyzer
+from PatternReader  import PatternReader
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -132,6 +134,41 @@ class Test_CrabPositioner(unittest.TestCase):
     def test_CalculateLeastFuel_IncreasedRate(self):
         leastFuel = self.crabPositioner.getLeastAmmountOfFuel(self.testPositions, True)
         self.assertEqual(leastFuel, 168)
+
+
+class Test_PatternAnalyzer(unittest.TestCase):
+    
+    def setUp(self):
+        self.patternReader = PatternReader()
+        self.patternAnalyser = PatternAnalyzer()
+        self.patternReader.readPattern("testinput/unittestinputday7")
+
+    def test_CalculateNumberOfDigitInstances(self):
+
+        digitCounts = self.patternAnalyser.getNumberOfDigitInstances(self.patternReader.fourDigitArray)
+        self.assertEqual(digitCounts, 26)
+
+    # def test_DetermineIntNumberFive(self):
+    #     teststring = "fbcad"
+    #     intNumber = self.patternAnalyser.determineIntNumber(teststring)
+    #     self.assertEqual(intNumber, 3)
+
+    # def test_DetermineIntNumberTwo(self):
+    #     teststring = "gcdfa"
+    #     intNumber = self.patternAnalyser.determineIntNumber(teststring)
+    #     self.assertEqual(intNumber, 2)
+    
+    # def test_DetermineIntNumberEight(self):
+    #     teststring = "acedgfb"
+    #     intNumber = self.patternAnalyser.determineIntNumber(teststring)
+    #     self.assertEqual(intNumber, 8)
+
+    def test_CalculateSumAdditionPart2(self):
+
+        fourDigitArray = self.patternReader.fourDigitArray
+        uniquePatternArray = self.patternReader.uniquePatternArray
+        digitCounts = self.patternAnalyser.calculateSumAdditionPart2(fourDigitArray, uniquePatternArray)
+        self.assertEqual(digitCounts, 61229)
 
 if __name__ == '__main__':
     unittest.main()
