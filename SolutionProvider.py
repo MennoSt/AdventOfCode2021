@@ -91,7 +91,7 @@ class SolutionProvider:
         print("The answer of Day 7 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 7 part 2 is equal to " + str(answerPart2))
     
-    def solutionDaySeven(self):      
+    def solutionDayEight(self):      
 
         patternReader = PatternReader()
         patternAnalyzer = PatternAnalyzer()
