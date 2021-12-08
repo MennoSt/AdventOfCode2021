@@ -42,17 +42,17 @@ class PatternAnalyzer:
     
 
     def calculateSumAdditionPart2(self, digitArrayAll, uniquePatternArrayAll):
-
+        lengthData = len(digitArrayAll)
         totalDigitSum = 0
-        for pattern in digitArrayAll:
-            totalDigitSum += self.determineIntNumberTotal(pattern, uniquePatternArrayAll)
+
+        for index in range(0,lengthData):
+            self.UpdateInitalStrings(uniquePatternArrayAll[index])
+            totalDigitSum += self.determineIntNumberTotal(digitArrayAll[index])
             
         return totalDigitSum
     
-    def determineIntNumberTotal(self, digitArray, uniquePatternArray):
+    def determineIntNumberTotal(self, digitArray):
         result = ""
-
-        self.UpdateInitalStrings(uniquePatternArray)
 
         for pattern in digitArray:
             result += str(self.determineIntNumber(pattern))
@@ -74,45 +74,43 @@ class PatternAnalyzer:
                     self.stringOne = list(element)
                 else:
                     Exception("length is not valid")
-        
-
-
-
 
     def determineIntNumber(self, string):
         
         returnArray = [1,4,7,8]
         digitsArray = self.convertIntToDigitLengthArray(returnArray)
         length = len(string)
+        number = None
+
         
         if length in digitsArray:
             if length == 7:
-                return 8
+                number = 8
             elif length == 3 :
-                return 7
+                number = 7
             elif length == 4:
-                return 4
+                number = 4
             elif length == 2:
-                return 1
+                number = 1
             else:
                 Exception("length is not valid")
-
         
-        # return 6 or 9 when the length is equal to six
+        # return 0,6 or 9 when the length is equal to six
         if length == 6:
             if all(char in string for char in self.stringFour):
-                return 9
+                number = 9
             elif all(char in string for char in self.stringSeven):
-                return 0
+                number = 0
             else:
-                return 6
+                number = 6
 
         #return 2,3 or 5 when the length is equal to five
         if length == 5:
             if all(char in string for char in self.stringOne):
-                return 3
-            elif all(char in string for char in self.stringFour):
-                return 5
+                number = 3
+            elif len(list(set(string).intersection(self.stringFour))) == 3:
+                number = 5
             else:
-                return 2
-            
+                number = 2
+        
+        return number
