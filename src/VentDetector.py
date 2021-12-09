@@ -27,11 +27,6 @@ class VentDetector:
         return index
 
     def AddVent(self, x1, y1, x2, y2):
-        x1 = int(x1)
-        y1 = int(y1)
-        x2 = int(x2)
-        y2 = int(y2)
-
         if x1 == x2:
             if (y2 > y1):
                 for it in range(y1, y2+1):
@@ -54,7 +49,7 @@ class VentDetector:
             
     def getNumberOfOverlapsPart1(self):
         for coordinate in self.ventCoordinates:
-            self.AddVent(coordinate[0], coordinate[1], coordinate[2], coordinate[3])
+            self.AddVent(int(coordinate[0]), int(coordinate[1]), int(coordinate[2]), int(coordinate[3]))
         
         indexes = []
         for index in self.indexArray:

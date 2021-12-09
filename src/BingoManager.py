@@ -13,7 +13,6 @@ class BingoManager:
             bingochart = BingoChart(chart)
             self.bingoChartArray.append(bingochart)
     
-    
     def getFirstBingoScore(self, numbers):
         bingo = False
         for number in numbers:

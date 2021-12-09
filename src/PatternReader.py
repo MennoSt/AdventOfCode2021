@@ -1,5 +1,3 @@
-import re
-
 class PatternReader:
     
     def __init__(self):

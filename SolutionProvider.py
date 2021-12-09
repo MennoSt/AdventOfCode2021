@@ -12,6 +12,10 @@ from src.RiskCalculator import RiskCalculator
 from src.SubmarineCalculator import SubmarineCalculator
 from src.VentDetector import VentDetector
 
+def printAnswer(day, answer1, answer2):
+    print("The answer of Day " + str(day) + " part 1 is equal to " + str(answer1))
+    print("The answer of Day " + str(day) + " part 2 is equal to " + str(answer2))
+
 class SolutionProvider:
 
     def __init__(self ):
@@ -25,8 +29,7 @@ class SolutionProvider:
         answerPart1 = submarineCalculator.GetIncreasedDepthsPart1(data["Depth"].to_numpy())
         answerPart2 = submarineCalculator.GetIncreasedDepthsPart2(data['Depth'].to_numpy())
 
-        print("The answer of Day 1 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 1 part 2 is equal to " + str(answerPart2))
+        printAnswer(1, answerPart1, answerPart2)
 
     def solutionDayTwo(self):
         positionCalculator = PositionCalculator()
@@ -35,8 +38,7 @@ class SolutionProvider:
         answerPart1 = positionCalculator.getMultiplicationPart1(data["Direction"].astype(str).values.tolist(), data["Ammount"].to_numpy())
         answerPart2 = positionCalculator.getMultiplicationPart2(data["Direction"].astype(str).values.tolist(), data["Ammount"].to_numpy())
         
-        print("The answer of Day 2 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 2 part 2 is equal to " + str(answerPart2))
+        printAnswer(2, answerPart1, answerPart2)
     
     def solutionDayThree(self):
         powerManager = PowerManager()
@@ -45,22 +47,20 @@ class SolutionProvider:
         answerPart1 = powerManager.calculateRequiredPower(data["BinaryValue"].astype(str).values.tolist())
         answerPart2 = powerManager.calculateLifeSupport(data["BinaryValue"].astype(str).values.tolist()) 
 
-        print("The answer of Day 3 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 3 part 2 is equal to " + str(answerPart2))
+        printAnswer(3, answerPart1, answerPart2)
     
     def solutionDayFour(self):
         bingoManager = BingoManager()
         bingoFileReader = FileReader()
         bingoFileReader.readBingoFile("input/inputday4")
-        bingoNumbers = bingoFileReader.getBingoNumbers()
-        intChartArray = bingoFileReader.getintChartArray()
+        bingoNumbers = bingoFileReader.bingoNumbers
+        intChartArray = bingoFileReader.intChartArray
         
         bingoManager.createBingoCharts(intChartArray)
-        bingoScorefirst = bingoManager.getFirstBingoScore(bingoNumbers)
-        bingoScorelast = bingoManager.getLastBingoScore(bingoNumbers)
+        answerPart1 = bingoManager.getFirstBingoScore(bingoNumbers)
+        answerPart2 = bingoManager.getLastBingoScore(bingoNumbers)
 
-        print("The answer of Day 4 part 1 is equal to " + str(bingoScorefirst))
-        print("The answer of Day 4 part 2 is equal to " + str(bingoScorelast))
+        printAnswer(4, answerPart1, answerPart2)
     
     def solutionDayFive(self):
         ventDetector = VentDetector()
@@ -103,8 +103,7 @@ class SolutionProvider:
 
         answerPart1 = patternAnalyzer.getNumberOfDigitInstances(fourDigitArray)
         answerPart2 = patternAnalyzer.calculateSumOfFourDigits(fourDigitArray, uniquePatternArray)
-        print("The answer of Day 8 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 8 part 1 is equal to " + str(answerPart2))
+        printAnswer(8, answerPart1, answerPart2)
 
     def solutionDayNine(self):      
 
@@ -115,5 +114,4 @@ class SolutionProvider:
         answerPart1 =riskCalculator.calculateSumRiskLevels()
         answerPart2 =riskCalculator.getMultiplicationLargest3Bassins()
 
-        print("The answer of Day 9 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 9 part 1 is equal to " + str(answerPart2))
+        printAnswer(9, answerPart1, answerPart2)

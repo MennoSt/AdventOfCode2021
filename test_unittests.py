@@ -74,8 +74,8 @@ class Test_BingoManager(unittest.TestCase):
         self.bingoFileReader = FileReader()
         self.bingoFileReader.readBingoFile("testinput/unittestinputday4")
         self.bingoManager = BingoManager()
-        self.bingoNumbers = self.bingoFileReader.getBingoNumbers()
-        self.intChartArray = self.bingoFileReader.getintChartArray()
+        self.bingoNumbers = self.bingoFileReader.bingoNumbers
+        self.intChartArray = self.bingoFileReader.intChartArray
         self.bingoManager.createBingoCharts(self.intChartArray)
 
     def test_CalculateBingoManagerPart1(self):

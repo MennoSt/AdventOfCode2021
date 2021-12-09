@@ -11,7 +11,7 @@ class BingoChart:
             if self.bingoChart[index] == number:
                 self.bingoChart[index] = -1
         
-        self.updateSums()
+        self.__updateSums()
 
     def hasBingo(self):
         
@@ -25,7 +25,7 @@ class BingoChart:
 
         return False
     
-    def updateSums(self):
+    def __updateSums(self):
         self.horizontalSums = []
         self.verticalSums = []     
         bingochart = self.bingoChart

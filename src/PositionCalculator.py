@@ -55,7 +55,6 @@ class PositionCalculator:
     def getMultiplicationPart2(self, directionArray, positionArray):
 
         self.updatePositionPart2(directionArray, positionArray)
-
         multiplication = self.horizontalP * self.depthP
 
         return multiplication

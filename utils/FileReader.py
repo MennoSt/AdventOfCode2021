@@ -42,12 +42,6 @@ class FileReader:
             array = re.split(' ',data)
             array = filter(None, array)
             self.intChartArray.append(list(map(int, array)))
-    
-    def getBingoNumbers(self):
-        return self.bingoNumbers
-    
-    def getintChartArray(self):
-        return self.intChartArray
 
         
 
