@@ -1,5 +1,4 @@
 input/inputday3
-**/input
-testinput/**
+input/*
 *.pyc
 **/.vscode
