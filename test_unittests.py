@@ -181,7 +181,8 @@ class Test_RiskCalculator(unittest.TestCase):
 
     def test_calculateInitalBassinPerIndex(self):
         bassin = self.riskCalculator.createInitialBassinsPerIndex()
-        # self.assertEqual(len(bassin), 2)
+        multiplicationLargestThree = self.riskCalculator.getMultiplicationLargest3Bassins()
+        self.assertEqual(multiplicationLargestThree, 1134)
 
 if __name__ == '__main__':
     unittest.main()

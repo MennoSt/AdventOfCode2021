@@ -1,5 +1,5 @@
 from enum import Enum
-from re import I
+from collections import defaultdict
 
 class Direction(Enum):
         CURRENT = 0
@@ -8,6 +8,39 @@ class Direction(Enum):
         LEFT = 3
         RIGHT = 4
 
+def merge_common(lists):
+    neigh = defaultdict(set)
+    visited = set()
+    for each in lists:
+        for item in each:
+            neigh[item].update(each)
+    def comp(node, neigh = neigh, visited = visited, vis = visited.add):
+        nodes = set([node])
+        next_node = nodes.pop
+        while nodes:
+            node = next_node()
+            vis(node)
+            nodes |= neigh[node] - visited
+            yield node
+    for node in neigh:
+        if node not in visited:
+            yield sorted(comp(node))
+
+# Function returns N largest elements
+def Nmaxelements(list1, N):
+    final_list = []
+  
+    for i in range(0, N): 
+        max1 = 0
+          
+        for j in range(len(list1)):     
+            if list1[j] > max1:
+                max1 = list1[j];
+                  
+        list1.remove(max1);
+        final_list.append(max1)
+          
+    return final_list
 
 class RiskCalculator():
     
@@ -95,6 +128,10 @@ class RiskCalculator():
 
         return riskSpot
 
+    def __toListIndex(self,x,y):
+        listIndex = x+y*self.mapWidth
+        return listIndex
+
     def createInitalBassin(self,x,y):
         bassin = []
         x_init = x
@@ -103,14 +140,14 @@ class RiskCalculator():
         if self.__getHeight(x,y) == 9:
             return bassin
         else:
-            bassin.append([x,y])
+            bassin.append(self.__toListIndex(x,y))
 
         x = x_init
         for _ in range(self.mapWidth):
             x+=1
             height = self.__getHeight(x,y)
             if height != 9:
-                bassin.append([x,y])
+                bassin.append(self.__toListIndex(x,y))
             else:
                 break
         
@@ -119,7 +156,7 @@ class RiskCalculator():
             x-=1
             height = self.__getHeight(x,y)
             if height != 9:
-                bassin.append([x,y])
+                bassin.append(self.__toListIndex(x,y))
             else:
                 break
         
@@ -129,7 +166,7 @@ class RiskCalculator():
             y+=1
             height = self.__getHeight(x,y)
             if height != 9:
-                bassin.append([x,y])
+                bassin.append(self.__toListIndex(x,y))
             else:
                 break
         
@@ -138,7 +175,7 @@ class RiskCalculator():
             y-=1
             height = self.__getHeight(x,y)
             if height != 9:
-                bassin.append([x,y])
+                bassin.append(self.__toListIndex(x,y))
             else:
                 break
         
@@ -150,7 +187,26 @@ class RiskCalculator():
             for x in range (0, self.mapWidth):
                 bassinsPerIndex.append(self.createInitalBassin(x,y))
         
-        return len(bassinsPerIndex)
+        bassinsPerIndex = [x for x in bassinsPerIndex if x != []]
+        
+        return bassinsPerIndex
 
-    def MergeOverlappingBassins(self):
-        self.createInitialBassinsPerIndex
+    def __getLengthArray(self, bassinArray):
+        bassinSizeArray =[]
+        for array in bassinArray:
+            bassinSizeArray.append(len(array))
+        
+        return bassinSizeArray
+
+    def getMultiplicationLargest3Bassins(self):
+        bassins = self.createInitialBassinsPerIndex()
+        
+        mergedbassins = list(merge_common(bassins))
+        sizeArray = self.__getLengthArray(mergedbassins)
+        threeLargest = Nmaxelements(sizeArray,3)
+
+        multiplication = threeLargest[0] * threeLargest[1] *threeLargest[2]
+
+        return multiplication
+
+        

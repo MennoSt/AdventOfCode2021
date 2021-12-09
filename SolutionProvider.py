@@ -113,11 +113,7 @@ class SolutionProvider:
 
         riskCalculator.setHeightMap(heightMap)
         answerPart1 =riskCalculator.calculateSumRiskLevels()
-
-
-
-        # uniquePatternArray = patternReader.uniquePatternArray
-        # fourDigitArray = patternReader.fourDigitArray
+        answerPart2 =riskCalculator.getMultiplicationLargest3Bassins()
 
         print("The answer of Day 9 part 1 is equal to " + str(answerPart1))
-        # print("The answer of Day 9 part 1 is equal to " + str(answerPart2))
+        print("The answer of Day 9 part 1 is equal to " + str(answerPart2))
