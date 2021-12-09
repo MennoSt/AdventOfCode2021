@@ -8,6 +8,7 @@ class Direction(Enum):
         LEFT = 3
         RIGHT = 4
 
+
 class RiskCalculator():
     
     def __init__(self):
@@ -18,20 +19,18 @@ class RiskCalculator():
         self.heightMap = heightMap
         self.mapWidth = len(heightMap[0])
         self.mapHeight = len(heightMap)
+
+    def __getHeightFromMap(self, x,y):
+        return self.heightMap[y][x]
     
     def __calcualteRiskLevel(self, height):
         return height+1
 
-    def __getHeightFromMap(self, x,y):
-        return self.heightMap[y][x]
-
     def calculateSumRiskLevels(self):
 
         riskSum = 0
-        mapWidth = self.mapWidth
-        mapHeight = self.mapHeight
-        for x in range (0, mapWidth):
-            for y in range(0, mapHeight):
+        for x in range (0, self.mapWidth):
+            for y in range(0, self.mapHeight):
                 if self.__isRiskSpot(x,y):
                     height = self.__getHeightFromMap(x,y)
                     riskLevel = self.__calcualteRiskLevel(height)
@@ -39,7 +38,7 @@ class RiskCalculator():
         
         return riskSum
 
-    def __getHeight(self, x, y, direction):
+    def __getHeight(self, x, y, direction = Direction.CURRENT):
         
         mapx = x
         mapy = y
@@ -66,12 +65,12 @@ class RiskCalculator():
 
         if mapx < 0 or mapx > mapWidth: 
             mapx=0
-            heightValue = 99
+            heightValue = 9
         elif mapy < 0 or mapy > mapHeight: 
             mapy=0
-            heightValue = 99
+            heightValue = 9
         else:
-            heightValue = self.__getHeightFromMap(mapx,mapy)
+            heightValue = self.__getHeightFromMap(mapx, mapy)
 
         return heightValue
 
@@ -86,18 +85,72 @@ class RiskCalculator():
 
     def __isRiskSpot(self, x, y):
         riskSpot = False
-        isUpGreater = self.__isHeightGreater(x,y, Direction.UP)
-        isDownGreater = self.__isHeightGreater(x,y, Direction.DOWN)
-        isLeftGreater = self.__isHeightGreater(x,y, Direction.LEFT)
-        isRightGreater = self.__isHeightGreater(x,y, Direction.RIGHT)
+        isUpGreater = self.__isHeightGreater(x, y, Direction.UP)
+        isDownGreater = self.__isHeightGreater(x, y, Direction.DOWN)
+        isLeftGreater = self.__isHeightGreater(x, y, Direction.LEFT)
+        isRightGreater = self.__isHeightGreater(x, y, Direction.RIGHT)
 
         if isUpGreater and isDownGreater and isLeftGreater and isRightGreater:
             riskSpot = True
 
         return riskSpot
 
-            
+    def createInitalBassin(self,x,y):
+        bassin = []
+        x_init = x
+        y_init = y
+        
+        if self.__getHeight(x,y) == 9:
+            return bassin
+        else:
+            bassin.append([x,y])
 
+        x = x_init
+        for _ in range(self.mapWidth):
+            x+=1
+            height = self.__getHeight(x,y)
+            if height != 9:
+                bassin.append([x,y])
+            else:
+                break
+        
+        x = x_init
+        for _ in range(self.mapWidth):
+            x-=1
+            height = self.__getHeight(x,y)
+            if height != 9:
+                bassin.append([x,y])
+            else:
+                break
+        
+        x = x_init
+        y = y_init
+        for _ in range(self.mapHeight):
+            y+=1
+            height = self.__getHeight(x,y)
+            if height != 9:
+                bassin.append([x,y])
+            else:
+                break
+        
+        y = y_init
+        for _ in range(self.mapHeight):
+            y-=1
+            height = self.__getHeight(x,y)
+            if height != 9:
+                bassin.append([x,y])
+            else:
+                break
+        
+        return bassin
 
+    def createInitialBassinsPerIndex(self):
+        bassinsPerIndex = []
+        for y in range(0, self.mapHeight):
+            for x in range (0, self.mapWidth):
+                bassinsPerIndex.append(self.createInitalBassin(x,y))
+        
+        return len(bassinsPerIndex)
 
-
+    def MergeOverlappingBassins(self):
+        self.createInitialBassinsPerIndex

@@ -169,5 +169,19 @@ class Test_RiskCalculator(unittest.TestCase):
         riskSum = self.riskCalculator.calculateSumRiskLevels()
         self.assertEqual(riskSum, 15)
 
+    def test_calculateInitalBassin(self):
+        bassin = self.riskCalculator.createInitalBassin(0,0)
+        self.assertEqual(len(bassin), 3)
+        bassin = self.riskCalculator.createInitalBassin(0,1)
+        self.assertEqual(len(bassin), 2)
+        bassin = self.riskCalculator.createInitalBassin(1,0)
+        self.assertEqual(len(bassin), 2)
+        bassin = self.riskCalculator.createInitalBassin(8,4)
+        self.assertEqual(len(bassin), 6)
+
+    def test_calculateInitalBassinPerIndex(self):
+        bassin = self.riskCalculator.createInitialBassinsPerIndex()
+        # self.assertEqual(len(bassin), 2)
+
 if __name__ == '__main__':
     unittest.main()
