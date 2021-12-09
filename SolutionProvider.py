@@ -1,15 +1,16 @@
 import pandas as pd
-from CrabPositioner import CrabPositioner
 
-from PowerManager import PowerManager
-from SubmarineCalculator import SubmarineCalculator
-from PositionCalculator import PositionCalculator
 from BingoManager import BingoManager
+from CrabPositioner import CrabPositioner
 from FileReader import FileReader
-from VentDetector import VentDetector
 from LaunterFishCalculator import LaunterFishCalculator
 from PatternAnalyzer import PatternAnalyzer
 from PatternReader import PatternReader
+from PositionCalculator import PositionCalculator
+from PowerManager import PowerManager
+from RiskCalculator import RiskCalculator
+from SubmarineCalculator import SubmarineCalculator
+from VentDetector import VentDetector
 
 class SolutionProvider:
 
@@ -104,3 +105,19 @@ class SolutionProvider:
         answerPart2 = patternAnalyzer.calculateSumOfFourDigits(fourDigitArray, uniquePatternArray)
         print("The answer of Day 8 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 8 part 1 is equal to " + str(answerPart2))
+
+    def solutionDayNine(self):      
+
+        riskCalculator = RiskCalculator()
+        heightMap = self.fileReader.readHeightMap("input/inputday9")
+
+        riskCalculator.setHeightMap(heightMap)
+        answerPart1 =riskCalculator.calculateSumRiskLevels()
+
+
+
+        # uniquePatternArray = patternReader.uniquePatternArray
+        # fourDigitArray = patternReader.fourDigitArray
+
+        print("The answer of Day 9 part 1 is equal to " + str(answerPart1))
+        # print("The answer of Day 9 part 1 is equal to " + str(answerPart2))

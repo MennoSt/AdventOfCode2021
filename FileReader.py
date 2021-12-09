@@ -6,6 +6,18 @@ class FileReader:
         self.bingoNumbers = ""
         self.intChartArray = []
     
+    def readHeightMap(self,inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+
+        heightMap = []
+        for line in fileString:
+            line = list(map(int,line))
+            heightMap.append(line)
+
+        return heightMap
+
     def readToIntArray(self, inputFile):
         fileObj = open(inputFile, "r")
         fileString = fileObj.read().splitlines()

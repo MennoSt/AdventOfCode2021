@@ -11,6 +11,7 @@ from VentDetector import VentDetector
 from CrabPositioner import CrabPositioner
 from PatternAnalyzer import PatternAnalyzer
 from PatternReader  import PatternReader
+from RiskCalculator import RiskCalculator
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -141,27 +142,12 @@ class Test_PatternAnalyzer(unittest.TestCase):
     def setUp(self):
         self.patternReader = PatternReader()
         self.patternAnalyser = PatternAnalyzer()
-        self.patternReader.readPattern("testinput/unittestinputday7")
+        self.patternReader.readPattern("testinput/unittestinputday8")
 
     def test_CalculateNumberOfDigitInstances(self):
 
         digitCounts = self.patternAnalyser.getNumberOfDigitInstances(self.patternReader.fourDigitArray)
         self.assertEqual(digitCounts, 26)
-
-    # def test_DetermineIntNumberFive(self):
-    #     teststring = "fbcad"
-    #     intNumber = self.patternAnalyser.determineIntNumber(teststring)
-    #     self.assertEqual(intNumber, 3)
-
-    # def test_DetermineIntNumberTwo(self):
-    #     teststring = "gcdfa"
-    #     intNumber = self.patternAnalyser.determineIntNumber(teststring)
-    #     self.assertEqual(intNumber, 2)
-    
-    # def test_DetermineIntNumberEight(self):
-    #     teststring = "acedgfb"
-    #     intNumber = self.patternAnalyser.determineIntNumber(teststring)
-    #     self.assertEqual(intNumber, 8)
 
     def test_CalculateSumAdditionPart2(self):
 
@@ -169,6 +155,19 @@ class Test_PatternAnalyzer(unittest.TestCase):
         uniquePatternArray = self.patternReader.uniquePatternArray
         digitCounts = self.patternAnalyser.calculateSumOfFourDigits(fourDigitArray, uniquePatternArray)
         self.assertEqual(digitCounts, 61229)
+
+
+class Test_RiskCalculator(unittest.TestCase):
+    
+    def setUp(self):
+        self.fileReader = FileReader()
+        self.riskCalculator = RiskCalculator()
+        heightMap = self.fileReader.readHeightMap("testinput/unittestinputday9")
+        self.riskCalculator.setHeightMap(heightMap)
+
+    def test_calculateSum(self):
+        riskSum = self.riskCalculator.calculateSumRiskLevels()
+        self.assertEqual(riskSum, 15)
 
 if __name__ == '__main__':
     unittest.main()
