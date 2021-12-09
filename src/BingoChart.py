@@ -1,5 +1,3 @@
-import re
-
 class BingoChart:
     
     def __init__(self, bingoChart):

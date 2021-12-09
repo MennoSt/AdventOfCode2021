@@ -1,23 +1,23 @@
 import pandas as pd
 
-from BingoManager import BingoManager
-from CrabPositioner import CrabPositioner
-from FileReader import FileReader
-from LaunterFishCalculator import LaunterFishCalculator
-from PatternAnalyzer import PatternAnalyzer
-from PatternReader import PatternReader
-from PositionCalculator import PositionCalculator
-from PowerManager import PowerManager
-from RiskCalculator import RiskCalculator
-from SubmarineCalculator import SubmarineCalculator
-from VentDetector import VentDetector
+from src.BingoManager import BingoManager
+from src.CrabPositioner import CrabPositioner
+from utils.FileReader import FileReader
+from src.LaunterFishCalculator import LaunterFishCalculator
+from src.PatternAnalyzer import PatternAnalyzer
+from src.PatternReader import PatternReader
+from src.PositionCalculator import PositionCalculator
+from src.PowerManager import PowerManager
+from src.RiskCalculator import RiskCalculator
+from src.SubmarineCalculator import SubmarineCalculator
+from src.VentDetector import VentDetector
 
 class SolutionProvider:
 
     def __init__(self ):
         self.fileReader = FileReader()
 
-    def solutionDayOne():
+    def solutionDayOne(self):
         submarineCalculator = SubmarineCalculator()
         data = pd.read_csv("input/inputday1",names = ["Depth"])
         data['Depth'] = data['Depth'].astype(int)
@@ -28,7 +28,7 @@ class SolutionProvider:
         print("The answer of Day 1 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 1 part 2 is equal to " + str(answerPart2))
 
-    def solutionDayTwo():
+    def solutionDayTwo(self):
         positionCalculator = PositionCalculator()
         data = pd.read_csv("input/inputday2",names = ["Direction", "Ammount"], delim_whitespace=True)
 
@@ -38,7 +38,7 @@ class SolutionProvider:
         print("The answer of Day 2 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 2 part 2 is equal to " + str(answerPart2))
     
-    def solutionDayThree():
+    def solutionDayThree(self):
         powerManager = PowerManager()
         data = pd.read_csv("input/inputday3", dtype=str, names = ["BinaryValue"])
 
@@ -48,7 +48,7 @@ class SolutionProvider:
         print("The answer of Day 3 part 1 is equal to " + str(answerPart1))
         print("The answer of Day 3 part 2 is equal to " + str(answerPart2))
     
-    def solutionDayFour():
+    def solutionDayFour(self):
         bingoManager = BingoManager()
         bingoFileReader = FileReader()
         bingoFileReader.readBingoFile("input/inputday4")
@@ -62,7 +62,7 @@ class SolutionProvider:
         print("The answer of Day 4 part 1 is equal to " + str(bingoScorefirst))
         print("The answer of Day 4 part 2 is equal to " + str(bingoScorelast))
     
-    def solutionDayFive():
+    def solutionDayFive(self):
         ventDetector = VentDetector()
         ventDetector.readVentFile("input/inputday5")
 

@@ -1,4 +1,4 @@
-from BingoChart import BingoChart
+from src.BingoChart import BingoChart
 
 class BingoManager:
     

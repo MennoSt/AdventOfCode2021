@@ -1,17 +1,17 @@
 import unittest
-from CrabPositioner import CrabPositioner
 
-from LaunterFishCalculator import LaunterFishCalculator
-from PowerManager import PowerManager
-from SubmarineCalculator import SubmarineCalculator
-from PositionCalculator import PositionCalculator
-from FileReader import FileReader
-from BingoManager import BingoManager
-from VentDetector import VentDetector
-from CrabPositioner import CrabPositioner
-from PatternAnalyzer import PatternAnalyzer
-from PatternReader  import PatternReader
-from RiskCalculator import RiskCalculator
+
+from src.LaunterFishCalculator import LaunterFishCalculator
+from src.PowerManager import PowerManager
+from src.SubmarineCalculator import SubmarineCalculator
+from src.PositionCalculator import PositionCalculator
+from utils.FileReader import FileReader
+from src.BingoManager import BingoManager
+from src.VentDetector import VentDetector
+from src.CrabPositioner import CrabPositioner
+from src.PatternAnalyzer import PatternAnalyzer
+from src.PatternReader  import PatternReader
+from src.RiskCalculator import RiskCalculator
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
