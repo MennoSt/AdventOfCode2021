@@ -1,4 +1,4 @@
-from enum import Enum
+from utils.AocEnums import *
 
 from src.SyntaxScoreBoard import SyntaxScoreBoard
 
@@ -8,16 +8,6 @@ def findMiddle(input_list):
         return input_list[int(middle - .5)]
     else:
         return (input_list[int(middle)], input_list[int(middle-1)])
-
-class char(str, Enum):
-    bracketOpen = "{"
-    roundOpen = "("
-    arrowOpen = "<"
-    squareOpen = "["
-    arrowClosed = ">"
-    roundClosed = ")"
-    bracketClosed = "}"
-    squareClosed = "]"
 
 class SyntaxManager:
 

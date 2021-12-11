@@ -1,10 +1,3 @@
-class Coordinate():
-
-    def __init__(self,x1,y1):
-        self.x1 = x1
-        self.y1 = y1
-
-
 class VentDetector:
     
     def __init__(self ):

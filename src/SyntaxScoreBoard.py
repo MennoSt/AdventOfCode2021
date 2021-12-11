@@ -1,14 +1,4 @@
-from enum import Enum
-
-class char(str, Enum):
-    bracketOpen = "{"
-    roundOpen = "("
-    arrowOpen = "<"
-    squareOpen = "["
-    arrowClosed = ">"
-    roundClosed = ")"
-    bracketClosed = "}"
-    squareClosed = "]"
+from utils.AocEnums import *
 
 class SyntaxScoreBoard:
 

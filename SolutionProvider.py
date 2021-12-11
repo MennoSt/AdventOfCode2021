@@ -70,8 +70,7 @@ class SolutionProvider:
         answerPart1 = ventDetector.getNumberOfOverlapsPart1()
         answerPart2 = ventDetector.getNumberOfOverlapsPart2()
         
-        print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 5 part 2 is equal to " + str(answerPart2))
+        printAnswer(5, answerPart1, answerPart2)
 
     def solutionDaySix(self):
         initalState = self.fileReader.readToIntArray("input/inputday6")
@@ -80,8 +79,7 @@ class SolutionProvider:
         answerPart1 = launterFishCalulator.getNumberOfFishes(initalState, 80)
         answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, 256)
         
-        print("The answer of Day 6 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 6 part 2 is equal to " + str(answerPart2))
+        printAnswer(6, answerPart1, answerPart2)
     
     def solutionDaySeven(self):      
         intArray = self.fileReader.readToIntArray("input/inputday7")
@@ -90,8 +88,7 @@ class SolutionProvider:
         answerPart1 = crabPositioner.getLeastAmmountOfFuel(intArray)
         answerPart2 = crabPositioner.getLeastAmmountOfFuel(intArray, True)
         
-        print("The answer of Day 7 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 7 part 2 is equal to " + str(answerPart2))
+        printAnswer(7, answerPart1, answerPart2)
     
     def solutionDayEight(self):      
 
