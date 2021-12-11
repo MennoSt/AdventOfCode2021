@@ -1,5 +1,14 @@
+from re import X
 from utils.Grid import Grid
 import copy
+
+class Coordinate:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def left(self):
+        return [self.x-1,self.y]
 
 class OctopusFlashManager:
     
@@ -25,7 +34,6 @@ class OctopusFlashManager:
             if sumFlashArray == 0:
                 return cycle
 
-    
     def __updateOneCycle (self):
         
         self.__increaseGridByOne()
@@ -39,12 +47,10 @@ class OctopusFlashManager:
                 flashValue = self.grid.getValue(x,y)
                 if flashValue > 9:
                     self.grid.gridMap[y][x] = 0
-                    self.increaseSurroundingGridsByOne(x,y)
+                    self.__increaseSurroundingGridsByOne(x,y)
                     self.flashCounter += 1
 
-                    
-
-    def increaseSurroundingGridsByOne(self,x,y):
+    def __increaseSurroundingGridsByOne(self,x,y):
         self.__increaseGridPointByOneAfterFlash(x+1,y-1)
         self.__increaseGridPointByOneAfterFlash(x+1,y+1)
         self.__increaseGridPointByOneAfterFlash(x+1,y)

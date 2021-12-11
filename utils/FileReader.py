@@ -24,18 +24,11 @@ class FileReader:
         return intArray
     
     def readOctopusMap(self, inputFile):
-        array = []
         fileObj = open(inputFile, "r")
         fileString = fileObj.read().splitlines()
         fileObj.close()
 
-        for string in fileString:
-            array.append(split(string))
-
-        octopusMap = []
-        for line in fileString:
-            line = list(map(int,line))
-            octopusMap.append(line)
+        octopusMap = [list(map(int, list(line))) for line in fileString]
 
         return octopusMap
     

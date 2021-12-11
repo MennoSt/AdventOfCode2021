@@ -27,7 +27,7 @@ class Grid:
         boolGreaterThan = False
         for x in range (0, self.mapWidth):
             for y in range(0, self.mapHeight):
-                if self.gridMap[x][y] > 9:
+                if self.gridMap[y][x] > 9:
                     boolGreaterThan = True
         
         return boolGreaterThan
