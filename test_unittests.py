@@ -1,7 +1,7 @@
 import unittest
 
-
 from src.LaunterFishCalculator import LaunterFishCalculator
+from src.OctopusFlashManager import OctopusFlashManager
 from src.PowerManager import PowerManager
 from src.SubmarineCalculator import SubmarineCalculator
 from src.PositionCalculator import PositionCalculator
@@ -12,6 +12,9 @@ from src.CrabPositioner import CrabPositioner
 from src.PatternAnalyzer import PatternAnalyzer
 from src.PatternReader  import PatternReader
 from src.RiskCalculator import RiskCalculator
+from src.SyntaxManager import SyntaxManager
+from src.SyntaxScoreBoard import SyntaxScoreBoard
+from src.OctopusFlashManager import OctopusFlashManager
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -180,9 +183,132 @@ class Test_RiskCalculator(unittest.TestCase):
         self.assertEqual(len(bassin), 6)
 
     def test_calculateInitalBassinPerIndex(self):
-        bassin = self.riskCalculator.createInitialBassinsPerIndex()
+        self.riskCalculator.createInitialBassinsPerIndex()
         multiplicationLargestThree = self.riskCalculator.getMultiplicationLargest3Bassins()
         self.assertEqual(multiplicationLargestThree, 1134)
+
+
+class Test_SyntaxErrorDetector(unittest.TestCase):
+    
+    def setUp(self):
+        self.syntaxErrorDetector = SyntaxManager()
+        self.filereader = FileReader()
+        self.navigationLines = self.filereader.readLinesToStringArray("testinput/unittestinputday10")
+
+    def test_checkSyntaxErrorExampleOne(self):
+        charSyntaxError = self.syntaxErrorDetector.checkOnSyntaxError("<}")
+        self.assertEqual(charSyntaxError,"}")
+    
+    def test_checkSyntaxErrorExampleTwo(self):
+        charSyntaxError = self.syntaxErrorDetector.checkOnSyntaxError("{()()()>")
+        self.assertEqual(charSyntaxError,">")
+    
+    def test_checkSyntaxErrorExampleThree(self):
+        charSyntaxError = self.syntaxErrorDetector.checkOnSyntaxError("(((()))}")
+        self.assertEqual(charSyntaxError,"}")
+    
+    def test_checkSyntaxErrorExampleFour(self):
+        charSyntaxError = self.syntaxErrorDetector.checkOnSyntaxError("<([]){()}[{}])")
+        self.assertEqual(charSyntaxError,")")
+
+    def test_foundErrorClosingBracket(self):
+        secondCharSyntaxError = self.syntaxErrorDetector.checkOnSyntaxError("{([(<{}[<>[]}>{[]{[(<()>")
+        self.assertEqual(secondCharSyntaxError, "}")
+    
+    def test_foundErrorRoundBracket(self):
+        charSytaxError = self.syntaxErrorDetector.checkOnSyntaxError("[[<[([]))<([[{}[[()]]]")
+        self.assertEqual(charSytaxError, ")")
+
+    def test_foundErrorSquareBracket(self):
+        charSytaxError = self.syntaxErrorDetector.checkOnSyntaxError("[{[{({}]{}}([{[{{{}}([]")
+        self.assertEqual(charSytaxError, "]")
+    
+    def test_foundErrorRoundBracket_Two(self):
+        charSytaxError = self.syntaxErrorDetector.checkOnSyntaxError("[<(<(<(<{}))><([]([]()")
+        self.assertEqual(charSytaxError, ")")
+    
+    def test_foundErrorArrow(self):
+        charSytaxError = self.syntaxErrorDetector.checkOnSyntaxError("<{([([[(<>()){}]>(<<{{")
+        self.assertEqual(charSytaxError, ">")
+    
+    def test_foundErrorArrow(self):
+        charSytaxError = self.syntaxErrorDetector.checkOnSyntaxError("<{([([[(<>()){}]>(<<{{")
+        self.assertEqual(charSytaxError, ">")
+    
+    def test_autocompleteStringExampleOne(self):
+        addedString = self.syntaxErrorDetector.autoCompleteLine("[({(<(())[]>[[{[]{<()<>>")
+        self.assertEqual(addedString, "}}]])})]")
+    
+    def test_autocompleteStringExampleTwo(self):
+        addedString = self.syntaxErrorDetector.autoCompleteLine("[(()[<>])]({[<{<<[]>>(")
+        self.assertEqual(addedString, ")}>]})")
+    
+    def test_autocompleteStringExampleThree(self):
+        addedString = self.syntaxErrorDetector.autoCompleteLine("(((({<>}<{<{<>}{[]{[]{}")
+        self.assertEqual(addedString, "}}>}>))))")
+    
+    def test_autocompleteStringExampleFour(self):
+        addedString = self.syntaxErrorDetector.autoCompleteLine("{<[[]]>}<{[{[{[]{()[[[]")
+        self.assertEqual(addedString, "]]}}]}]}>")
+    
+    def test_autocompleteStringExampleFive(self):
+        addedString = self.syntaxErrorDetector.autoCompleteLine("<{([{{}}[<[[[<>{}]]]>[]]")
+        self.assertEqual(addedString, "])}>")
+
+    def test_calculateSyntaxErrorScore(self):
+        syntaxErrorScore = self.syntaxErrorDetector.calculateSyntaxErrorScore(self.navigationLines)
+        self.assertEqual(syntaxErrorScore, 26397)
+
+    def test_calculateMiddleScore(self):
+        middleScore = self.syntaxErrorDetector.calculateMiddleScore(self.navigationLines)
+        self.assertEqual(middleScore, 288957)
+
+class Test_SyntaxScoreBoard(unittest.TestCase):
+    
+    def setUp(self):
+        self.syntaxScoreBoard = SyntaxScoreBoard()
+
+    def test_calculateScore(self):
+        testarray = ["}",">","]",")","}"]
+        score = self.syntaxScoreBoard.calculateScore(testarray)
+        expectedScore = 1197 + 25137 + 57 + 3 + 1197
+        self.assertEqual(score, expectedScore)
+    
+    def test_calculateScoreOne(self):
+        teststring = "])}>"
+        score = self.syntaxScoreBoard.calculateAutoCompletionScore(teststring)
+        expectedScore = 294
+        self.assertEqual(score, expectedScore)
+
+    def test_calculateScoreTwo(self):
+        teststring = "}}]])})]"
+        score = self.syntaxScoreBoard.calculateAutoCompletionScore(teststring)
+        expectedScore = 288957
+        self.assertEqual(score, expectedScore)
+
+class Test_OctopusFlashManager(unittest.TestCase):
+    
+    def setUp(self):
+        self.octopusFlashManager = OctopusFlashManager()
+        self.filereader = FileReader()
+
+    def test_calculateFlashesAfter1Day(self):
+        input1 = self.filereader.readOctopusMap("testinput/unittestinputday11_1")
+        self.octopusFlashManager.setOctopusMap(input1)
+        score = self.octopusFlashManager.getNumberOfFlashes(4)
+        self.assertEqual(score, 9)
+
+    def test_calculateFlashesAfter100Days(self):
+        input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
+        self.octopusFlashManager.setOctopusMap(input2)
+        score = self.octopusFlashManager.getNumberOfFlashes(100)
+        self.assertEqual(score, 1656)
+
+    def test_calculateFirstSynchroinicCycle(self):
+        input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
+        self.octopusFlashManager.setOctopusMap(input2)
+        cycle = self.octopusFlashManager.getFirstSynchronicCycle()
+        self.assertEqual(cycle, 195)
 
 if __name__ == '__main__':
     unittest.main()

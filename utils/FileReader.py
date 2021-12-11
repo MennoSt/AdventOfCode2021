@@ -1,10 +1,36 @@
 import re
 
+def split(word):
+    return [char for char in word]
+
 class FileReader:
     
     def __init__(self):
         self.bingoNumbers = ""
         self.intChartArray = []
+    
+    def readLinesToStringArray(self, inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+
+        return fileString
+
+    def readToIntArray(self, inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+        intArray = list(map(int,fileString[0].split(",")))
+        return intArray
+    
+    def readOctopusMap(self, inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+
+        octopusMap = [list(map(int, list(line))) for line in fileString]
+
+        return octopusMap
     
     def readHeightMap(self,inputFile):
         fileObj = open(inputFile, "r")
@@ -17,13 +43,6 @@ class FileReader:
             heightMap.append(line)
 
         return heightMap
-
-    def readToIntArray(self, inputFile):
-        fileObj = open(inputFile, "r")
-        fileString = fileObj.read().splitlines()
-        fileObj.close()
-        intArray = list(map(int,fileString[0].split(",")))
-        return intArray
 
     def readBingoFile(self, inputFile):
         self.intChartArray = []

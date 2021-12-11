@@ -1,7 +1,10 @@
 import pandas as pd
+import copy
 
 from src.BingoManager import BingoManager
 from src.CrabPositioner import CrabPositioner
+from src.OctopusFlashManager import OctopusFlashManager
+from src.SyntaxManager import SyntaxManager
 from utils.FileReader import FileReader
 from src.LaunterFishCalculator import LaunterFishCalculator
 from src.PatternAnalyzer import PatternAnalyzer
@@ -69,8 +72,7 @@ class SolutionProvider:
         answerPart1 = ventDetector.getNumberOfOverlapsPart1()
         answerPart2 = ventDetector.getNumberOfOverlapsPart2()
         
-        print("The answer of Day 5 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 5 part 2 is equal to " + str(answerPart2))
+        printAnswer(5, answerPart1, answerPart2)
 
     def solutionDaySix(self):
         initalState = self.fileReader.readToIntArray("input/inputday6")
@@ -79,8 +81,7 @@ class SolutionProvider:
         answerPart1 = launterFishCalulator.getNumberOfFishes(initalState, 80)
         answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, 256)
         
-        print("The answer of Day 6 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 6 part 2 is equal to " + str(answerPart2))
+        printAnswer(6, answerPart1, answerPart2)
     
     def solutionDaySeven(self):      
         intArray = self.fileReader.readToIntArray("input/inputday7")
@@ -89,8 +90,7 @@ class SolutionProvider:
         answerPart1 = crabPositioner.getLeastAmmountOfFuel(intArray)
         answerPart2 = crabPositioner.getLeastAmmountOfFuel(intArray, True)
         
-        print("The answer of Day 7 part 1 is equal to " + str(answerPart1))
-        print("The answer of Day 7 part 2 is equal to " + str(answerPart2))
+        printAnswer(7, answerPart1, answerPart2)
     
     def solutionDayEight(self):      
 
@@ -115,3 +115,23 @@ class SolutionProvider:
         answerPart2 =riskCalculator.getMultiplicationLargest3Bassins()
 
         printAnswer(9, answerPart1, answerPart2)
+
+    def solutionDayTen(self):      
+        filestring = self.fileReader.readLinesToStringArray("input/inputday10")
+        syntaxErrorDetector = SyntaxManager()
+
+        answerPart1 = syntaxErrorDetector.calculateSyntaxErrorScore(filestring)
+        answerPart2 = syntaxErrorDetector.calculateMiddleScore(filestring)
+        printAnswer(10, answerPart1, answerPart2)
+
+    def solutionDayEleven(self):      
+        initialMap = self.fileReader.readOctopusMap("input/inputday11")
+        octopusFlashManager = OctopusFlashManager()
+
+        octopusFlashManager.setOctopusMap(initialMap)
+        answerPart1 = octopusFlashManager.getNumberOfFlashes(100)
+
+        octopusFlashManager.setOctopusMap(initialMap)
+        answerPart2 = octopusFlashManager.getFirstSynchronicCycle()
+
+        printAnswer(11, answerPart1, answerPart2)
