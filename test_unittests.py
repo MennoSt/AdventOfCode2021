@@ -1,6 +1,7 @@
 import unittest
 
 from src.LaunterFishCalculator import LaunterFishCalculator
+from src.OctopusFlashManager import OctopusFlashManager
 from src.PowerManager import PowerManager
 from src.SubmarineCalculator import SubmarineCalculator
 from src.PositionCalculator import PositionCalculator
@@ -13,6 +14,7 @@ from src.PatternReader  import PatternReader
 from src.RiskCalculator import RiskCalculator
 from src.SyntaxManager import SyntaxManager
 from src.SyntaxScoreBoard import SyntaxScoreBoard
+from src.OctopusFlashManager import OctopusFlashManager
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -284,6 +286,29 @@ class Test_SyntaxScoreBoard(unittest.TestCase):
         expectedScore = 288957
         self.assertEqual(score, expectedScore)
 
+class Test_OctopusFlashManager(unittest.TestCase):
+    
+    def setUp(self):
+        self.octopusFlashManager = OctopusFlashManager()
+        self.filereader = FileReader()
+
+    def test_calculateFlashesAfter1Day(self):
+        input1 = self.filereader.readOctopusMap("testinput/unittestinputday11_1")
+        self.octopusFlashManager.setOctopusMap(input1)
+        score = self.octopusFlashManager.getNumberOfFlashes(4)
+        self.assertEqual(score, 9)
+
+    def test_calculateFlashesAfter100Days(self):
+        input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
+        self.octopusFlashManager.setOctopusMap(input2)
+        score = self.octopusFlashManager.getNumberOfFlashes(100)
+        self.assertEqual(score, 1656)
+
+    def test_calculateFirstSynchroinicCycle(self):
+        input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
+        self.octopusFlashManager.setOctopusMap(input2)
+        cycle = self.octopusFlashManager.getFirstSynchronicCycle()
+        self.assertEqual(cycle, 195)
 
 if __name__ == '__main__':
     unittest.main()

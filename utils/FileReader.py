@@ -1,5 +1,8 @@
 import re
 
+def split(word):
+    return [char for char in word]
+
 class FileReader:
     
     def __init__(self):
@@ -12,13 +15,29 @@ class FileReader:
         fileObj.close()
 
         return fileString
-    
+
     def readToIntArray(self, inputFile):
         fileObj = open(inputFile, "r")
         fileString = fileObj.read().splitlines()
         fileObj.close()
         intArray = list(map(int,fileString[0].split(",")))
         return intArray
+    
+    def readOctopusMap(self, inputFile):
+        array = []
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+
+        for string in fileString:
+            array.append(split(string))
+
+        octopusMap = []
+        for line in fileString:
+            line = list(map(int,line))
+            octopusMap.append(line)
+
+        return octopusMap
     
     def readHeightMap(self,inputFile):
         fileObj = open(inputFile, "r")

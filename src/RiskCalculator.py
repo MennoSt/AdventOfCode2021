@@ -19,15 +19,15 @@ class RiskCalculator():
         for x in range (0, self.grid.mapWidth):
             for y in range(0, self.grid.mapHeight):
                 if self.__isRiskSpot(x,y):
-                    height = self.grid.getValue(x,y)
+                    height = self.grid.getHeightValue(x,y)
                     riskLevel = self.__calcualteRiskLevel(height)
                     riskSum += riskLevel
         
         return riskSum
 
     def __isHeightGreater(self, x,y, direction):
-        heightDirection = self.grid.getValue(x,y, direction)
-        heightCurrent = self.grid.getValue(x,y, Direction.CURRENT)
+        heightDirection = self.grid.getHeightValue(x,y, direction)
+        heightCurrent = self.grid.getHeightValue(x,y, Direction.CURRENT)
         
         if heightDirection > heightCurrent:
             return True
@@ -55,7 +55,7 @@ class RiskCalculator():
         x_init = x
         y_init = y
         
-        if self.grid.getValue(x,y) == 9:
+        if self.grid.getHeightValue(x,y) == 9:
             return bassin
         else:
             bassin.append(self.__toListIndex(x,y))
@@ -63,7 +63,7 @@ class RiskCalculator():
         x = x_init
         for _ in range(self.grid.mapWidth):
             x+=1
-            height = self.grid.getValue(x,y)
+            height = self.grid.getHeightValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:
@@ -72,7 +72,7 @@ class RiskCalculator():
         x = x_init
         for _ in range(self.grid.mapWidth):
             x-=1
-            height = self.grid.getValue(x,y)
+            height = self.grid.getHeightValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:
@@ -82,7 +82,7 @@ class RiskCalculator():
         y = y_init
         for _ in range(self.grid.mapHeight):
             y+=1
-            height = self.grid.getValue(x,y)
+            height = self.grid.getHeightValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:
@@ -91,7 +91,7 @@ class RiskCalculator():
         y = y_init
         for _ in range(self.grid.mapHeight):
             y-=1
-            height = self.grid.getValue(x,y)
+            height = self.grid.getHeightValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:

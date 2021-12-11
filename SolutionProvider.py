@@ -1,7 +1,9 @@
 import pandas as pd
+import copy
 
 from src.BingoManager import BingoManager
 from src.CrabPositioner import CrabPositioner
+from src.OctopusFlashManager import OctopusFlashManager
 from src.SyntaxManager import SyntaxManager
 from utils.FileReader import FileReader
 from src.LaunterFishCalculator import LaunterFishCalculator
@@ -121,3 +123,15 @@ class SolutionProvider:
         answerPart1 = syntaxErrorDetector.calculateSyntaxErrorScore(filestring)
         answerPart2 = syntaxErrorDetector.calculateMiddleScore(filestring)
         printAnswer(10, answerPart1, answerPart2)
+
+    def solutionDayEleven(self):      
+        initialMap = self.fileReader.readOctopusMap("input/inputday11")
+        octopusFlashManager = OctopusFlashManager()
+
+        octopusFlashManager.setOctopusMap(initialMap)
+        answerPart1 = octopusFlashManager.getNumberOfFlashes(100)
+
+        octopusFlashManager.setOctopusMap(initialMap)
+        answerPart2 = octopusFlashManager.getFirstSynchronicCycle()
+
+        printAnswer(11, answerPart1, answerPart2)
