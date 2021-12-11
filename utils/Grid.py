@@ -11,7 +11,10 @@ class Grid:
         self.heightMap = heightMap
         self.mapWidth = len(heightMap[0])
         self.mapHeight = len(heightMap)
-        
+
+    def getValue(self, x, y):
+        return self.heightMap[y][x]
+
     def getValue(self, x, y, direction = Direction.CURRENT):
         
         mapx = x
@@ -38,13 +41,13 @@ class Grid:
         mapHeight = int(self.mapHeight) -1
 
         if mapx < 0 or mapx > mapWidth: 
-            mapx=0
+            mapx = 0
             heightValue = 9
         elif mapy < 0 or mapy > mapHeight: 
-            mapy=0
+            mapy = 0
             heightValue = 9
         else:
-            heightValue = self.heightMap[y][x]
+            heightValue = self.heightMap[mapy][mapx]
 
         return heightValue
             

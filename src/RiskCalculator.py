@@ -1,19 +1,14 @@
 from utils.AocEnums import *
 from utils.Operations import *
+from utils.Grid import Grid
 
 class RiskCalculator():
     
     def __init__(self):
-        self.heightMap = []
-        self.mapWidth = 0
+        self.grid = Grid()
 
     def setHeightMap(self, heightMap):
-        self.heightMap = heightMap
-        self.mapWidth = len(heightMap[0])
-        self.mapHeight = len(heightMap)
-
-    def __getHeightFromMap(self, x,y):
-        return self.heightMap[y][x]
+        self.grid.setGrid(heightMap)
     
     def __calcualteRiskLevel(self, height):
         return height+1
@@ -21,54 +16,18 @@ class RiskCalculator():
     def calculateSumRiskLevels(self):
 
         riskSum = 0
-        for x in range (0, self.mapWidth):
-            for y in range(0, self.mapHeight):
+        for x in range (0, self.grid.mapWidth):
+            for y in range(0, self.grid.mapHeight):
                 if self.__isRiskSpot(x,y):
-                    height = self.__getHeightFromMap(x,y)
+                    height = self.grid.getValue(x,y)
                     riskLevel = self.__calcualteRiskLevel(height)
                     riskSum += riskLevel
         
         return riskSum
 
-    def __getHeight(self, x, y, direction = Direction.CURRENT):
-        
-        mapx = x
-        mapy = y
-
-        if direction == Direction.CURRENT:
-            mapx = x
-            mapy = y
-        if direction == Direction.UP:
-            mapx = x
-            mapy = y + 1
-        if direction == Direction.DOWN:
-            mapx = x
-            mapy = y -1
-        if direction == Direction.LEFT:
-            mapx = x-1
-            mapy = y
-        if direction == Direction.RIGHT:
-            mapx = x + 1
-            mapy = y
-        
-        # Return the lowest index 0 if the mapIndex is out of the map range
-        mapWidth = int(self.mapWidth) -1
-        mapHeight = int(self.mapHeight) -1
-
-        if mapx < 0 or mapx > mapWidth: 
-            mapx=0
-            heightValue = 9
-        elif mapy < 0 or mapy > mapHeight: 
-            mapy=0
-            heightValue = 9
-        else:
-            heightValue = self.__getHeightFromMap(mapx, mapy)
-
-        return heightValue
-
     def __isHeightGreater(self, x,y, direction):
-        heightDirection = self.__getHeight(x,y, direction)
-        heightCurrent = self.__getHeight(x,y, Direction.CURRENT)
+        heightDirection = self.grid.getValue(x,y, direction)
+        heightCurrent = self.grid.getValue(x,y, Direction.CURRENT)
         
         if heightDirection > heightCurrent:
             return True
@@ -88,7 +47,7 @@ class RiskCalculator():
         return riskSpot
 
     def __toListIndex(self,x,y):
-        listIndex = x+y*self.mapWidth
+        listIndex = x+y*self.grid.mapWidth
         return listIndex
 
     def createInitalBassin(self,x,y):
@@ -96,24 +55,24 @@ class RiskCalculator():
         x_init = x
         y_init = y
         
-        if self.__getHeight(x,y) == 9:
+        if self.grid.getValue(x,y) == 9:
             return bassin
         else:
             bassin.append(self.__toListIndex(x,y))
 
         x = x_init
-        for _ in range(self.mapWidth):
+        for _ in range(self.grid.mapWidth):
             x+=1
-            height = self.__getHeight(x,y)
+            height = self.grid.getValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:
                 break
         
         x = x_init
-        for _ in range(self.mapWidth):
+        for _ in range(self.grid.mapWidth):
             x-=1
-            height = self.__getHeight(x,y)
+            height = self.grid.getValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:
@@ -121,18 +80,18 @@ class RiskCalculator():
         
         x = x_init
         y = y_init
-        for _ in range(self.mapHeight):
+        for _ in range(self.grid.mapHeight):
             y+=1
-            height = self.__getHeight(x,y)
+            height = self.grid.getValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:
                 break
         
         y = y_init
-        for _ in range(self.mapHeight):
+        for _ in range(self.grid.mapHeight):
             y-=1
-            height = self.__getHeight(x,y)
+            height = self.grid.getValue(x,y)
             if height != 9:
                 bassin.append(self.__toListIndex(x,y))
             else:
@@ -142,8 +101,8 @@ class RiskCalculator():
 
     def createInitialBassinsPerIndex(self):
         bassinsPerIndex = []
-        for y in range(0, self.mapHeight):
-            for x in range (0, self.mapWidth):
+        for y in range(0, self.grid.mapHeight):
+            for x in range (0, self.grid.mapWidth):
                 bassinsPerIndex.append(self.createInitalBassin(x,y))
         
         bassinsPerIndex = [x for x in bassinsPerIndex if x != []]
