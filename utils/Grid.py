@@ -22,12 +22,18 @@ class Grid:
             value = self.gridMap[y][x]
 
         return value
-    
+
+    def setValue(self, x, y, value):
+        self.gridMap[y][x] = value
+
+    def increaseValue(self,x,y,value):
+        self.gridMap[y][x] += value
+
     def hasValueGreaterThan(self, value):
         boolGreaterThan = False
         for x in range (0, self.mapWidth):
             for y in range(0, self.mapHeight):
-                if self.gridMap[y][x] > 9:
+                if self.getValue(x,y) > 9:
                     boolGreaterThan = True
         
         return boolGreaterThan

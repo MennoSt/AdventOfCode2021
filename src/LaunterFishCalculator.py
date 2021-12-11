@@ -4,7 +4,18 @@ class LaunterFishCalculator:
         self.fishArray = []
         self.initialState = []
 
-    def convertArrayToCounterArray(self, initialState):
+    def getNumberOfFishes(self, initialstate, days):
+        self.fishArray = self.__convertArrayToCounterArray(initialstate)
+        self.__updateToNextGeneration()
+
+        for _ in range(days-1):
+            self.__updateToNextGeneration()
+    
+        sumFishes = sum(self.fishArray)
+
+        return sumFishes
+    
+    def __convertArrayToCounterArray(self, initialState):
         countArray = []
         for i in range(0,8):
             countArray.append(initialState.count(i))
@@ -14,18 +25,7 @@ class LaunterFishCalculator:
 
         return countArray
 
-    def getNumberOfFishes(self, initialstate, days):
-        self.fishArray = self.convertArrayToCounterArray(initialstate)
-        self.updateToNextGeneration()
-
-        for _ in range(days-1):
-            self.updateToNextGeneration()
-    
-        sumFishes = sum(self.fishArray)
-
-        return sumFishes
-
-    def updateToNextGeneration(self):
+    def __updateToNextGeneration(self):
         
         updatedArray = []
         additionalEights = self.fishArray[0]

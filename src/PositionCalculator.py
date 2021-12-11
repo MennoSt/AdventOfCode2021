@@ -4,8 +4,22 @@ class PositionCalculator:
         self.horizontalP = 0
         self.depthP = 0
         self.aim = 0
+    
+    def getMultiplicationPart1(self, directionArray, positionArray):
 
-    def updatePosition(self, directionArray, positionArray):
+        self.__updatePosition(directionArray, positionArray)
+        multiplication = self.horizontalP * self.depthP
+
+        return multiplication
+
+    def getMultiplicationPart2(self, directionArray, positionArray):
+
+        self.__updatePositionPart2(directionArray, positionArray)
+        multiplication = self.horizontalP * self.depthP
+
+        return multiplication
+
+    def __updatePosition(self, directionArray, positionArray):
         self.horizontalP = 0
         self.depthP = 0
         length_dir = len(directionArray)
@@ -24,14 +38,7 @@ class PositionCalculator:
             else:
                 raise Exception("Invalid Direction")
     
-    def getMultiplicationPart1(self, directionArray, positionArray):
-
-        self.updatePosition(directionArray, positionArray)
-        multiplication = self.horizontalP * self.depthP
-
-        return multiplication
-    
-    def updatePositionPart2(self, directionArray, positionArray):
+    def __updatePositionPart2(self, directionArray, positionArray):
         length_dir = len(directionArray)
         length_pos = len(positionArray) 
         self.horizontalP = 0
@@ -51,13 +58,6 @@ class PositionCalculator:
                 self.depthP += self.aim * positionArray[index]
             else:
                 raise Exception("Invalid Direction")
-    
-    def getMultiplicationPart2(self, directionArray, positionArray):
-
-        self.updatePositionPart2(directionArray, positionArray)
-        multiplication = self.horizontalP * self.depthP
-
-        return multiplication
     
             
 

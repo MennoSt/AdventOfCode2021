@@ -1,4 +1,21 @@
 class CrabPositioner:
+
+    def getLeastAmmountOfFuel(self, positionArray, increasedRate = False):
+
+        fuelSumArray = []
+        lowerLimit = min(positionArray)
+        highLimit = max(positionArray)
+        
+        for sugestedPos in range(lowerLimit, highLimit):
+            if increasedRate == True:
+                fuelSum = self.__calculateFuelSum(positionArray, sugestedPos, True)
+            else:
+                fuelSum = self.__calculateFuelSum(positionArray, sugestedPos)
+            fuelSumArray.append(fuelSum)
+        
+        minimumFuel = min(fuelSumArray)
+
+        return minimumFuel
     
     def __recursiveFunction(self,x):
         value = int(x*(x+1)/2)
@@ -22,22 +39,7 @@ class CrabPositioner:
         
         return fuelSum
     
-    def getLeastAmmountOfFuel(self, positionArray, increasedRate = False):
 
-        fuelSumArray = []
-        lowerLimit = min(positionArray)
-        highLimit = max(positionArray)
-        
-        for sugestedPos in range(lowerLimit, highLimit):
-            if increasedRate == True:
-                fuelSum = self.__calculateFuelSum(positionArray, sugestedPos, True)
-            else:
-                fuelSum = self.__calculateFuelSum(positionArray, sugestedPos)
-            fuelSumArray.append(fuelSum)
-        
-        minimumFuel = min(fuelSumArray)
-
-        return minimumFuel
 
             
 

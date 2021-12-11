@@ -4,6 +4,17 @@ class BingoChart:
         self.bingoChart = bingoChart
         self.horizontalSums = []
         self.verticalSums = []
+    
+    def getBingoScore(self, lastNumber):
+        array = []
+        for number in self.bingoChart:
+            if number != -1:
+                array.append(number)
+        
+        sumChart = sum(array)
+        score = sumChart*lastNumber
+
+        return score
 
     def strikeThroughNumber(self, number):
         
@@ -42,18 +53,6 @@ class BingoChart:
             for i in range(0,25,5):
                 sumV += bingochart[index+i]
             self.verticalSums.append(sumV)
-
-
-    def getBingoScore(self, lastNumber):
-        array = []
-        for number in self.bingoChart:
-            if number != -1:
-                array.append(number)
-        
-        sumChart = sum(array)
-        score = sumChart*lastNumber
-
-        return score
 
 
 

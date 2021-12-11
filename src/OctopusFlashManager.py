@@ -1,14 +1,5 @@
-from re import X
 from utils.Grid import Grid
 import copy
-
-class Coordinate:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    
-    def left(self):
-        return [self.x-1,self.y]
 
 class OctopusFlashManager:
     
@@ -35,22 +26,22 @@ class OctopusFlashManager:
                 return cycle
 
     def __updateOneCycle (self):
-        
-        self.__increaseGridByOne()
+        self.__increaseTotalGridByOne()
 
         while(self.grid.hasValueGreaterThan(9)):
             self.__updateFlashes()
 
     def __updateFlashes(self):
         for x in range(0, self.grid.mapWidth):
-            for y in range(0,self.grid.mapHeight):
+            for y in range(0, self.grid.mapHeight):
                 flashValue = self.grid.getValue(x,y)
                 if flashValue > 9:
-                    self.grid.gridMap[y][x] = 0
+                    self.grid.setValue(x,y,0)
                     self.__increaseSurroundingGridsByOne(x,y)
                     self.flashCounter += 1
 
     def __increaseSurroundingGridsByOne(self,x,y):
+
         self.__increaseGridPointByOneAfterFlash(x+1,y-1)
         self.__increaseGridPointByOneAfterFlash(x+1,y+1)
         self.__increaseGridPointByOneAfterFlash(x+1,y)
@@ -63,14 +54,14 @@ class OctopusFlashManager:
     def __increaseGridPointByOneAfterFlash(self, x,y):
         flashLevel = self.grid.getValue(x,y)
         if flashLevel != None and flashLevel != 0:
-            self.grid.gridMap[y][x] += 1
+            self.grid.increaseValue(x,y,1)
 
-    def __increaseGridByOne(self):
+    def __increaseTotalGridByOne(self):
         for x in range(0, self.grid.mapWidth):
             for y in range(0,self.grid.mapHeight):
                 flashLevel = self.grid.getValue(x,y)
                 if flashLevel != None:
-                    self.grid.gridMap[y][x] += 1
+                    self.grid.increaseValue(x,y,1)
 
             
 
