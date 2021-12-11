@@ -2,6 +2,7 @@ import pandas as pd
 
 from src.BingoManager import BingoManager
 from src.CrabPositioner import CrabPositioner
+from src.SyntaxManager import SyntaxManager
 from utils.FileReader import FileReader
 from src.LaunterFishCalculator import LaunterFishCalculator
 from src.PatternAnalyzer import PatternAnalyzer
@@ -115,3 +116,11 @@ class SolutionProvider:
         answerPart2 =riskCalculator.getMultiplicationLargest3Bassins()
 
         printAnswer(9, answerPart1, answerPart2)
+
+    def solutionDayTen(self):      
+        filestring = self.fileReader.readLinesToStringArray("input/inputday10")
+        syntaxErrorDetector = SyntaxManager()
+
+        answerPart1 = syntaxErrorDetector.calculateSyntaxErrorScore(filestring)
+        answerPart2 = syntaxErrorDetector.calculateMiddleScore(filestring)
+        printAnswer(10, answerPart1, answerPart2)
