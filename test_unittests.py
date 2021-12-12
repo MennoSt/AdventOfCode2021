@@ -319,9 +319,9 @@ class Test_CaveNavigator(unittest.TestCase):
         self.input2 = self.filereader.readLinesToStringArray("testinput/unittestinputday12_2")
     
     def test_getUniqueNodeArray(self):
-        nodes = self.caveNavigator.determineNeighboursPerNode(self.input1)
+        routes = self.caveNavigator.findNumberOfRoutes(self.input1)
 
-        self.assertEqual(nodes, 195)
+        self.assertEqual(routes, 10)
 
 
 

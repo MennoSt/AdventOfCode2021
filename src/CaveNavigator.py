@@ -11,10 +11,68 @@ class Node():
 
 
 class CaveNavigator:
-    def findNumberOfRoutes(self, connectionMap):
-        return 0
+    def __init__(self):
+        self.Nodes = [Node("")]
+        
+    def findNumberOfRoutes(self, fileinput):
+        
+        self.__updateNodeInfo(fileinput)
+        routes = self.iterateThroughPath()
+        return routes
 
-    def getUniqeNodeArray(self, fileinput):
+
+    def iterateThroughPath(self):
+        
+        visitedNodes = []
+        numberOfPaths = 0
+        
+        startNode = self.__getStartNode()
+        visitedNodes.append(startNode.character)
+        
+        for str in startNode.neighbours:
+            visitedNodes = ["start"]
+            if str not in visitedNodes:
+                if str == "end":
+                    numberOfPaths += 1
+                else:
+                    visitedNodes.append(str)
+                    nextnode = self.__getNode(str)
+                for str in nextnode.neighbours:
+                    if str not in visitedNodes:
+                        if str == "end":
+                            numberOfPaths += 1
+                        else:
+                            visitedNodes.append(str)
+                            nextnode = self.__getNode(str)
+                        for str in nextnode.neighbours:
+                            if str not in visitedNodes:
+                                if str == "end":
+                                    numberOfPaths += 1
+                                else:
+                                    visitedNodes.append(str)
+                                    nextnode = self.__getNode(str)
+                                for str in nextnode.neighbours:
+                                    if str not in visitedNodes:
+                                        if str == "end":
+                                            numberOfPaths += 1
+                                        else:
+                                            visitedNodes.append(str)
+                                            nextnode = self.__getNode(str)
+                
+        return numberOfPaths
+    
+    def __getNode(self, char):
+        for node in self.Nodes:
+            if node.getCharacter() == char:
+                return node       
+        
+    def __getStartNode(self):
+        for node in self.Nodes:
+            if node.getCharacter() == "start":
+                return node
+            
+            
+    def __getUniqeNodeArray(self, fileinput):
         array = []
         for file in fileinput:
             connection = file.split("-")
@@ -24,31 +82,26 @@ class CaveNavigator:
         uniqueNodeList = list(set(array))
         return uniqueNodeList
     
-    def determineNeighboursPerNode(self, fileinput):
+    def __updateNodeInfo(self, fileinput):
         
-        NodeList = self.getUniqeNodeArray(fileinput)
-        Nodes =[]
+        NodeList = self.__getUniqeNodeArray(fileinput)
         
-        test = Node("3")
-        print(test.character)
-
+        self.Nodes.pop()
+        
         for char in NodeList:
             newnode = Node(char)
-            Nodes.append(newnode)
+            self.Nodes.append(newnode)
         
         for file in fileinput:
-            connection = file.split("-")
-            connector0 = connection[0]
-            connector1 = connection[1]
+            nodePair = file.split("-")
 
-            for node in Nodes:
-                if node.getCharacter() == connector0:
-                    node.addNeighour(connector1)
-                if node.getCharacter() == connector1:
-                    node.addNeighour(connector0)
+            for node in self.Nodes:
+                if node.getCharacter() == nodePair[0]:
+                    node.addNeighour(nodePair[1])
+                if node.getCharacter() == nodePair[1]:
+                    node.addNeighour(nodePair[0])
         
-        for node in Nodes:
-            print(node.neighbours)
+
                     
 
 
