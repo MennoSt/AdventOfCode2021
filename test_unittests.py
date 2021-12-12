@@ -1,11 +1,11 @@
 import unittest
+from src.CaveNavigator import CaveNavigator
 
 from src.LaunterFishCalculator import LaunterFishCalculator
 from src.OctopusFlashManager import OctopusFlashManager
 from src.PowerManager import PowerManager
 from src.SubmarineCalculator import SubmarineCalculator
 from src.PositionCalculator import PositionCalculator
-from utils.FileReader import FileReader
 from src.BingoManager import BingoManager
 from src.VentDetector import VentDetector
 from src.CrabPositioner import CrabPositioner
@@ -15,6 +15,7 @@ from src.RiskCalculator import RiskCalculator
 from src.SyntaxManager import SyntaxManager
 from src.SyntaxScoreBoard import SyntaxScoreBoard
 from src.OctopusFlashManager import OctopusFlashManager
+from utils.FileReader import FileReader
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -291,24 +292,38 @@ class Test_OctopusFlashManager(unittest.TestCase):
     def setUp(self):
         self.octopusFlashManager = OctopusFlashManager()
         self.filereader = FileReader()
+        self.input1 = self.filereader.readOctopusMap("testinput/unittestinputday11_1")
+        self.input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
 
     def test_calculateFlashesAfter1Day(self):
-        input1 = self.filereader.readOctopusMap("testinput/unittestinputday11_1")
-        self.octopusFlashManager.setOctopusMap(input1)
+        self.octopusFlashManager.setOctopusMap(self.input1)
         score = self.octopusFlashManager.getNumberOfFlashes(4)
         self.assertEqual(score, 9)
 
     def test_calculateFlashesAfter100Days(self):
-        input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
-        self.octopusFlashManager.setOctopusMap(input2)
+        self.octopusFlashManager.setOctopusMap(self.input2)
         score = self.octopusFlashManager.getNumberOfFlashes(100)
         self.assertEqual(score, 1656)
 
     def test_calculateFirstSynchroinicCycle(self):
-        input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
-        self.octopusFlashManager.setOctopusMap(input2)
+        self.octopusFlashManager.setOctopusMap(self.input2)
         cycle = self.octopusFlashManager.getFirstSynchronicCycle()
         self.assertEqual(cycle, 195)
+
+class Test_CaveNavigator(unittest.TestCase):
+    
+    def setUp(self):
+        self.caveNavigator = CaveNavigator()
+        self.filereader = FileReader()
+        self.input1 = self.filereader.readLinesToStringArray("testinput/unittestinputday12_1")
+        self.input2 = self.filereader.readLinesToStringArray("testinput/unittestinputday12_2")
+    
+    def test_getUniqueNodeArray(self):
+        nodes = self.caveNavigator.determineNeighboursPerNode(self.input1)
+
+        self.assertEqual(nodes, 195)
+
+
 
 if __name__ == '__main__':
     unittest.main()

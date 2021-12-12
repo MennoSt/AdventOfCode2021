@@ -1,7 +1,8 @@
 import pandas as pd
-import copy
+
 
 from src.BingoManager import BingoManager
+from src.CaveNavigator import CaveNavigator
 from src.CrabPositioner import CrabPositioner
 from src.OctopusFlashManager import OctopusFlashManager
 from src.SyntaxManager import SyntaxManager
@@ -133,5 +134,14 @@ class SolutionProvider:
 
         octopusFlashManager.setOctopusMap(initialMap)
         answerPart2 = octopusFlashManager.getFirstSynchronicCycle()
+
+        printAnswer(11, answerPart1, answerPart2)
+
+    def solutionDayTwelve(self):      
+        initialMap = self.fileReader.readLinesToStringArray("input/inputday12")
+        caveNavigator = CaveNavigator()
+
+        answerPart1 = 0
+        answerPart2 = 0
 
         printAnswer(11, answerPart1, answerPart2)
