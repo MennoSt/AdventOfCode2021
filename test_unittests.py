@@ -317,12 +317,22 @@ class Test_CaveNavigator(unittest.TestCase):
         self.filereader = FileReader()
         self.input1 = self.filereader.readLinesToStringArray("testinput/unittestinputday12_1")
         self.input2 = self.filereader.readLinesToStringArray("testinput/unittestinputday12_2")
+        self.input3 = self.filereader.readLinesToStringArray("testinput/unittestinputday12_3")
     
-    def test_getUniqueNodeArray(self):
+    def test_findNumberOfRoutesInput1(self):
         routes = self.caveNavigator.findNumberOfRoutes(self.input1)
 
         self.assertEqual(routes, 10)
+        
+    def test_findNumberOfRoutesInput2(self):
+        routes = self.caveNavigator.findNumberOfRoutes(self.input2)
 
+        self.assertEqual(routes, 19)
+        
+    def test_findNumberOfRoutesInput3(self):
+        routes = self.caveNavigator.findNumberOfRoutes(self.input3)
+
+        self.assertEqual(routes, 226)
 
 
 if __name__ == '__main__':

@@ -13,6 +13,9 @@ class Node():
 class CaveNavigator:
     def __init__(self):
         self.Nodes = [Node("")]
+        self.numberOfPaths = 0
+        self.nextnode = Node("")
+        self.pathString = []
         
     def findNumberOfRoutes(self, fileinput):
         
@@ -23,44 +26,25 @@ class CaveNavigator:
 
     def iterateThroughPath(self):
         
-        visitedNodes = []
-        numberOfPaths = 0
-        
         startNode = self.__getStartNode()
-        visitedNodes.append(startNode.character)
-        
-        for str in startNode.neighbours:
-            visitedNodes = ["start"]
-            if str not in visitedNodes:
-                if str == "end":
-                    numberOfPaths += 1
-                else:
-                    visitedNodes.append(str)
-                    nextnode = self.__getNode(str)
-                for str in nextnode.neighbours:
-                    if str not in visitedNodes:
-                        if str == "end":
-                            numberOfPaths += 1
-                        else:
-                            visitedNodes.append(str)
-                            nextnode = self.__getNode(str)
-                        for str in nextnode.neighbours:
-                            if str not in visitedNodes:
-                                if str == "end":
-                                    numberOfPaths += 1
-                                else:
-                                    visitedNodes.append(str)
-                                    nextnode = self.__getNode(str)
-                                for str in nextnode.neighbours:
-                                    if str not in visitedNodes:
-                                        if str == "end":
-                                            numberOfPaths += 1
-                                        else:
-                                            visitedNodes.append(str)
-                                            nextnode = self.__getNode(str)
-                
-        return numberOfPaths
+        visitedNodes = ["start"]
+        self.pathCount = 0
+
+        self.__compareNode(startNode, visitedNodes)
+
+        return self.pathCount
     
+    def __compareNode(self, nextnode, visitedNodes):
+        for str in nextnode.neighbours:
+            if str == "end":
+                self.pathCount += 1
+            elif str not in visitedNodes:
+                if not str.isupper():
+                    visitedNodes.append(str)
+                nextnode = self.__getNode(str)
+                self.__compareNode(nextnode, visitedNodes)
+                if str in visitedNodes: visitedNodes.remove(str)
+            
     def __getNode(self, char):
         for node in self.Nodes:
             if node.getCharacter() == char:
@@ -70,7 +54,6 @@ class CaveNavigator:
         for node in self.Nodes:
             if node.getCharacter() == "start":
                 return node
-            
             
     def __getUniqeNodeArray(self, fileinput):
         array = []
