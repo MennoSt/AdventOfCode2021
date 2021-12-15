@@ -15,6 +15,7 @@ from src.PowerManager import PowerManager
 from src.RiskCalculator import RiskCalculator
 from src.SubmarineCalculator import SubmarineCalculator
 from src.VentDetector import VentDetector
+from src.Folder import Folder
 
 def printAnswer(day, answer1, answer2):
     print("The answer of Day " + str(day) + " part 1 is equal to " + str(answer1))
@@ -141,7 +142,15 @@ class SolutionProvider:
         initialMap = self.fileReader.readLinesToStringArray("input/inputday12")
         caveNavigator = CaveNavigator()
 
-        # answerPart1 = caveNavigator.findNumberOfRoutes(initialMap)
+        answerPart1 = caveNavigator.findNumberOfRoutes(initialMap)
         answerPart2 = caveNavigator.findNumberOfRoutes(initialMap, True)
-        answerPart1 = 0
-        printAnswer(11, answerPart1, answerPart2)
+        printAnswer(12, answerPart1, answerPart2)
+        
+    def solutionDayThirteen(self):
+        
+        folder = Folder()
+        
+        folder.importInputFiles("input/inputday13")
+        answerPart1 = folder.CalculateNumberOfDots(True)
+        printAnswer(13, answerPart1, "PFKLKCFP")
+        folder.CalculateNumberOfDots()

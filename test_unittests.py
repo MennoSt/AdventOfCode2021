@@ -15,6 +15,7 @@ from src.RiskCalculator import RiskCalculator
 from src.SyntaxManager import SyntaxManager
 from src.SyntaxScoreBoard import SyntaxScoreBoard
 from src.OctopusFlashManager import OctopusFlashManager
+from src.Folder import Folder
 from utils.FileReader import FileReader
 
 class Test_SumbarineCalculator(unittest.TestCase):
@@ -342,6 +343,26 @@ class Test_CaveNavigator(unittest.TestCase):
     def test_findNumberOfRoutesInput3Part2(self):
         routes = self.caveNavigator.findNumberOfRoutes(self.input3, True)
         self.assertEqual(routes, 3509)
+        
+
+class Test_FolderReader(unittest.TestCase):
+    
+    def setUp(self):
+        self.folder = Folder()
+        self.folder.importInputFiles("testinput/unittestinputday13_1")
+
+    def test_findNumberOfDots(self):
+        dots = self.folder.CalculateNumberOfDots(True)
+        self.assertEqual(dots, 17)
+    
+    def test_findNumberOfDots2(self):
+        dots = self.folder.CalculateNumberOfDots()
+        self.assertEqual(dots, 16)
+    
+    def test_findNumberOfDots2(self):
+        self.folder.importInputFiles("testinput/unittestinputday13_2")
+        dots = self.folder.CalculateNumberOfDots()
+        self.assertEqual(dots, 5)
 
 if __name__ == '__main__':
     unittest.main()

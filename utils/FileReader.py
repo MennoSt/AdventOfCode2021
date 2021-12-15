@@ -22,6 +22,7 @@ class FileReader:
         fileObj.close()
         intArray = list(map(int,fileString[0].split(",")))
         return intArray
+
     
     def readOctopusMap(self, inputFile):
         fileObj = open(inputFile, "r")

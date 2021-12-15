@@ -13,4 +13,6 @@ solutionProvider = SolutionProvider()
 # solutionProvider.solutionDayNine()
 # solutionProvider.solutionDayTen()
 # solutionProvider.solutionDayEleven()
-solutionProvider.solutionDayTwelve()
+# solutionProvider.solutionDayTwelve()
+solutionProvider.solutionDayThirteen()
+
