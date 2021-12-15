@@ -321,19 +321,27 @@ class Test_CaveNavigator(unittest.TestCase):
     
     def test_findNumberOfRoutesInput1(self):
         routes = self.caveNavigator.findNumberOfRoutes(self.input1)
-
         self.assertEqual(routes, 10)
         
     def test_findNumberOfRoutesInput2(self):
         routes = self.caveNavigator.findNumberOfRoutes(self.input2)
-
         self.assertEqual(routes, 19)
         
     def test_findNumberOfRoutesInput3(self):
         routes = self.caveNavigator.findNumberOfRoutes(self.input3)
-
         self.assertEqual(routes, 226)
 
+    def test_findNumberOfRoutesInput1Part2(self):
+        routes = self.caveNavigator.findNumberOfRoutes(self.input1, True)
+        self.assertEqual(routes, 36)
+        
+    def test_findNumberOfRoutesInput2Part2(self):
+        routes = self.caveNavigator.findNumberOfRoutes(self.input2, True)
+        self.assertEqual(routes, 103)
+        
+    def test_findNumberOfRoutesInput3Part2(self):
+        routes = self.caveNavigator.findNumberOfRoutes(self.input3, True)
+        self.assertEqual(routes, 3509)
 
 if __name__ == '__main__':
     unittest.main()

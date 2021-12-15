@@ -141,7 +141,7 @@ class SolutionProvider:
         initialMap = self.fileReader.readLinesToStringArray("input/inputday12")
         caveNavigator = CaveNavigator()
 
-        answerPart1 = caveNavigator.findNumberOfRoutes(initialMap)
-        answerPart2 = 0
-
+        # answerPart1 = caveNavigator.findNumberOfRoutes(initialMap)
+        answerPart2 = caveNavigator.findNumberOfRoutes(initialMap, True)
+        answerPart1 = 0
         printAnswer(11, answerPart1, answerPart2)
