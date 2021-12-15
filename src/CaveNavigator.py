@@ -24,8 +24,7 @@ class CaveNavigator:
         self.Nodes = [Node("")]
         self.numberOfPaths = 0
         self.nextnode = Node("")
-        # self.visitArray = []
-        # self.visitArrays = []
+        self.visitedNodes = ["start","start"]
         
     def findNumberOfRoutes(self, fileinput, smallCavesTwice = False):
         
@@ -36,59 +35,60 @@ class CaveNavigator:
 
     def iterateThroughPath(self, smallCavesTwice):
         
-        startNode = self.__getStartNode()
-        visitedNodes = ["start", "start"]
+        startNode = self.__getNode("start")
+        endNode = self.__getNode("end")
+        
+        self.visitedNodes = ["start", "start"]
         self.pathCount = 0
         
         if not smallCavesTwice:
-            self.__compareNodePart1(startNode, visitedNodes)
+            self.__compareNodePart1(startNode, endNode)
         else:
-            self.__compareNodePart2(startNode, visitedNodes)
+            self.__compareNodePart2(startNode, endNode)
 
         return self.pathCount
     
-    def __compareNodePart1(self, currentNode, visitedNodes):
+    def __compareNodePart1(self, currentNode, endNode):
         for str in currentNode.neighbours:
             nextnode = self.__getNode(str)
-            if str == "end":
+            if str == endNode.character:
                 self.pathCount += 1
-            elif str not in visitedNodes:
+            elif str not in self.visitedNodes:
                 if not str.isupper():
-                    visitedNodes.append(str)
-                self.__compareNodePart1(nextnode, visitedNodes)
-                if str in visitedNodes: 
-                    visitedNodes.remove(str)
+                    self.visitedNodes.append(str)
+                self.__compareNodePart1(nextnode, endNode)
+                if str in self.visitedNodes: 
+                    self.visitedNodes.remove(str)
     
-    def __compareNodePart2(self, currentNode, visitedNodes):
+    def __compareNodePart2(self, currentNode, endNode):
         for str in currentNode.neighbours:
             nextnode = self.__getNode(str)
-            if str == "end":
-                # print(self.visitArray)
-                # self.visitArrays.append(self.visitArray)
+            if str == endNode.character:
                 self.pathCount += 1
-            elif self.isNextVisitAllowed(str,visitedNodes) == True:
+            elif self.__isNextVisitAllowed(str) == True:
                 nextnode.increaseNumberOfVisits(str)
-                # self.visitArray.append(str) 
                 if not str.isupper():
-                    visitedNodes.append(str)
-                self.__compareNodePart2(nextnode, visitedNodes)
-                if str in visitedNodes: 
-                    visitedNodes.remove(str)
+                    self.visitedNodes.append(str)
+                self.__compareNodePart2(nextnode, endNode)
+                self.__removeVisitedNode(str)
                 nextnode.decreaseNumberOfVisits()
-                # self.visitArray.pop()
     
-    def isNextVisitAllowed(self, str, visitedNodes):
+    def __removeVisitedNode(self, str):
+        if str in self.visitedNodes: 
+            self.visitedNodes.remove(str)
+            
+    def __isNextVisitAllowed(self, str):
         allowed = False
-        if str not in visitedNodes:
+        if str not in self.visitedNodes:
             allowed = True
-        elif str in visitedNodes and not self.isSmallNodeVisitedMoreThanTwice() and str!="start" and not str.isupper():
+        elif str in self.visitedNodes and not self.__isSmallNodeVisitedMoreThanTwice() and str!="start" and not str.isupper():
             allowed = True
         else:
             allowed = False
             
         return allowed
                         
-    def isSmallNodeVisitedMoreThanTwice(self):
+    def __isSmallNodeVisitedMoreThanTwice(self):
         for node in self.Nodes:
             if not node.character.isupper() and node.character != "start":
                 if node.numberOfVisits > 1:
@@ -100,11 +100,6 @@ class CaveNavigator:
         for node in self.Nodes:
             if node.getCharacter() == char:
                 return node       
-        
-    def __getStartNode(self):
-        for node in self.Nodes:
-            if node.getCharacter() == "start":
-                return node
             
     def __getUniqeNodeArray(self, fileinput):
         array = []
