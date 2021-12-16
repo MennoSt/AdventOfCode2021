@@ -373,35 +373,15 @@ class Test_Polymarizator(unittest.TestCase):
         data = self.fileReader.readPolymerTemplate("testinput/unittestinputday14")
         self.initialString = data[0]
         self.polyPairs = data[1]
-        
-    def test_getUpdatedStringAfterOneStep(self):
-        steps = 1
-        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
-        self.assertEqual(string, "NCNBCHB")
-    
-    def test_getUpdatedStringAfterTwo(self):
-        steps = 2
-        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
-        self.assertEqual(string, "NBCCNBBBCBHCB")
 
-    def test_getUpdatedStringAfterThree(self):
-        steps = 3
-        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
-        self.assertEqual(string, "NBBBCNCCNBBNBNBBCHBHHBCHB")
-
-    def test_getUpdatedStringAfterFourStep(self):
-        steps = 4
-        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
-        self.assertEqual(string, "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB")
-    
     def test_calculateMostCommonMinusLeastCommon10Steps(self):
         steps = 10
-        difference = self.polymarizator.updatePolyCyclus(self.initialString, self.polyPairs, steps)
+        difference = self.polymarizator.calculateDifference(self.initialString, self.polyPairs, steps)
         self.assertEqual(difference, 1588)
         
     def test_calculateMostCommonMinusLeastCommon40Steps(self):
         steps = 40
-        string = self.polymarizator.updatePolyCyclus(self.initialString, self.polyPairs, steps)
+        string = self.polymarizator.calculateDifference(self.initialString, self.polyPairs, steps)
         self.assertEqual(string, 2188189693529)
         
         

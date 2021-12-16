@@ -169,6 +169,6 @@ class SolutionProvider:
         stepsPart1 = 10
         stepsPart2 = 40
         
-        answerPart1 = polymarizator.updatePolyCyclus(initialString, polyPairs, stepsPart1)
-        answerPart2 = polymarizator.updatePolyCyclus(initialString, polyPairs, stepsPart2)
+        answerPart1 = polymarizator.calculateDifference(initialString, polyPairs, stepsPart1)
+        answerPart2 = polymarizator.calculateDifference(initialString, polyPairs, stepsPart2)
         printAnswer(14, answerPart1, answerPart2)
