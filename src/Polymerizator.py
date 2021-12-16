@@ -1,23 +1,48 @@
-from numpy.lib.polynomial import poly
+import numpy as np
 
 
 class Polymarizator:
     
     def __init__(self):
-        self.initialPolyString = ""
-        self.foldArray = []
+        self.polyString = ""
+        self.polyPairs = []
+    
+    def getMostCommonMinusLeastCommon(self, initialString, polyPairs,steps):
+        string = self.getUpdatedString(initialString, polyPairs, steps)
+
+        substraction = self.calculateDiffMostCommonAndLeastCommon(string)
+        
+        return substraction
+
+    def calculateDiffMostCommonAndLeastCommon(self, string):
+        array = np.array(self.polyPairs)
+        insertChars = set(array[:,1])
+        
+        countArray = []
+        counts = []
+        for character in insertChars:
+            countValue = string.count(character)
+            counts.append(countValue)
+            countArray.append([character, countValue])
+        
+        maxValue = max(counts)
+        minValue = min(counts)
+        substraction = maxValue - minValue
+        return substraction
 
     def getUpdatedString(self, initialString, polyPairs, steps):
         
         polyString = initialString
         self.polyPairs = polyPairs
+        step = 0
         
         for _ in range(steps):
-            polyString = self.updatePolymerTemplate(polyString)
+            polyString = self.__updatePolymerTemplate(polyString)
+            step+=1
 
         return polyString
 
-    def updatePolymerTemplate(self, string):        
+    def __updatePolymerTemplate(self, string):        
         polyInsertions = self.__determinePolyInsertions(string)
         string = self.__updateStringWithInsertions(polyInsertions,string)
             

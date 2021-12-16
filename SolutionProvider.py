@@ -1,3 +1,4 @@
+from numpy.lib.polynomial import poly
 import pandas as pd
 
 
@@ -16,6 +17,7 @@ from src.RiskCalculator import RiskCalculator
 from src.SubmarineCalculator import SubmarineCalculator
 from src.VentDetector import VentDetector
 from src.Folder import Folder
+from src.Polymerizator import Polymarizator
 
 def printAnswer(day, answer1, answer2):
     print("The answer of Day " + str(day) + " part 1 is equal to " + str(answer1))
@@ -159,7 +161,14 @@ class SolutionProvider:
     def solutionDayFourteen(self):
         
         fileReader = FileReader()
+        polymarizator = Polymarizator()
         
-        fileReader.readPolymerTemplate("input/inputday14")
-        answerPart1 = 0
-        printAnswer(14, answerPart1, "PFKLKCFP")
+        data = fileReader.readPolymerTemplate("input/inputday14")
+        initialString = data[0]
+        polyPairs = data[1]
+        stepsPart1 = 10
+        stepsPart2 = 40
+        
+        answerPart1 = polymarizator.getMostCommonMinusLeastCommon(initialString, polyPairs, stepsPart1)
+        answerPart2 = polymarizator.getMostCommonMinusLeastCommon(initialString, polyPairs, stepsPart2)
+        printAnswer(14, answerPart1, answerPart2)
