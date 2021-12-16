@@ -154,3 +154,12 @@ class SolutionProvider:
         answerPart1 = folder.CalculateNumberOfDots(True)
         printAnswer(13, answerPart1, "PFKLKCFP")
         folder.CalculateNumberOfDots()
+
+       
+    def solutionDayFourteen(self):
+        
+        fileReader = FileReader()
+        
+        fileReader.readPolymerTemplate("input/inputday14")
+        answerPart1 = 0
+        printAnswer(14, answerPart1, "PFKLKCFP")

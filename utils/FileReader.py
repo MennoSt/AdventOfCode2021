@@ -1,5 +1,7 @@
 import re
 
+from numpy.lib.polynomial import poly
+
 def split(word):
     return [char for char in word]
 
@@ -23,7 +25,19 @@ class FileReader:
         intArray = list(map(int,fileString[0].split(",")))
         return intArray
 
-    
+    def readPolymerTemplate(self, inputFile):
+        fileString = self.readLinesToStringArray(inputFile)
+        
+        initalString = fileString[0]
+        polymerPairs = []
+        for line in fileString:
+            if " -> " in line:
+                string = line.split(" -> ")
+                polymerPairs.append(string)
+        
+        data = [initalString, polymerPairs]
+        return data
+        
     def readOctopusMap(self, inputFile):
         fileObj = open(inputFile, "r")
         fileString = fileObj.read().splitlines()

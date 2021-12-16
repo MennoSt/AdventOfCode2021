@@ -35,8 +35,10 @@ class Folder:
         
         
         dots = self.__GetNumberOfVisibleDots()
-        if not onlyFirstFold:
-            self.printLetters()
+        
+        # Letters can be printed in the grid for the answer
+        # if not onlyFirstFold:
+        #     self.printLetters()
         
         
         return dots

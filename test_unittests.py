@@ -16,6 +16,7 @@ from src.SyntaxManager import SyntaxManager
 from src.SyntaxScoreBoard import SyntaxScoreBoard
 from src.OctopusFlashManager import OctopusFlashManager
 from src.Folder import Folder
+from src.Polymerizator import Polymarizator
 from utils.FileReader import FileReader
 
 class Test_SumbarineCalculator(unittest.TestCase):
@@ -359,10 +360,39 @@ class Test_FolderReader(unittest.TestCase):
         dots = self.folder.CalculateNumberOfDots()
         self.assertEqual(dots, 16)
     
-    def test_findNumberOfDots2(self):
+    def test_findNumberOfDots3(self):
         self.folder.importInputFiles("testinput/unittestinputday13_2")
         dots = self.folder.CalculateNumberOfDots()
         self.assertEqual(dots, 5)
 
+class Test_Polymarizator(unittest.TestCase):
+    
+    def setUp(self):
+        self.fileReader = FileReader()
+        self.polymarizator = Polymarizator()
+        data = self.fileReader.readPolymerTemplate("testinput/unittestinputday14")
+        self.initialString = data[0]
+        self.polyPairs = data[1]
+        
+    def test_getUpdatedStringAfterOneStep(self):
+        steps = 1
+        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
+        self.assertEqual(string, "NCNBCHB")
+    
+    def test_getUpdatedStringAfterTwo(self):
+        steps = 2
+        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
+        self.assertEqual(string, "NBCCNBBBCBHCB")
+
+    def test_getUpdatedStringAfterThree(self):
+        steps = 3
+        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
+        self.assertEqual(string, "NBBBCNCCNBBNBNBBCHBHHBCHB")
+
+    def test_getUpdatedStringAfterFourStep(self):
+        steps = 4
+        string = self.polymarizator.getUpdatedString(self.initialString, self.polyPairs, steps)
+        self.assertEqual(string, "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB")
+        
 if __name__ == '__main__':
     unittest.main()
