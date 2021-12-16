@@ -1,4 +1,30 @@
 import numpy as np
+import copy
+import math
+from numpy.lib.polynomial import poly
+
+class Polymers:
+    
+    def __init__(self):
+        self.Polymer = []
+        self.Connection = []
+        self.nextGen = []
+        self.Count = []
+    
+    def initPolymer(self, polyPairs):
+        self.Polymer = []
+        self.Connection = []
+        self.nextGen = []
+        self.Count = []
+        
+        for pair in polyPairs:
+            self.Polymer.append(pair[0])
+            self.Connection.append(pair[1])
+            self.Count.append([pair[0],0])
+            element1 = pair[0][0] + pair[1]
+            element2 = pair[1] + pair[0][1]
+            self.nextGen.append([element1, element2])
+            
 
 
 class Polymarizator:
@@ -6,6 +32,75 @@ class Polymarizator:
     def __init__(self):
         self.polyString = ""
         self.polyPairs = []
+        self.polymers = Polymers()
+        self.length = 0
+    
+    def updatePolyCyclus(self, initialString, polyPairs, steps):
+        
+        self.polymers.initPolymer(polyPairs)
+        self.__initializeCounterList(initialString)
+        
+        for _ in range(steps):
+            self.updateToNextGeneration()
+        
+        singleCount = self.getSingleCountArray()
+        countArray = []
+        for count in singleCount:
+            countArray.append(count[1])
+            
+        maxValue = max(countArray)
+        minValue = min(countArray)
+        
+        difference = maxValue - minValue
+        return difference
+
+    def getSingleCountArray(self):
+        array = np.array(self.polymers.Connection)
+        insertChars = set(array)
+
+        CountArray = []
+        for character in insertChars:
+            sumChar = 0
+            for count in self.polymers.Count:
+                number = count[0].count(character)
+                if number > 0:
+                    sumChar += number*count[1]
+            
+            sumChar = int((math.ceil(sumChar/2)))
+            CountArray.append([character, sumChar])
+            sumChar = 0     
+        
+        return CountArray
+        
+    def updateToNextGeneration(self):
+        polymerCurrent = copy.deepcopy(self.polymers)
+        
+        for index in range(0,len(polymerCurrent.Count)):
+            if polymerCurrent.Count[index][1] > 0:
+                nextgen1 = polymerCurrent.nextGen[index][0]
+                nextgen2 = polymerCurrent.nextGen[index][1]
+                polymer = polymerCurrent.Polymer[index]
+                count = polymerCurrent.Count[index][1]
+                self.decreaseCounterArray(polymer, count)
+                self.increaseCounterArray(nextgen1 , polymerCurrent.Count[index][1])
+                self.increaseCounterArray(nextgen2 , polymerCurrent.Count[index][1])
+    
+    def __initializeCounterList(self, initialString):
+        for count in self.polymers.Count:
+            counts = initialString.count(count[0])
+            if counts > 0:
+                count[1] += counts
+    
+    def increaseCounterArray(self, str, number = 1):
+        for index in range(0, len(self.polymers.Count)):
+            if self.polymers.Polymer[index] == str:
+                self.polymers.Count[index][1] += number
+    
+    def decreaseCounterArray(self, str, number = 1):
+        for index in range(0, len(self.polymers.Count)):
+            if self.polymers.Polymer[index] == str:
+                self.polymers.Count[index][1] -= number            
+                
     
     def getMostCommonMinusLeastCommon(self, initialString, polyPairs,steps):
         string = self.getUpdatedString(initialString, polyPairs, steps)

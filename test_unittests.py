@@ -396,18 +396,14 @@ class Test_Polymarizator(unittest.TestCase):
     
     def test_calculateMostCommonMinusLeastCommon10Steps(self):
         steps = 10
-        answer = self.polymarizator.getMostCommonMinusLeastCommon(self.initialString, self.polyPairs, steps)
-        self.assertEqual(answer, 1588)
-    
-    # def test_calculateMostCommonMinusLeastCommon40Steps(self):
-    #     steps = 20
-    #     string = self.polymarizator.getMostCommonMinusLeastCommon("HB", self.polyPairs, steps)
-    #     self.assertEqual(string, "CH")
+        difference = self.polymarizator.updatePolyCyclus(self.initialString, self.polyPairs, steps)
+        self.assertEqual(difference, 1588)
         
-    # def test_calculateMostCommonMinusLeastCommon40Steps(self):
-    #     steps = 40
-    #     answer = self.polymarizator.getMostCommonMinusLeastCommon(self.initialString, self.polyPairs, steps)
-    #     self.assertEqual(answer, 2188189693529)
+    def test_calculateMostCommonMinusLeastCommon40Steps(self):
+        steps = 40
+        string = self.polymarizator.updatePolyCyclus(self.initialString, self.polyPairs, steps)
+        self.assertEqual(string, 2188189693529)
+        
         
 if __name__ == '__main__':
     unittest.main()
