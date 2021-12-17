@@ -38,26 +38,13 @@ class FileReader:
         data = [initalString, polymerPairs]
         return data
         
-    def readOctopusMap(self, inputFile):
+    def readToIntMap(self, inputFile):
         fileObj = open(inputFile, "r")
         fileString = fileObj.read().splitlines()
         fileObj.close()
+        integerMap = [list(map(int, list(line))) for line in fileString]
 
-        octopusMap = [list(map(int, list(line))) for line in fileString]
-
-        return octopusMap
-    
-    def readHeightMap(self,inputFile):
-        fileObj = open(inputFile, "r")
-        fileString = fileObj.read().splitlines()
-        fileObj.close()
-
-        heightMap = []
-        for line in fileString:
-            line = list(map(int,line))
-            heightMap.append(line)
-
-        return heightMap
+        return integerMap
 
     def readBingoFile(self, inputFile):
         self.intChartArray = []

@@ -1,4 +1,5 @@
 from utils.AocEnums import *
+import copy
 
 class Grid:
 
@@ -7,13 +8,17 @@ class Grid:
         self.mapWidth = 0
         self.mapHeight = 0
     
-    def setGrid(self, heightMap):
-        self.gridMap = heightMap
-        self.mapWidth = len(heightMap[0])
-        self.mapHeight = len(heightMap)
+    def setGrid(self, gridMap):
+        self.gridMap = gridMap
+        self.mapWidth = len(gridMap[0])
+        self.mapHeight = len(gridMap)
 
-
-    def getValue(self, x, y):
+    def printGrid(self, name = ""):
+        print("\n " + name)
+        for line in self.gridMap:
+            print(line)
+            
+    def __getValue(self, x, y):
         mapWidth = self.mapWidth-1
         mapHeight = self.mapHeight -1
         if x < 0 or x > mapWidth or y < 0 or y > mapHeight:
@@ -22,9 +27,44 @@ class Grid:
             value = self.gridMap[y][x]
 
         return value
+    
+    def getValue(self, x, y, direction = Direction.CURRENT):
 
-    def setValue(self, x, y, value):
-        self.gridMap[y][x] = value
+        value = 0
+        if direction == Direction.CURRENT:
+            value = self.__getValue(x, y)
+        if direction == Direction.UP:
+            value = self.__getValue(x, y+1)
+        if direction == Direction.DOWN:
+            value = self.__getValue(x, y-1)
+        if direction == Direction.LEFT:
+            value = self.__getValue(x-1, y)
+        if direction == Direction.RIGHT:
+            value = self.__getValue(x+1, y)
+
+        return value
+    
+    def __setValue(self, x, y, value):
+        mapWidth = self.mapWidth-1
+        mapHeight = self.mapHeight -1
+        
+        if x < 0 or x > mapWidth or y < 0 or y > mapHeight:
+            return
+        else:
+            self.gridMap[y][x] = value
+        
+    def setValue(self, x, y, value, direction = Direction.CURRENT):
+        
+        if direction == Direction.CURRENT:
+            self.__setValue(x,y,value)
+        if direction == Direction.UP:
+            value = self.__setValue(x, y+1, value)
+        if direction == Direction.DOWN:
+            value = self.__setValue(x, y-1, value)
+        if direction == Direction.LEFT:
+            value = self.__setValue(x-1, y, value)
+        if direction == Direction.RIGHT:
+            value = self.__setValue(x+1, y, value)
 
     def increaseValue(self,x,y,value):
         self.gridMap[y][x] += value
@@ -37,24 +77,8 @@ class Grid:
                     boolGreaterThan = True
         
         return boolGreaterThan
-
-    def getValueDirection(self, x, y, direction = Direction.CURRENT):
-
-        value = 0
-        if direction == Direction.CURRENT:
-            value = self.getValue(x, y)
-        if direction == Direction.UP:
-            value = self.getValue(x, y+1)
-        if direction == Direction.DOWN:
-            value = self.getValue(x, y-1)
-        if direction == Direction.LEFT:
-            value = self.getValue(x-1, y)
-        if direction == Direction.RIGHT:
-            value = self.getValue(x+1, y)
-
-        return value
-
-
+    
+    
     def getHeightValue(self, x, y, direction = Direction.CURRENT):
         
         mapx = x

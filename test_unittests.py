@@ -18,6 +18,7 @@ from src.OctopusFlashManager import OctopusFlashManager
 from src.Folder import Folder
 from src.Polymerizator import Polymarizator
 from utils.FileReader import FileReader
+from src.Dijkstra import Dijkstra
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -168,7 +169,7 @@ class Test_RiskCalculator(unittest.TestCase):
     def setUp(self):
         self.fileReader = FileReader()
         self.riskCalculator = RiskCalculator()
-        heightMap = self.fileReader.readHeightMap("testinput/unittestinputday9")
+        heightMap = self.fileReader.readToIntMap("testinput/unittestinputday9")
         self.riskCalculator.setHeightMap(heightMap)
 
     def test_calculateSum(self):
@@ -294,8 +295,8 @@ class Test_OctopusFlashManager(unittest.TestCase):
     def setUp(self):
         self.octopusFlashManager = OctopusFlashManager()
         self.filereader = FileReader()
-        self.input1 = self.filereader.readOctopusMap("testinput/unittestinputday11_1")
-        self.input2 = self.filereader.readOctopusMap("testinput/unittestinputday11_2")
+        self.input1 = self.filereader.readToIntMap("testinput/unittestinputday11_1")
+        self.input2 = self.filereader.readToIntMap("testinput/unittestinputday11_2")
 
     def test_calculateFlashesAfter1Day(self):
         self.octopusFlashManager.setOctopusMap(self.input1)
@@ -383,7 +384,31 @@ class Test_Polymarizator(unittest.TestCase):
         steps = 40
         string = self.polymarizator.calculateDifference(self.initialString, self.polyPairs, steps)
         self.assertEqual(string, 2188189693529)
+
+class Test_DijkstraTests(unittest.TestCase):
+    
+    def setUp(self):
+        self.fileReader = FileReader()
+        self.dijkstra = Dijkstra()
+        self.inputMap1 = self.fileReader.readToIntMap("testinput/unittestinputday15_1")
+        self.inputMap2 = self.fileReader.readToIntMap("testinput/unittestinputday15_2")
+        self.inputMap3 = self.fileReader.readToIntMap("testinput/unittestinputday15_3")
         
+    def test_findShortestPathMap1(self):
+        self.dijkstra.setGrid(self.inputMap1)
+        shortestPath1 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath1, 14)
+        
+    def test_findShortestPathMap2(self):
+        self.dijkstra.setGrid(self.inputMap2)
+        shortestPath2 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath2, 40)
+    
+    def test_findShortestPathExtendedMap2(self):
+        self.dijkstra.setGrid(self.inputMap2, True)
+        shortestPath3 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath3, 315)
+
         
 if __name__ == '__main__':
     unittest.main()

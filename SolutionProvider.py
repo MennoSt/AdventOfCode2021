@@ -5,6 +5,7 @@ import pandas as pd
 from src.BingoManager import BingoManager
 from src.CaveNavigator import CaveNavigator
 from src.CrabPositioner import CrabPositioner
+from src.Dijkstra import Dijkstra
 from src.OctopusFlashManager import OctopusFlashManager
 from src.SyntaxManager import SyntaxManager
 from utils.FileReader import FileReader
@@ -112,7 +113,7 @@ class SolutionProvider:
     def solutionDayNine(self):      
 
         riskCalculator = RiskCalculator()
-        heightMap = self.fileReader.readHeightMap("input/inputday9")
+        heightMap = self.fileReader.readToIntMap("input/inputday9")
 
         riskCalculator.setHeightMap(heightMap)
         answerPart1 =riskCalculator.calculateSumRiskLevels()
@@ -129,7 +130,7 @@ class SolutionProvider:
         printAnswer(10, answerPart1, answerPart2)
 
     def solutionDayEleven(self):      
-        initialMap = self.fileReader.readOctopusMap("input/inputday11")
+        initialMap = self.fileReader.readToIntMap("input/inputday11")
         octopusFlashManager = OctopusFlashManager()
 
         octopusFlashManager.setOctopusMap(initialMap)
@@ -172,3 +173,15 @@ class SolutionProvider:
         answerPart1 = polymarizator.calculateDifference(initialString, polyPairs, stepsPart1)
         answerPart2 = polymarizator.calculateDifference(initialString, polyPairs, stepsPart2)
         printAnswer(14, answerPart1, answerPart2)
+    
+    def solutionDayFifteen(self):
+        
+        fileReader = FileReader()
+        dijkstra = Dijkstra()
+        
+        input = fileReader.readToIntMap("input/inputday15")
+        dijkstra.setGrid(input)
+        answerPart1 = dijkstra.findShortestPath()
+        dijkstra.setGrid(input,True)
+        answerPart2 = dijkstra.findShortestPath()
+        printAnswer(15, answerPart1, answerPart2)
