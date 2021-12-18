@@ -183,3 +183,15 @@ class SolutionProvider:
         dijkstra.setGrid(input,True)
         answerPart2 = dijkstra.findShortestPath()
         printAnswer(15, answerPart1, answerPart2)
+    
+    def solutionDayFifteen(self):
+        
+        fileReader = FileReader()
+        dijkstra = Dijkstra()
+        
+        input = fileReader.readToIntMap("input/inputday15")
+        dijkstra.setGrid(input)
+        answerPart1 = dijkstra.findShortestPath()
+        dijkstra.setGrid(input,True)
+        answerPart2 = dijkstra.findShortestPath()
+        printAnswer(16, answerPart1, answerPart2)

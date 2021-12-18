@@ -20,6 +20,8 @@ from src.Folder import Folder
 from src.Polymerizator import Polymarizator
 from utils.FileReader import FileReader
 from src.Dijkstra import Dijkstra
+from src.PacketDecoder import PacketDecoder, Packet
+
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -386,35 +388,85 @@ class Test_Polymarizator(unittest.TestCase):
         string = self.polymarizator.calculateDifference(self.initialString, self.polyPairs, steps)
         self.assertEqual(string, 2188189693529)
 
-class Test_DijkstraTests(unittest.TestCase):
+# class Test_DijkstraTests(unittest.TestCase):
+    
+#     def setUp(self):
+#         self.fileReader = FileReader()
+#         self.dijkstra = Dijkstra()
+#         self.inputMap1 = self.fileReader.readToIntMap("testinput/unittestinputday15_1")
+#         self.inputMap2 = self.fileReader.readToIntMap("testinput/unittestinputday15_2")
+#         self.inputMap3 = self.fileReader.readToIntMap("testinput/unittestinputday15_3")
+        
+#     def test_findShortestPathMap1(self):
+#         self.dijkstra.setGrid(self.inputMap1)
+#         shortestPath1 = self.dijkstra.findShortestPath()
+#         self.assertEqual(shortestPath1, 14)
+        
+#     def test_findShortestPathMap2(self):
+#         self.dijkstra.setGrid(self.inputMap2)
+#         shortestPath2 = self.dijkstra.findShortestPath()
+#         self.assertEqual(shortestPath2, 40)
+    
+#     def test_findShortestPathExtendedMap2(self):
+#         self.dijkstra.setGrid(self.inputMap2, True)
+#         shortestPath3 = self.dijkstra.findShortestPath()
+#         self.assertEqual(shortestPath3, 315)
+    
+#     def test_findShortestPathExtendedMap3(self):
+#         self.dijkstra.setGrid(self.inputMap3)
+#         shortestPath3 = self.dijkstra.findShortestPath()
+#         self.assertEqual(shortestPath3, 12)
+
+class Test_PackerDecoder(unittest.TestCase):
     
     def setUp(self):
-        self.fileReader = FileReader()
-        self.dijkstra = Dijkstra()
-        self.inputMap1 = self.fileReader.readToIntMap("testinput/unittestinputday15_1")
-        self.inputMap2 = self.fileReader.readToIntMap("testinput/unittestinputday15_2")
-        self.inputMap3 = self.fileReader.readToIntMap("testinput/unittestinputday15_3")
+        self.packetDecoder = PacketDecoder()
+        self.examplePackage1 = "D2FE28"
+        self.examplePackage2 = "38006F45291200"
+        self.examplePackage3 = "EE00D40C823060"
         
-    def test_findShortestPathMap1(self):
-        self.dijkstra.setGrid(self.inputMap1)
-        shortestPath1 = self.dijkstra.findShortestPath()
-        self.assertEqual(shortestPath1, 14)
-        
-    def test_findShortestPathMap2(self):
-        self.dijkstra.setGrid(self.inputMap2)
-        shortestPath2 = self.dijkstra.findShortestPath()
-        self.assertEqual(shortestPath2, 40)
-    
-    def test_findShortestPathExtendedMap2(self):
-        self.dijkstra.setGrid(self.inputMap2, True)
-        shortestPath3 = self.dijkstra.findShortestPath()
-        self.assertEqual(shortestPath3, 315)
-    
-    def test_findShortestPathExtendedMap3(self):
-        self.dijkstra.setGrid(self.inputMap3)
-        shortestPath3 = self.dijkstra.findShortestPath()
-        self.assertEqual(shortestPath3, 12)
+    def test_hexToBinaryCoversionTest1(self):
+        binString = self.packetDecoder.convertToBinaryString(self.examplePackage1)
+        self.assertEqual(binString, "110100101111111000101000")
 
+    def test_hexToBinaryCoversionTest2(self):
+        binString = self.packetDecoder.convertToBinaryString(self.examplePackage2)
+        self.assertEqual(binString, "00111000000000000110111101000101001010010001001000000000")
+ 
+    def test_hexToBinaryCoversionTest3(self):
+        binString = self.packetDecoder.convertToBinaryString(self.examplePackage3)
+        self.assertEqual(binString, "11101110000000001101010000001100100000100011000001100000")               
+                
+    def test_createLiteralPackage(self):
+        packet = self.packetDecoder.decodeStringToPackage(self.examplePackage1)
+        
+        self.assertEqual(packet.version, 6)
+        self.assertEqual(packet.typeID, 4)
+        self.assertEqual(packet.literalValue, 2021)
+        
+    def test_createOperatorPackageExampleTwo(self):
+        packet = Packet()
+        packet = self.packetDecoder.decodeStringToPackage(self.examplePackage2)
+        
+        self.assertEqual(packet.version, 1)
+        self.assertEqual(packet.typeID, 6)
+        self.assertEqual(packet.length, 27)        
+        self.assertEqual(packet.lengthTypeId, '0')
+        self.assertEqual(packet.subPackages[0].literalValue, 10)
+        self.assertEqual(packet.subPackages[1].literalValue, 20)
+        
+        
+    def test_createOperatorPackageExampleThree(self):
+        packet = Packet()
+        packet = self.packetDecoder.decodeStringToPackage(self.examplePackage3)
+        
+        self.assertEqual(packet.version, 7)
+        self.assertEqual(packet.typeID, 3)     
+        self.assertEqual(packet.lengthTypeId, '1')
+        self.assertEqual(packet.subPackages[0].literalValue, 1)
+        self.assertEqual(packet.subPackages[1].literalValue, 2)
+        self.assertEqual(packet.subPackages[2].literalValue, 3)        
+        
         
 if __name__ == '__main__':
     unittest.main()
