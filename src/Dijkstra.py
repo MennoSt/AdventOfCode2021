@@ -50,15 +50,23 @@ class Dijkstra:
         return shortestPath
     
     def iterateThroughGrid(self):
-        # directions = [Direction.RIGHT, Direction.UP, Direction.DOWN, Direction.LEFT]
         directions = [Direction.LEFT, Direction.UP, Direction.DOWN, Direction.RIGHT]
+        totalSumAfterIt = 0
+        totalSumbeforeIt = self.dijkstraGrid.getTotalSum()
+        
+        it =0
+        while(totalSumbeforeIt != totalSumAfterIt):
+            totalSumbeforeIt = self.dijkstraGrid.getTotalSum()
+            self.UpdateDijkstraValues(directions)
+            totalSumAfterIt = self.dijkstraGrid.getTotalSum() 
+            it+=1
+            # print("Dijkstra iteration:" + str(it))
+
+    def UpdateDijkstraValues(self, directions):
         for y in range(0,self.dijkstraGrid.mapHeight):
             for x in range(0,self.dijkstraGrid.mapWidth):
                 for direction in directions:
                     self.updateDijkstra(y, x, direction)
-
-        # self.initialGrid.printGrid("Initial")
-        self.dijkstraGrid.printGrid("Dijkstra")
 
     def updateDijkstra(self, y, x, direction):
 

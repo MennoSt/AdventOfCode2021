@@ -1,6 +1,7 @@
 import unittest
-from src.CaveNavigator import CaveNavigator
 
+
+from src.CaveNavigator import CaveNavigator
 from src.LaunterFishCalculator import LaunterFishCalculator
 from src.OctopusFlashManager import OctopusFlashManager
 from src.PowerManager import PowerManager
@@ -408,6 +409,11 @@ class Test_DijkstraTests(unittest.TestCase):
         self.dijkstra.setGrid(self.inputMap2, True)
         shortestPath3 = self.dijkstra.findShortestPath()
         self.assertEqual(shortestPath3, 315)
+    
+    def test_findShortestPathExtendedMap3(self):
+        self.dijkstra.setGrid(self.inputMap3)
+        shortestPath3 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath3, 12)
 
         
 if __name__ == '__main__':

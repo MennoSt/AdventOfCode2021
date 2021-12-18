@@ -1,7 +1,5 @@
 import re
 
-from numpy.lib.polynomial import poly
-
 def split(word):
     return [char for char in word]
 
@@ -23,7 +21,16 @@ class FileReader:
         fileString = fileObj.read().splitlines()
         fileObj.close()
         intArray = list(map(int,fileString[0].split(",")))
+        
         return intArray
+    
+    def readToIntMap(self, inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+        integerMap = [list(map(int, list(line))) for line in fileString]
+        
+        return integerMap
 
     def readPolymerTemplate(self, inputFile):
         fileString = self.readLinesToStringArray(inputFile)
@@ -38,14 +45,6 @@ class FileReader:
         data = [initalString, polymerPairs]
         return data
         
-    def readToIntMap(self, inputFile):
-        fileObj = open(inputFile, "r")
-        fileString = fileObj.read().splitlines()
-        fileObj.close()
-        integerMap = [list(map(int, list(line))) for line in fileString]
-
-        return integerMap
-
     def readBingoFile(self, inputFile):
         self.intChartArray = []
 

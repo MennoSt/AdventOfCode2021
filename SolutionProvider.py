@@ -1,6 +1,4 @@
-from numpy.lib.polynomial import poly
 import pandas as pd
-
 
 from src.BingoManager import BingoManager
 from src.CaveNavigator import CaveNavigator

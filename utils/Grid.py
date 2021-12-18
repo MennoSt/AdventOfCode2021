@@ -28,6 +28,12 @@ class Grid:
 
         return value
     
+    def getTotalSum(self):
+        sumtotal = 0
+        for line in self.gridMap:
+            sumtotal += sum(line)
+        return sumtotal
+            
     def getValue(self, x, y, direction = Direction.CURRENT):
 
         value = 0
