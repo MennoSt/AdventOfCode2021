@@ -1,7 +1,5 @@
 from SolutionProvider import SolutionProvider
 
-from utils.dijkstraLib import *
-
 print("Solutions of Advent of Code 2021:")
 solutionProvider = SolutionProvider()
 # solutionProvider.solutionDayOne()
