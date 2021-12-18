@@ -96,12 +96,12 @@ class PacketDecoder:
                     if subpacket.typeID == 4:
                         subpacket.literal = True
                         self.__addLiteralValue(binString, subpacket, startIndex + 6)
+                        lengthSubpackages += subpacket.getLengthlitValuePackages()
+                        packet.subPackages.append(subpacket)
                     else:
                         Exception("would expect type ID 4, no subpackages of subpackages")
                         #add functionality for subpackages in subpackages
-                    
-                    lengthSubpackages += subpacket.getLengthlitValuePackages()
-                    packet.subPackages.append(subpacket)
+
                 
             elif packet.lengthTypeId == "1":         
                 # 11 bit length number
@@ -114,11 +114,12 @@ class PacketDecoder:
                     if subpacket.typeID == 4:
                         subpacket.literal = True
                         self.__addLiteralValue(binString, subpacket, startIndex + 6)
+                        packet.subPackages.append(subpacket)
                     else:
                         Exception("would expect type ID 4, no subpackages of subpackages")
                         #add functionality for subpackages in subpackages
                         
-                    packet.subPackages.append(subpacket)
+                    
                 
 
         
