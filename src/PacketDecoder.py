@@ -45,6 +45,14 @@ class Packet:
             
         return sumLiteralValue
     
+    def getVersionSum(self):
+        sumVersion = self.version
+        
+        for subpackage in self.subPackages:
+            sumVersion += subpackage.version
+        
+        return sumVersion    
+    
 class PacketDecoder:
     
     def __init__(self):
