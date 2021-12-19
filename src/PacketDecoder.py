@@ -98,8 +98,7 @@ class PacketDecoder:
             packet.literal = True
             self.binItIndex += 6
             self.__addLiteralValue(binString, packet)
-            self.packets.append(packet)
-            
+
             #operater package
         else:
             packet.lengthTypeId = binString[self.binItIndex+6]
@@ -139,7 +138,7 @@ class PacketDecoder:
                         break
                 self.binItIndex += it *11
                 
-        # self.packets.append(packet)
+        self.packets.append(packet)
         
         
     def __addLiteralValue(self, binString, packet):
