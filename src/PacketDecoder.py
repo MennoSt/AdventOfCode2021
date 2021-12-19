@@ -59,7 +59,15 @@ class PacketDecoder:
         self.packets = [Packet]
         self.packets.pop()
         self.binItIndex = 0
-
+    
+    def getVersionSum(self):
+        totalSum =0
+        for packet in self.packets:
+            versionSum = packet.getVersionSum()
+            totalSum+=versionSum
+        
+        return totalSum
+        
     def convertToBinaryString(self, hexstring):
         binaryString = ""
         for char in hexstring:
@@ -90,6 +98,7 @@ class PacketDecoder:
             packet.literal = True
             self.binItIndex += 6
             self.__addLiteralValue(binString, packet)
+            self.packets.append(packet)
             
             #operater package
         else:
@@ -130,7 +139,7 @@ class PacketDecoder:
                         break
                 self.binItIndex += it *11
                 
-        self.packets.append(packet)
+        # self.packets.append(packet)
         
         
     def __addLiteralValue(self, binString, packet):
