@@ -438,15 +438,18 @@ class Test_PackerDecoder(unittest.TestCase):
         self.assertEqual(binString, "11101110000000001101010000001100100000100011000001100000")               
                 
     def test_createLiteralPackage(self):
-        packet = self.packetDecoder.decodeStringToPackage(self.examplePackage1)
-        
+        self.packetDecoder.decodeStringToPackage(self.examplePackage1)
+        packet = self.packetDecoder.packets[0]
         self.assertEqual(packet.version, 6)
         self.assertEqual(packet.typeID, 4)
         self.assertEqual(packet.literalValue, 2021)
         
+        versionSum = packet.getVersionSum()
+        self.assertEqual(versionSum, 6)
+        
     def test_createOperatorPackageExampleTwo(self):
-        packet = Packet()
-        packet = self.packetDecoder.decodeStringToPackage(self.examplePackage2)
+        self.packetDecoder.decodeStringToPackage(self.examplePackage2)
+        packet = self.packetDecoder.packets[0]
         
         self.assertEqual(packet.version, 1)
         self.assertEqual(packet.typeID, 6)
@@ -455,18 +458,34 @@ class Test_PackerDecoder(unittest.TestCase):
         self.assertEqual(packet.subPackages[0].literalValue, 10)
         self.assertEqual(packet.subPackages[1].literalValue, 20)
         
+        versionSum = packet.getVersionSum()
+        self.assertEqual(versionSum, 9)
         
     def test_createOperatorPackageExampleThree(self):
         packet = Packet()
-        packet = self.packetDecoder.decodeStringToPackage(self.examplePackage3)
+        self.packetDecoder.decodeStringToPackage(self.examplePackage3)
+        packet = self.packetDecoder.packets[0]
         
         self.assertEqual(packet.version, 7)
         self.assertEqual(packet.typeID, 3)     
         self.assertEqual(packet.lengthTypeId, '1')
         self.assertEqual(packet.subPackages[0].literalValue, 1)
         self.assertEqual(packet.subPackages[1].literalValue, 2)
-        self.assertEqual(packet.subPackages[2].literalValue, 3)        
+        self.assertEqual(packet.subPackages[2].literalValue, 3) 
         
+        versionSum = packet.getVersionSum()
+        self.assertEqual(versionSum, 14)
+        
+    def test_createOperatorPackageExampleFour(self):
+        packet = Packet()
+        packet = self.packetDecoder.decodeStringToPackage("8A004A801A8002F478")
+        
+        # self.assertEqual(packet.version, 7)
+        # self.assertEqual(packet.typeID, 3)     
+        # self.assertEqual(packet.lengthTypeId, '1')
+        # self.assertEqual(packet.subPackages[0].literalValue, 1)
+        # self.assertEqual(packet.subPackages[1].literalValue, 2)
+        # self.assertEqual(packet.subPackages[2].literalValue, 3)              
         
 if __name__ == '__main__':
     unittest.main()

@@ -56,7 +56,9 @@ class Packet:
 class PacketDecoder:
     
     def __init__(self):
-        self.packages = [Packet]
+        self.packets = [Packet]
+        self.packets.pop()
+        self.binItIndex = 0
 
     def convertToBinaryString(self, hexstring):
         binaryString = ""
@@ -69,79 +71,85 @@ class PacketDecoder:
         
         
     def decodeStringToPackage(self, hexstring):
+        
         binString = self.convertToBinaryString(hexstring)
+        self.binItIndex = 0
+        lengthBinString = len(binString)
         
-        
+        while (self.binItIndex+3 < lengthBinString):   
+            self.addPackets(binString)
+
+    def addPackets(self, binString):
         packet =  Packet()
-        packet.version = int(binString[0:3],2)
-        packet.typeID = int(binString[3:6],2)
         
-        #literal package
+        packet.version = int(binString[self.binItIndex:self.binItIndex+3],2)
+        packet.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
+            
+            #literal package
         if packet.typeID == 4:
             packet.literal = True
+            self.binItIndex += 6
             self.__addLiteralValue(binString, packet)
-        
-        #operater package
+            
+            #operater package
         else:
-            packet.lengthTypeId = binString[6]
+            packet.lengthTypeId = binString[self.binItIndex+6]
             if packet.lengthTypeId == "0":
-                # 15 bit length number
-                packet.length = int(binString[7:22],2)
+                    # 15 bit length number
+                packet.length = int(binString[self.binItIndex+7:self.binItIndex+22],2)
                 lengthSubpackages = 0
+                self.binItIndex+=22
                 while(lengthSubpackages < packet.length):
                     subpacket = Packet()
-                    startIndex = 22 + lengthSubpackages
-                    subpacket.version = int(binString[startIndex:(startIndex+3)],2)
-                    subpacket.typeID = int(binString[(startIndex+3):(startIndex+6)],2)
+                    subpacket.version = int(binString[self.binItIndex:self.binItIndex+3],2)
+                    subpacket.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
                     if subpacket.typeID == 4:
+                        self.binItIndex += 6
                         subpacket.literal = True
-                        self.__addLiteralValue(binString, subpacket, startIndex + 6)
+                        self.__addLiteralValue(binString, subpacket)
                         lengthSubpackages += subpacket.getLengthlitValuePackages()
                         packet.subPackages.append(subpacket)
                     else:
-                        Exception("would expect type ID 4, no subpackages of subpackages")
-                        #add functionality for subpackages in subpackages
-
-                
+                        break
+                self.binItIndex += lengthSubpackages
+                    
             elif packet.lengthTypeId == "1":         
-                # 11 bit length number
-                packet.length = int(binString[7:18], 2)
+                    # 11 bit length number
+                packet.length = int(binString[self.binItIndex+7:self.binItIndex+18], 2)
+                self.binItIndex += 18
                 for it in range(0, packet.length):
                     subpacket = Packet()
-                    startIndex = 18 + it *11
-                    subpacket.version = int(binString[startIndex:(startIndex+3)],2)
-                    subpacket.typeID = int(binString[(startIndex+3):(startIndex+6)],2)
+                    subpacket.version = int(binString[self.binItIndex:(self.binItIndex+3)],2)
+                    subpacket.typeID = int(binString[(self.binItIndex+3):(self.binItIndex+6)],2)
                     if subpacket.typeID == 4:
+                        self.binItIndex += 6
                         subpacket.literal = True
-                        self.__addLiteralValue(binString, subpacket, startIndex + 6)
+                        self.__addLiteralValue(binString, subpacket)
                         packet.subPackages.append(subpacket)
                     else:
-                        Exception("would expect type ID 4, no subpackages of subpackages")
-                        #add functionality for subpackages in subpackages
-                        
-                    
+                        break
+                self.binItIndex += it *11
                 
-
+        self.packets.append(packet)
         
-        return packet
-
-    def __addLiteralValue(self, binString, packet, startIndex = 6):
+        
+    def __addLiteralValue(self, binString, packet):
 
         endReached = False
         
         while(not endReached):
-            firstIndex = startIndex
+            firstIndex = self.binItIndex
             firstValue = binString[firstIndex]
             if firstValue == '1' and not endReached:
-                index1 = startIndex
-                index2 = 5 + startIndex
+                index1 = self.binItIndex
+                index2 = 5 + self.binItIndex
                 packet.literalValuePackages.append(binString[index1:index2])
-                startIndex += 5
+                self.binItIndex += 5
             else:
-                index1 = startIndex
-                index2 = 5 + startIndex
+                index1 = self.binItIndex
+                index2 = 5 + self.binItIndex
                 packet.literalValuePackages.append(binString[index1:index2])
-                startIndex += 5
+                self.binItIndex += 5
                 endReached = True
     
         packet.updateLiteralValue()
