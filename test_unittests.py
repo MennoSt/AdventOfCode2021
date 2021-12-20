@@ -439,17 +439,17 @@ class Test_PackerDecoder(unittest.TestCase):
                 
     def test_createLiteralPackage(self):
         self.packetDecoder.decodeStringToPackage(self.examplePackage1)
-        packet = self.packetDecoder.packets[0]
+        packet = self.packetDecoder.packet
         self.assertEqual(packet.version, 6)
         self.assertEqual(packet.typeID, 4)
         self.assertEqual(packet.literalValue, 2021)
         
-        versionSum = self.packetDecoder.getVersionSum()
+        versionSum = self.packetDecoder.versionSum
         self.assertEqual(versionSum, 6)
         
     def test_createOperatorPackageExampleTwo(self):
         self.packetDecoder.decodeStringToPackage(self.examplePackage2)
-        packet = self.packetDecoder.packets[0]
+        packet = self.packetDecoder.packet
         
         self.assertEqual(packet.version, 1)
         self.assertEqual(packet.typeID, 6)
@@ -458,13 +458,13 @@ class Test_PackerDecoder(unittest.TestCase):
         self.assertEqual(packet.subPackages[0].literalValue, 10)
         self.assertEqual(packet.subPackages[1].literalValue, 20)
         
-        versionSum = self.packetDecoder.getVersionSum()
+        versionSum = self.packetDecoder.versionSum
         self.assertEqual(versionSum, 9)
         
     def test_createOperatorPackageExampleThree(self):
         packet = Packet()
         self.packetDecoder.decodeStringToPackage(self.examplePackage3)
-        packet = self.packetDecoder.packets[0]
+        packet = self.packetDecoder.packet
         
         self.assertEqual(packet.version, 7)
         self.assertEqual(packet.typeID, 3)     
@@ -473,7 +473,7 @@ class Test_PackerDecoder(unittest.TestCase):
         self.assertEqual(packet.subPackages[1].literalValue, 2)
         self.assertEqual(packet.subPackages[2].literalValue, 3) 
         
-        versionSum = self.packetDecoder.getVersionSum()
+        versionSum = self.packetDecoder.versionSum
         self.assertEqual(versionSum, 14)
         
     def test_createOperatorPackageExampleFour(self):
@@ -496,6 +496,55 @@ class Test_PackerDecoder(unittest.TestCase):
         self.packetDecoder.decodeStringToPackage("A0016C880162017C3686B18A3D4780")
         versionSum = self.packetDecoder.versionSum
         self.assertEqual(versionSum, 31)        
+
+    def test_resultingValueID0(self):
+        self.packetDecoder.decodeStringToPackage("C200B40A82")
+        result = self.packetDecoder.calculateResultingValue()
         
+        self.assertEqual(result, 3)
+        
+    def test_resultingValueID1(self):
+        self.packetDecoder.decodeStringToPackage("04005AC33890")
+        result = self.packetDecoder.calculateResultingValue()
+        
+        self.assertEqual(result, 54)
+        
+    def test_resultingValueID2(self):
+        self.packetDecoder.decodeStringToPackage("880086C3E88112")
+        result = self.packetDecoder.calculateResultingValue()
+        
+        self.assertEqual(result, 7)
+        
+    def test_resultingValueID3(self):
+        self.packetDecoder.decodeStringToPackage("CE00C43D881120")
+        result = self.packetDecoder.calculateResultingValue()
+        
+        self.assertEqual(result, 9)
+        
+    def test_resultingValueID5(self):
+        self.packetDecoder.decodeStringToPackage("D8005AC2A8F0")
+        result = self.packetDecoder.calculateResultingValue()
+        
+        self.assertEqual(result, 1)
+
+    def test_resultingValueID6(self):
+        self.packetDecoder.decodeStringToPackage("F600BC2D8F")
+        result = self.packetDecoder.calculateResultingValue()
+        
+        self.assertEqual(result, 0)
+        
+    def test_resultingValueID7(self):
+        self.packetDecoder.decodeStringToPackage("9C005AC2F8F0")
+        result = self.packetDecoder.calculateResultingValue()
+        
+        self.assertEqual(result, 0)
+
+    def test_resultingValueIDCombined(self):
+        self.packetDecoder.decodeStringToPackage("9C0141080250320F1802104A08")
+        result = self.packetDecoder.calculateResultingValue()
+        
+        self.assertEqual(result, 1)  
+        
+               
 if __name__ == '__main__':
     unittest.main()

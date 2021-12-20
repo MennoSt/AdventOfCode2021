@@ -24,6 +24,7 @@ class Packet:
         self.typeID = -1
         self.literalValue = -1
         self.literalValuePackages = []
+        self.literalValuesArray = []
         
         self.lengthTypeId = -1
         self.numberOfSubPackages = -1
@@ -37,36 +38,100 @@ class Packet:
         
         self.literalValue  = int(litValue,2)
     
-    def getLengthlitValuePackages(self):
-        sumLiteralValue = 6  # includes header
-        for literalValue in self.literalValuePackages:
-            sumLiteralValue += (len(literalValue))
+    def generateLiteralValuesArray(self):
+        for packet in self.subPackages:
+            self.literalValuesArray.append(packet.literalValue)
             
-        return sumLiteralValue
-    
-    def getVersionSum(self):
-        sumVersion = self.version
+    def calculateSum(self):
+        sumLit = 0
+        for packet in self.subPackages:
+            sumLit += packet.literalValue
+        return sumLit
+
+    def calculateProduct(self):
+        multiplication = 0
         
-        for subpackage in self.subPackages:
-            sumVersion += subpackage.version
+        for index in range(0, len(self.literalValuesArray)):
+            if index == 0:
+                multiplication = self.literalValuesArray[index]
+            else:
+                multiplication *= self.literalValuesArray[index]
         
-        return sumVersion    
+        return multiplication
     
+    def calculateMin(self):
+        minimum = min(self.literalValuesArray)
+        return minimum
+    
+    def calculateMax(self):
+        maximum = max(self.literalValuesArray)
+        return maximum
+    
+    def isGreaterThan(self):
+        if self.literalValuesArray[0]>self.literalValuesArray[1]:
+            return 1
+        else:
+            return 0
+
+    def isLessThan(self):
+        if self.literalValuesArray[0]<self.literalValuesArray[1]:
+            return 1
+        else:
+            return 0
+        
+    def isEqualTo(self):
+        if self.literalValuesArray[0] == self.literalValuesArray[1]:
+            return 1
+        else:
+            return 0
+        
 class PacketDecoder:
     
     def __init__(self):
-        self.packets = [Packet]
-        self.packets.pop()
+        self.packet = Packet()
         self.versionSum = 0
         self.binItIndex = 0
     
-    def getVersionSum(self):
-        totalSum =0
-        for packet in self.packets:
-            versionSum = packet.getVersionSum()
-            totalSum+=versionSum
+    def calculateResultingValue(self):
+        self.packet.generateLiteralValuesArray()
+        typeId = self.packet.typeID
+        if typeId == 0:
+            result = self.packet.calculateSum()
+        if typeId == 1:
+            result = self.packet.calculateProduct()
+        if typeId == 2:
+            result = self.packet.calculateMin()
+        if typeId == 3:
+            result = self.packet.calculateMax()
+        if typeId == 5:
+            result = self.packet.isGreaterThan()
+        if typeId == 6:
+            result = self.packet.isLessThan()
+        if typeId == 7:
+            result = self.packet.isEqualTo()
+            
+        return result
+
+    def updateLiteralValues(self,packet):
+        packet.generateLiteralValuesArray()
+        typeId = packet.typeID
+        if typeId == 0:
+            result = packet.calculateSum()
+        if typeId == 1:
+            result = packet.calculateProduct()
+        if typeId == 2:
+            result = packet.calculateMin()
+        if typeId == 3:
+            result = packet.calculateMax()
+        if typeId == 5:
+            result = packet.isGreaterThan()
+        if typeId == 6:
+            result = packet.isLessThan()
+        if typeId == 7:
+            result = packet.isEqualTo()
+            
+        packet.literalValue = result
         
-        return totalSum
         
     def convertToBinaryString(self, hexstring):
         binaryString = ""
@@ -79,32 +144,28 @@ class PacketDecoder:
         
         
     def decodeStringToPackage(self, hexstring):
-        self.versionSum = 0
         binString = self.convertToBinaryString(hexstring)
+        
+        self.readBinaryString(binString)
+
+    def readBinaryString(self, binString):
+        
+        self.versionSum = 0
         self.binItIndex = 0
         
-        while (self.binItIndex == 0):   
-            self.addPackets(binString)
-
-    def addPackets(self, binString):
-        packet =  Packet()
-        
-        packet.version = int(binString[self.binItIndex:self.binItIndex+3],2)
-        self.versionSum +=packet.version
-        
-        packet.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
+        self.packet.version = int(binString[self.binItIndex:self.binItIndex+3],2)
+        self.versionSum += self.packet.version
+        self.packet.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
             
             #literal package
-        if packet.typeID == 4:
-            packet.literal = True
+        if self.packet.typeID == 4:
+            self.packet.literal = True
             self.binItIndex += 6
-            self.__readLiteralData(binString, packet)
+            self.__readLiteralData(binString, self.packet)
 
             #operater package
         else:
-            self.readOperatorData(binString, packet)
-                
-        self.packets.append(packet)
+            self.readOperatorData(binString, self.packet)
 
     def readOperatorData(self, binString, packet):
         
@@ -117,8 +178,8 @@ class PacketDecoder:
             bitStart = self.binItIndex
             while(lengthSubpackages < packet.length):
                 subpacket = Packet()
-                subpacket.version = int(binString[self.binItIndex:self.binItIndex+3],2)
-                subpacket.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
+                subpacket.version = int(binString[self.binItIndex:self.binItIndex+3], 2)
+                subpacket.typeID = int(binString[self.binItIndex+3:self.binItIndex+6], 2)
                 self.versionSum += subpacket.version
                 if subpacket.typeID == 4:
                     self.binItIndex += 6
@@ -147,7 +208,6 @@ class PacketDecoder:
                 else:
                     packet.subPackages.append(subpacket)
                     self.readOperatorData(binString, subpacket)
-        
         
     def __readLiteralData(self, binString, packet):
 
