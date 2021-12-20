@@ -1,6 +1,5 @@
 import unittest
 
-
 from src.CaveNavigator import CaveNavigator
 from src.LaunterFishCalculator import LaunterFishCalculator
 from src.OctopusFlashManager import OctopusFlashManager
@@ -388,34 +387,34 @@ class Test_Polymarizator(unittest.TestCase):
         string = self.polymarizator.calculateDifference(self.initialString, self.polyPairs, steps)
         self.assertEqual(string, 2188189693529)
 
-# class Test_DijkstraTests(unittest.TestCase):
+class Test_DijkstraTests(unittest.TestCase):
     
-#     def setUp(self):
-#         self.fileReader = FileReader()
-#         self.dijkstra = Dijkstra()
-#         self.inputMap1 = self.fileReader.readToIntMap("testinput/unittestinputday15_1")
-#         self.inputMap2 = self.fileReader.readToIntMap("testinput/unittestinputday15_2")
-#         self.inputMap3 = self.fileReader.readToIntMap("testinput/unittestinputday15_3")
+    def setUp(self):
+        self.fileReader = FileReader()
+        self.dijkstra = Dijkstra()
+        self.inputMap1 = self.fileReader.readToIntMap("testinput/unittestinputday15_1")
+        self.inputMap2 = self.fileReader.readToIntMap("testinput/unittestinputday15_2")
+        self.inputMap3 = self.fileReader.readToIntMap("testinput/unittestinputday15_3")
         
-#     def test_findShortestPathMap1(self):
-#         self.dijkstra.setGrid(self.inputMap1)
-#         shortestPath1 = self.dijkstra.findShortestPath()
-#         self.assertEqual(shortestPath1, 14)
+    def test_findShortestPathMap1(self):
+        self.dijkstra.setGrid(self.inputMap1)
+        shortestPath1 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath1, 14)
         
-#     def test_findShortestPathMap2(self):
-#         self.dijkstra.setGrid(self.inputMap2)
-#         shortestPath2 = self.dijkstra.findShortestPath()
-#         self.assertEqual(shortestPath2, 40)
+    def test_findShortestPathMap2(self):
+        self.dijkstra.setGrid(self.inputMap2)
+        shortestPath2 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath2, 40)
     
-#     def test_findShortestPathExtendedMap2(self):
-#         self.dijkstra.setGrid(self.inputMap2, True)
-#         shortestPath3 = self.dijkstra.findShortestPath()
-#         self.assertEqual(shortestPath3, 315)
+    def test_findShortestPathExtendedMap2(self):
+        self.dijkstra.setGrid(self.inputMap2, True)
+        shortestPath3 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath3, 315)
     
-#     def test_findShortestPathExtendedMap3(self):
-#         self.dijkstra.setGrid(self.inputMap3)
-#         shortestPath3 = self.dijkstra.findShortestPath()
-#         self.assertEqual(shortestPath3, 12)
+    def test_findShortestPathExtendedMap3(self):
+        self.dijkstra.setGrid(self.inputMap3)
+        shortestPath3 = self.dijkstra.findShortestPath()
+        self.assertEqual(shortestPath3, 12)
 
 class Test_PackerDecoder(unittest.TestCase):
     
