@@ -1,5 +1,3 @@
-import copy 
-
 binaryConversionList = [["0","0000"],
                         ["1","0001"],
                         ["2","0010"],
@@ -25,7 +23,6 @@ class Packet:
         self.literalValue = -1
         self.literalValuePackages = []
         self.literalValuesArray = []
-        
         self.lengthTypeId = -1
         self.numberOfSubPackages = -1
         self.subPackages = []
@@ -56,7 +53,7 @@ class Packet:
                 multiplication = self.literalValuesArray[index]
             else:
                 multiplication *= self.literalValuesArray[index]
-        
+                
         return multiplication
     
     def calculateMin(self):
@@ -112,7 +109,8 @@ class PacketDecoder:
             
         return result
 
-    def updateLiteralValues(self,packet):
+    def updateLiteralValues(self, packet):
+        result = 0
         packet.generateLiteralValuesArray()
         typeId = packet.typeID
         if typeId == 0:
@@ -162,7 +160,6 @@ class PacketDecoder:
             self.packet.literal = True
             self.binItIndex += 6
             self.__readLiteralData(binString, self.packet)
-
             #operater package
         else:
             self.readOperatorData(binString, self.packet)
@@ -189,6 +186,7 @@ class PacketDecoder:
                     subpacket.operator = True
                     packet.subPackages.append(subpacket)
                     self.readOperatorData(binString, subpacket)
+                    self.updateLiteralValues(subpacket)
                 bitStop = self.binItIndex
                 lengthSubpackages = bitStop-bitStart
                     
@@ -208,7 +206,8 @@ class PacketDecoder:
                 else:
                     packet.subPackages.append(subpacket)
                     self.readOperatorData(binString, subpacket)
-        
+                    self.updateLiteralValues(subpacket)
+            
     def __readLiteralData(self, binString, packet):
 
         endReached = False

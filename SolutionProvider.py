@@ -194,7 +194,7 @@ class SolutionProvider:
         packetDecoder.decodeStringToPackage(inputString[0])
         
         answerPart1 = packetDecoder.versionSum
-        answerPart2 = 0
+        answerPart2 = packetDecoder.calculateResultingValue()
         printAnswer(16, answerPart1, answerPart2)
         
         
