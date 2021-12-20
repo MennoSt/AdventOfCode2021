@@ -479,22 +479,22 @@ class Test_PackerDecoder(unittest.TestCase):
     def test_createOperatorPackageExampleFour(self):
         
         self.packetDecoder.decodeStringToPackage("8A004A801A8002F478")
-        versionSum = self.packetDecoder.getVersionSum()
+        versionSum = self.packetDecoder.versionSum
         self.assertEqual(versionSum, 16)
         
-    # def test_createOperatorPackageExampleFive(self):
-    #     self.packetDecoder.decodeStringToPackage("620080001611562C8802118E34")
-    #     versionSum = self.packetDecoder.getVersionSum()
-    #     self.assertEqual(versionSum, 12)
+    def test_createOperatorPackageExampleFive(self):
+        self.packetDecoder.decodeStringToPackage("620080001611562C8802118E34")
+        versionSum = self.packetDecoder.versionSum
+        self.assertEqual(versionSum, 12)
         
-    # def test_createOperatorPackageExampleSix(self):
-    #     self.packetDecoder.decodeStringToPackage("C0015000016115A2E0802F182340")
-    #     versionSum = self.packetDecoder.getVersionSum()
-    #     self.assertEqual(versionSum, 23)
+    def test_createOperatorPackageExampleSix(self):
+        self.packetDecoder.decodeStringToPackage("C0015000016115A2E0802F182340")
+        versionSum = self.packetDecoder.versionSum
+        self.assertEqual(versionSum, 23)
         
     def test_createOperatorPackageExampleSeven(self):
         self.packetDecoder.decodeStringToPackage("A0016C880162017C3686B18A3D4780")
-        versionSum = self.packetDecoder.getVersionSum()
+        versionSum = self.packetDecoder.versionSum
         self.assertEqual(versionSum, 31)        
         
 if __name__ == '__main__':

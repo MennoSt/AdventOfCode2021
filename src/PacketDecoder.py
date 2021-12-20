@@ -1,3 +1,4 @@
+import copy 
 
 binaryConversionList = [["0","0000"],
                         ["1","0001"],
@@ -21,11 +22,9 @@ class Packet:
     def __init__(self):
         self.version = -1
         self.typeID = -1
-        self.literal = False
         self.literalValue = -1
         self.literalValuePackages = []
         
-        self.operator = False
         self.lengthTypeId = -1
         self.numberOfSubPackages = -1
         self.subPackages = []
@@ -115,6 +114,7 @@ class PacketDecoder:
             packet.length = int(binString[self.binItIndex+7:self.binItIndex+22],2)
             lengthSubpackages = 0
             self.binItIndex+=22
+            bitStart = self.binItIndex
             while(lengthSubpackages < packet.length):
                 subpacket = Packet()
                 subpacket.version = int(binString[self.binItIndex:self.binItIndex+3],2)
@@ -122,14 +122,14 @@ class PacketDecoder:
                 self.versionSum += subpacket.version
                 if subpacket.typeID == 4:
                     self.binItIndex += 6
-                    subpacket.literal = True
                     self.__readLiteralData(binString, subpacket)
-                    lengthSubpackages += subpacket.getLengthlitValuePackages()
                     packet.subPackages.append(subpacket)
                 else:
                     subpacket.operator = True
                     packet.subPackages.append(subpacket)
                     self.readOperatorData(binString, subpacket)
+                bitStop = self.binItIndex
+                lengthSubpackages = bitStop-bitStart
                     
         elif packet.lengthTypeId == "1":         
             # 11 bit length number
@@ -142,11 +142,9 @@ class PacketDecoder:
                 self.versionSum += subpacket.version
                 if subpacket.typeID == 4:
                     self.binItIndex += 6
-                    subpacket.literal = True
                     self.__readLiteralData(binString, subpacket)
                     packet.subPackages.append(subpacket)
                 else:
-                    subpacket.operator = True
                     packet.subPackages.append(subpacket)
                     self.readOperatorData(binString, subpacket)
         

@@ -5,6 +5,7 @@ from src.CaveNavigator import CaveNavigator
 from src.CrabPositioner import CrabPositioner
 from src.Dijkstra import Dijkstra
 from src.OctopusFlashManager import OctopusFlashManager
+from src.PacketDecoder import PacketDecoder
 from src.SyntaxManager import SyntaxManager
 from utils.FileReader import FileReader
 from src.LaunterFishCalculator import LaunterFishCalculator
@@ -184,14 +185,17 @@ class SolutionProvider:
         answerPart2 = dijkstra.findShortestPath()
         printAnswer(15, answerPart1, answerPart2)
     
-    def solutionDayFifteen(self):
         
+    def solutionDaySixteen(self):
         fileReader = FileReader()
-        dijkstra = Dijkstra()
+        packetDecoder = PacketDecoder()
         
-        input = fileReader.readToIntMap("input/inputday15")
-        dijkstra.setGrid(input)
-        answerPart1 = dijkstra.findShortestPath()
-        dijkstra.setGrid(input,True)
-        answerPart2 = dijkstra.findShortestPath()
+        inputString = fileReader.readLinesToStringArray("input/inputday16")
+        packetDecoder.decodeStringToPackage(inputString[0])
+        
+        answerPart1 = packetDecoder.versionSum
+        answerPart2 = 0
         printAnswer(16, answerPart1, answerPart2)
+        
+        
+        
