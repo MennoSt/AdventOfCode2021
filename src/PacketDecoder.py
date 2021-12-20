@@ -97,51 +97,57 @@ class PacketDecoder:
         if packet.typeID == 4:
             packet.literal = True
             self.binItIndex += 6
-            self.__addLiteralValue(binString, packet)
+            self.__readLiteralData(binString, packet)
 
             #operater package
         else:
-            packet.lengthTypeId = binString[self.binItIndex+6]
-            if packet.lengthTypeId == "0":
-                    # 15 bit length number
-                packet.length = int(binString[self.binItIndex+7:self.binItIndex+22],2)
-                lengthSubpackages = 0
-                self.binItIndex+=22
-                while(lengthSubpackages < packet.length):
-                    subpacket = Packet()
-                    subpacket.version = int(binString[self.binItIndex:self.binItIndex+3],2)
-                    subpacket.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
-                    if subpacket.typeID == 4:
-                        self.binItIndex += 6
-                        subpacket.literal = True
-                        self.__addLiteralValue(binString, subpacket)
-                        lengthSubpackages += subpacket.getLengthlitValuePackages()
-                        packet.subPackages.append(subpacket)
-                    else:
-                        break
-                self.binItIndex += lengthSubpackages
-                    
-            elif packet.lengthTypeId == "1":         
-                    # 11 bit length number
-                packet.length = int(binString[self.binItIndex+7:self.binItIndex+18], 2)
-                self.binItIndex += 18
-                for it in range(0, packet.length):
-                    subpacket = Packet()
-                    subpacket.version = int(binString[self.binItIndex:(self.binItIndex+3)],2)
-                    subpacket.typeID = int(binString[(self.binItIndex+3):(self.binItIndex+6)],2)
-                    if subpacket.typeID == 4:
-                        self.binItIndex += 6
-                        subpacket.literal = True
-                        self.__addLiteralValue(binString, subpacket)
-                        packet.subPackages.append(subpacket)
-                    else:
-                        break
-                self.binItIndex += it *11
+            self.readOperatorData(binString, packet)
                 
         self.packets.append(packet)
+
+    def readOperatorData(self, binString, packet):
+        
+        packet.lengthTypeId = binString[self.binItIndex+6]
+        if packet.lengthTypeId == "0":
+                    # 15 bit length number
+            packet.length = int(binString[self.binItIndex+7:self.binItIndex+22],2)
+            lengthSubpackages = 0
+            self.binItIndex+=22
+            while(lengthSubpackages < packet.length):
+                subpacket = Packet()
+                subpacket.version = int(binString[self.binItIndex:self.binItIndex+3],2)
+                subpacket.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
+                if subpacket.typeID == 4:
+                    self.binItIndex += 6
+                    subpacket.literal = True
+                    self.__readLiteralData(binString, subpacket)
+                    lengthSubpackages += subpacket.getLengthlitValuePackages()
+                    packet.subPackages.append(subpacket)
+                else:
+                    subpacket.operator = True
+                    break
+            self.binItIndex += lengthSubpackages
+                    
+        elif packet.lengthTypeId == "1":         
+                    # 11 bit length number
+            packet.length = int(binString[self.binItIndex+7:self.binItIndex+18], 2)
+            self.binItIndex += 18
+            for it in range(0, packet.length):
+                subpacket = Packet()
+                subpacket.version = int(binString[self.binItIndex:(self.binItIndex+3)],2)
+                subpacket.typeID = int(binString[(self.binItIndex+3):(self.binItIndex+6)],2)
+                if subpacket.typeID == 4:
+                    self.binItIndex += 6
+                    subpacket.literal = True
+                    self.__readLiteralData(binString, subpacket)
+                    packet.subPackages.append(subpacket)
+                else:
+                    subpacket.operator = True
+                    break
+            self.binItIndex += it *11
         
         
-    def __addLiteralValue(self, binString, packet):
+    def __readLiteralData(self, binString, packet):
 
         endReached = False
         
