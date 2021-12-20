@@ -58,6 +58,7 @@ class PacketDecoder:
     def __init__(self):
         self.packets = [Packet]
         self.packets.pop()
+        self.versionSum = 0
         self.binItIndex = 0
     
     def getVersionSum(self):
@@ -79,18 +80,19 @@ class PacketDecoder:
         
         
     def decodeStringToPackage(self, hexstring):
-        
+        self.versionSum = 0
         binString = self.convertToBinaryString(hexstring)
         self.binItIndex = 0
-        lengthBinString = len(binString)
         
-        while (self.binItIndex+3 < lengthBinString):   
+        while (self.binItIndex == 0):   
             self.addPackets(binString)
 
     def addPackets(self, binString):
         packet =  Packet()
         
         packet.version = int(binString[self.binItIndex:self.binItIndex+3],2)
+        self.versionSum +=packet.version
+        
         packet.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
             
             #literal package
@@ -109,7 +111,7 @@ class PacketDecoder:
         
         packet.lengthTypeId = binString[self.binItIndex+6]
         if packet.lengthTypeId == "0":
-                    # 15 bit length number
+            # 15 bit length number
             packet.length = int(binString[self.binItIndex+7:self.binItIndex+22],2)
             lengthSubpackages = 0
             self.binItIndex+=22
@@ -117,6 +119,7 @@ class PacketDecoder:
                 subpacket = Packet()
                 subpacket.version = int(binString[self.binItIndex:self.binItIndex+3],2)
                 subpacket.typeID = int(binString[self.binItIndex+3:self.binItIndex+6],2)
+                self.versionSum += subpacket.version
                 if subpacket.typeID == 4:
                     self.binItIndex += 6
                     subpacket.literal = True
@@ -125,17 +128,18 @@ class PacketDecoder:
                     packet.subPackages.append(subpacket)
                 else:
                     subpacket.operator = True
-                    break
-            self.binItIndex += lengthSubpackages
+                    packet.subPackages.append(subpacket)
+                    self.readOperatorData(binString, subpacket)
                     
         elif packet.lengthTypeId == "1":         
-                    # 11 bit length number
+            # 11 bit length number
             packet.length = int(binString[self.binItIndex+7:self.binItIndex+18], 2)
             self.binItIndex += 18
-            for it in range(0, packet.length):
+            for _ in range(0, packet.length):
                 subpacket = Packet()
                 subpacket.version = int(binString[self.binItIndex:(self.binItIndex+3)],2)
                 subpacket.typeID = int(binString[(self.binItIndex+3):(self.binItIndex+6)],2)
+                self.versionSum += subpacket.version
                 if subpacket.typeID == 4:
                     self.binItIndex += 6
                     subpacket.literal = True
@@ -143,8 +147,8 @@ class PacketDecoder:
                     packet.subPackages.append(subpacket)
                 else:
                     subpacket.operator = True
-                    break
-            self.binItIndex += it *11
+                    packet.subPackages.append(subpacket)
+                    self.readOperatorData(binString, subpacket)
         
         
     def __readLiteralData(self, binString, packet):
