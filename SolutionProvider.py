@@ -62,8 +62,8 @@ class SolutionProvider:
         bingoFileReader.readBingoFile("input/inputday4")
         bingoNumbers = bingoFileReader.bingoNumbers
         intChartArray = bingoFileReader.intChartArray
-        
         bingoManager.createBingoCharts(intChartArray)
+        
         answerPart1 = bingoManager.getFirstBingoScore(bingoNumbers)
         answerPart2 = bingoManager.getLastBingoScore(bingoNumbers)
 
@@ -181,8 +181,10 @@ class SolutionProvider:
         input = fileReader.readToIntMap("input/inputday15")
         dijkstra.setGrid(input)
         answerPart1 = dijkstra.findShortestPath()
+        
         dijkstra.setGrid(input,True)
         answerPart2 = dijkstra.findShortestPath()
+        
         printAnswer(15, answerPart1, answerPart2)
     
         

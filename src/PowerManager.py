@@ -5,7 +5,45 @@ class PowerManager:
         self.oxygenRating = []
         self.co2ScrubberRating = []
 
-    def getMostCommenBit(self, binList, Nth):
+    def calculateLifeSupport(self, binList):
+        
+        self.binList = binList
+        self.oxygenRating = binList
+        self.co2ScrubberRating = binList
+        numberOfCharacters = len(self.binList[0])
+
+
+        for index in range (0, numberOfCharacters):
+            mostCommonBitValue = self.__getMostCommenBit(self.oxygenRating, index)
+            leastCommonBitValue = self.__getLeastCommenBit(self.co2ScrubberRating, index)
+
+            if len(self.oxygenRating) > 1:
+                self.__updateOxygenArray(mostCommonBitValue, index)
+            if len(self.co2ScrubberRating) > 1:    
+                self.__updateScrubArray(leastCommonBitValue, index)
+        
+        oxygenRating = int(self.oxygenRating[0],2)
+        scrubRating = int(self.co2ScrubberRating[0],2)
+
+        return oxygenRating * scrubRating
+
+    def calculateRequiredPower(self, binList):
+        
+        numberOfCharacters = len(binList[0])
+        string = ""
+
+        for index in range (0, numberOfCharacters):
+            mostCommonBitValue = self.__getMostCommenBit(binList, index)
+            string += mostCommonBitValue
+            
+        inverted_str = self.__invertBitString(string)
+
+        gammaRate = int(string,2)
+        epsilonRate = int(inverted_str,2)
+
+        return gammaRate*epsilonRate
+    
+    def __getMostCommenBit(self, binList, Nth):
         zeroCounter = 0
         oneCounter = 0
         totalNumbers = len(binList)
@@ -26,14 +64,14 @@ class PowerManager:
         else:
             raise Exception("No Zero and No one is bigger")
     
-    def getLeastCommenBit(self, binList, Nth):
-        commonBit = self.getMostCommenBit(binList,Nth)
+    def __getLeastCommenBit(self, binList, Nth):
+        commonBit = self.__getMostCommenBit(binList,Nth)
         if commonBit == "1":
             return "0"
         if commonBit == "0":
             return "1"
 
-    def invertBitString(self, b_string):
+    def __invertBitString(self, b_string):
         ib_string = ""
 
         for bit in b_string:
@@ -43,24 +81,8 @@ class PowerManager:
                 ib_string += "1"
 
         return ib_string
-
-    def calculateRequiredPower(self, binList):
-        
-        numberOfCharacters = len(binList[0])
-        string = ""
-
-        for index in range (0, numberOfCharacters):
-            mostCommonBitValue = self.getMostCommenBit(binList, index)
-            string += mostCommonBitValue
-            
-        inverted_str = self.invertBitString(string)
-
-        gammaRate = int(string,2)
-        epsilonRate = int(inverted_str,2)
-
-        return gammaRate*epsilonRate
     
-    def updateOxygenArray(self, mostCommonBith, index):
+    def __updateOxygenArray(self, mostCommonBith, index):
         
         listLength = len(self.oxygenRating)
         arrayTmpOxy = []
@@ -72,7 +94,7 @@ class PowerManager:
 
         self.oxygenRating = arrayTmpOxy
     
-    def updateScrubArray(self, leastCommonBith, index):
+    def __updateScrubArray(self, leastCommonBith, index):
         
         listLength = len(self.co2ScrubberRating)
         arrayTmpScrub = []
@@ -84,27 +106,7 @@ class PowerManager:
 
         self.co2ScrubberRating = arrayTmpScrub
 
-    def calculateLifeSupport(self, binList):
-        
-        self.binList = binList
-        self.oxygenRating = binList
-        self.co2ScrubberRating = binList
-        numberOfCharacters = len(self.binList[0])
 
-
-        for index in range (0, numberOfCharacters):
-            mostCommonBitValue = self.getMostCommenBit(self.oxygenRating, index)
-            leastCommonBitValue = self.getLeastCommenBit(self.co2ScrubberRating, index)
-
-            if len(self.oxygenRating) > 1:
-                self.updateOxygenArray(mostCommonBitValue, index)
-            if len(self.co2ScrubberRating) > 1:    
-                self.updateScrubArray(leastCommonBitValue, index)
-        
-        oxygenRating = int(self.oxygenRating[0],2)
-        scrubRating = int(self.co2ScrubberRating[0],2)
-
-        return oxygenRating * scrubRating
             
 
             

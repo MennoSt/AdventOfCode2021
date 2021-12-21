@@ -17,10 +17,9 @@ from src.SyntaxScoreBoard import SyntaxScoreBoard
 from src.OctopusFlashManager import OctopusFlashManager
 from src.Folder import Folder
 from src.Polymerizator import Polymarizator
-from utils.FileReader import FileReader
 from src.Dijkstra import Dijkstra
 from src.PacketDecoder import PacketDecoder, Packet
-
+from utils.FileReader import FileReader
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
