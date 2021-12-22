@@ -9,11 +9,13 @@ class ProbeLauncher(object):
         self.targetArea = {"x1" : 0, "x2" :0, "y1": 0, "y2":0}
         self.maxYCoordinate = 0
         self.maxYInitialVelocity = {"vx" : 0 , "vy": 0 }
+        self.targetCounter = 0
     
     def determineMaxYCoordinate(self):
+        self.targetCounter = 0
         self.maxYCoordinate = 0
-        for x in range(0, 100):
-            for y in range(0, 100):
+        for x in range(0, 300):
+            for y in range(self.targetArea["y1"], 300):
                 self.reachesTargetArea(x,y)
         
         return self.maxYCoordinate
@@ -39,6 +41,7 @@ class ProbeLauncher(object):
             if self.isWithinTargetArea(self.position["x"], self.position["y"]):
                 self.__updateMaxYIfPossible(yMax, initialVelocity)
                 targetReached = True
+                self.targetCounter+=1
                 break
         return targetReached
 
@@ -90,6 +93,6 @@ def solutionDay17():
     
     print("Start Velocity coordinate:" + str(probeLauncher.maxYInitialVelocity))
     answerPart1 = probeLauncher.maxYCoordinate
-    answerPart2 = 0
+    answerPart2 = probeLauncher.targetCounter
 
     printAnswer(17, answerPart1, answerPart2)

@@ -16,7 +16,7 @@ from solutions.SolutionDay13 import Folder
 from solutions.SolutionDay14 import Polymarizator
 from solutions.SolutionDay15 import Dijkstra
 from solutions.SolutionDay16 import Packet, PacketDecoder
-from SolutionDay17 import *
+from solutions.SolutionDay17 import *
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -571,14 +571,29 @@ class Test_ProbeLauncher(unittest.TestCase):
         
 
     def test_testReachesTarget(self):
+        self.probeLauncher.maxYCoordinate = 0
         inTargetArea = self.probeLauncher.reachesTargetArea(7,2)
         self.assertEqual(inTargetArea, True)
+        self.assertEqual(self.probeLauncher.position, {"x" : 28 , "y": -7 })
+        self.assertEqual(self.probeLauncher.maxYCoordinate, 3)
+        
+        self.probeLauncher.maxYCoordinate = 0        
         inTargetArea = self.probeLauncher.reachesTargetArea(6,3)
         self.assertEqual(inTargetArea, True)
+        self.assertEqual(self.probeLauncher.position, {"x" : 21 , "y": -9 })
+        self.assertEqual(self.probeLauncher.maxYCoordinate, 6)
+        
+        self.probeLauncher.maxYCoordinate = 0
         inTargetArea = self.probeLauncher.reachesTargetArea(9,0)
         self.assertEqual(inTargetArea, True)
+        self.assertEqual(self.probeLauncher.position, {"x" : 30 , "y": -6 })
+        self.assertEqual(self.probeLauncher.maxYCoordinate, 0)
+
+        self.probeLauncher.maxYCoordinate = 0        
         inTargetArea = self.probeLauncher.reachesTargetArea(17,-4)
         self.assertEqual(inTargetArea, False)
+        self.assertEqual(self.probeLauncher.position, {"x" : 33 , "y": -9 })
+        self.assertEqual(self.probeLauncher.maxYCoordinate, 0)
 
     def test_getMaxYPosition(self):
         self.probeLauncher.determineMaxYCoordinate()
@@ -587,6 +602,12 @@ class Test_ProbeLauncher(unittest.TestCase):
         
         self.assertEqual(maxYPosition, 45)
         self.assertEqual(InitialVelocity, {"vx" : 6 , "vy": 9 })
+
+    def test_getNumberOfTargetVelocities(self):
+        self.probeLauncher.determineMaxYCoordinate()
+        counter = self.probeLauncher.targetCounter
+        
+        self.assertEqual(counter, 112)
         
 if __name__ == '__main__':
     unittest.main(defaultTest="Test_ProbeLauncher")
