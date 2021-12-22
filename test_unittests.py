@@ -1,25 +1,22 @@
 import unittest
 
-from src.CaveNavigator import CaveNavigator
-from src.LaunterFishCalculator import LaunterFishCalculator
-from src.OctopusFlashManager import OctopusFlashManager
-from src.PowerManager import PowerManager
-from src.SubmarineCalculator import SubmarineCalculator
-from src.PositionCalculator import PositionCalculator
-from src.BingoManager import BingoManager
-from src.VentDetector import VentDetector
-from src.CrabPositioner import CrabPositioner
-from src.PatternAnalyzer import PatternAnalyzer
-from src.PatternReader  import PatternReader
-from src.RiskCalculator import RiskCalculator
-from src.SyntaxManager import SyntaxManager
-from src.SyntaxScoreBoard import SyntaxScoreBoard
-from src.OctopusFlashManager import OctopusFlashManager
-from src.Folder import Folder
-from src.Polymerizator import Polymarizator
-from src.Dijkstra import Dijkstra
-from src.PacketDecoder import PacketDecoder, Packet
-from utils.FileReader import FileReader
+from solutions.SolutionDay01 import SubmarineCalculator
+from solutions.SolutionDay02 import PositionCalculator
+from solutions.SolutionDay03 import PowerManager
+from solutions.SolutionDay04 import BingoManager
+from solutions.SolutionDay05 import VentDetector
+from solutions.SolutionDay06 import LaunterFishCalculator
+from solutions.SolutionDay07 import CrabPositioner
+from solutions.SolutionDay08 import PatternAnalyzer,PatternReader
+from solutions.SolutionDay09 import RiskCalculator
+from solutions.SolutionDay10 import SyntaxScoreBoard, SyntaxManager
+from solutions.SolutionDay11 import OctopusFlashManager
+from solutions.SolutionDay12 import CaveNavigator
+from solutions.SolutionDay13 import Folder
+from solutions.SolutionDay14 import Polymarizator
+from solutions.SolutionDay15 import Dijkstra
+from solutions.SolutionDay16 import Packet, PacketDecoder
+from SolutionDay17 import *
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -542,7 +539,54 @@ class Test_PackerDecoder(unittest.TestCase):
         result = self.packetDecoder.calculateResultingValue()
         
         self.assertEqual(result, 1)  
+
+class Test_ProbeLauncher(unittest.TestCase):
+    
+    def setUp(self):
+        self.probeLauncher = ProbeLauncher()
+        self.probeLauncher.fillTargetArea("testinput/unittestinputday17")
         
-               
+    def test_testTargetArea(self):
+        inTargetArea = self.probeLauncher.isWithinTargetArea(20,-10)
+        self.assertEqual(inTargetArea, True)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(30,-5)
+        self.assertEqual(inTargetArea, True)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(25,-8)
+        self.assertEqual(inTargetArea, True)
+        
+        inTargetArea = self.probeLauncher.isWithinTargetArea(31,-10)
+        self.assertEqual(inTargetArea, False)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(19,-5)
+        self.assertEqual(inTargetArea, False)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(30,-11)
+        self.assertEqual(inTargetArea, False)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(20,-4)
+        self.assertEqual(inTargetArea, False)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(1000,3)
+        self.assertEqual(inTargetArea, False)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(3,1000)
+        self.assertEqual(inTargetArea, False)
+        inTargetArea = self.probeLauncher.isWithinTargetArea(3,1000)
+        self.assertEqual(inTargetArea, False)
+        
+
+    def test_testReachesTarget(self):
+        inTargetArea = self.probeLauncher.reachesTargetArea(7,2)
+        self.assertEqual(inTargetArea, True)
+        inTargetArea = self.probeLauncher.reachesTargetArea(6,3)
+        self.assertEqual(inTargetArea, True)
+        inTargetArea = self.probeLauncher.reachesTargetArea(9,0)
+        self.assertEqual(inTargetArea, True)
+        inTargetArea = self.probeLauncher.reachesTargetArea(17,-4)
+        self.assertEqual(inTargetArea, False)
+
+    def test_getMaxYPosition(self):
+        self.probeLauncher.determineMaxYCoordinate()
+        maxYPosition = self.probeLauncher.maxYCoordinate
+        InitialVelocity = self.probeLauncher.maxYInitialVelocity
+        
+        self.assertEqual(maxYPosition, 45)
+        self.assertEqual(InitialVelocity, {"vx" : 6 , "vy": 9 })
+        
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(defaultTest="Test_ProbeLauncher")

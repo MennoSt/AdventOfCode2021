@@ -1,3 +1,6 @@
+from utils.AocUtils import *
+from utils.FileReader import FileReader
+
 import numpy as np
 import copy
 import math
@@ -99,3 +102,17 @@ class Polymarizator:
         for index in range(0, len(self.polymers.Count)):
             if self.polymers.Polymer[index] == str:
                 self.polymers.Count[index][1] -= number
+
+def solutionDay14():
+    fileReader = FileReader()
+    polymarizator = Polymarizator()
+    
+    data = fileReader.readPolymerTemplate("input/inputday14")
+    initialString = data[0]
+    polyPairs = data[1]
+    stepsPart1 = 10
+    stepsPart2 = 40
+    
+    answerPart1 = polymarizator.calculateDifference(initialString, polyPairs, stepsPart1)
+    answerPart2 = polymarizator.calculateDifference(initialString, polyPairs, stepsPart2)
+    printAnswer(14, answerPart1, answerPart2)

@@ -1,3 +1,6 @@
+from utils.AocUtils import *
+from utils.FileReader import FileReader
+
 binaryConversionList = [["0","0000"],
                         ["1","0001"],
                         ["2","0010"],
@@ -230,3 +233,14 @@ class PacketDecoder:
         packet.updateLiteralValue()
             
             
+
+def solutionDay16():
+    fileReader = FileReader()
+    packetDecoder = PacketDecoder()
+    
+    inputString = fileReader.readLinesToStringArray("input/inputday16")
+    packetDecoder.decodeStringToPackage(inputString[0])
+    
+    answerPart1 = packetDecoder.versionSum
+    answerPart2 = packetDecoder.calculateResultingValue()
+    printAnswer(16, answerPart1, answerPart2)

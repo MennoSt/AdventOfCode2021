@@ -1,3 +1,7 @@
+import pandas as pd
+
+from utils.AocUtils import *
+
 class SubmarineCalculator:
     
     def GetIncreasedDepthsPart1(self, data):
@@ -44,7 +48,12 @@ class SubmarineCalculator:
 
         return array
 
-            
+def solutionDay01():
+    submarineCalculator = SubmarineCalculator()
+    data = pd.read_csv("input/inputday1",names = ["Depth"])
+    data['Depth'] = data['Depth'].astype(int)
 
+    answerPart1 = submarineCalculator.GetIncreasedDepthsPart1(data["Depth"].to_numpy())
+    answerPart2 = submarineCalculator.GetIncreasedDepthsPart2(data['Depth'].to_numpy())
 
-
+    printAnswer(1, answerPart1, answerPart2)

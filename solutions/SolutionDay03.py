@@ -1,3 +1,7 @@
+import pandas as pd
+
+from utils.AocUtils import *
+
 class PowerManager:
     
     def __init__(self):
@@ -106,16 +110,11 @@ class PowerManager:
 
         self.co2ScrubberRating = arrayTmpScrub
 
+def solutionDay03():
+    powerManager = PowerManager()
+    data = pd.read_csv("input/inputday3", dtype=str, names = ["BinaryValue"])
 
-            
+    answerPart1 = powerManager.calculateRequiredPower(data["BinaryValue"].astype(str).values.tolist())
+    answerPart2 = powerManager.calculateLifeSupport(data["BinaryValue"].astype(str).values.tolist()) 
 
-            
-
-
-
-
-
-            
-
-
-
+    printAnswer(3, answerPart1, answerPart2)

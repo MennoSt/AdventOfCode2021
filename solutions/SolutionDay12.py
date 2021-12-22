@@ -1,3 +1,6 @@
+from utils.AocUtils import *
+from utils.FileReader import FileReader
+
 class Node():
     def __init__(self, character):
         self.character = character
@@ -16,8 +19,6 @@ class Node():
     
     def decreaseNumberOfVisits(self):
         self.numberOfVisits -= 1
-        
-
 
 class CaveNavigator:
     def __init__(self):
@@ -129,19 +130,12 @@ class CaveNavigator:
                     node.addNeighour(nodePair[1])
                 if node.getCharacter() == nodePair[1]:
                     node.addNeighour(nodePair[0])
-        
 
-                    
+def solutionDay12():
+    fileReader = FileReader()
+    initialMap = fileReader.readLinesToStringArray("input/inputday12")
+    caveNavigator = CaveNavigator()
 
-
-
-            
-
-
-
-
-
-            
-
-
-
+    answerPart1 = caveNavigator.findNumberOfRoutes(initialMap)
+    answerPart2 = caveNavigator.findNumberOfRoutes(initialMap, True)
+    printAnswer(12, answerPart1, answerPart2)

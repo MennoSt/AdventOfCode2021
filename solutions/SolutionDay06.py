@@ -1,3 +1,6 @@
+from utils.AocUtils import *
+from utils.FileReader import FileReader
+
 class LaunterFishCalculator:
     
     def __init__(self):
@@ -40,15 +43,12 @@ class LaunterFishCalculator:
 
         self.fishArray = updatedArray
 
-  
+def solutionDay06():
+    fileReader = FileReader()
+    initalState = fileReader.readToIntArray("input/inputday6")
+    launterFishCalulator = LaunterFishCalculator()
 
-            
-
-
-
-
-
-            
-
-
-
+    answerPart1 = launterFishCalulator.getNumberOfFishes(initalState, 80)
+    answerPart2 = launterFishCalulator.getNumberOfFishes(initalState, 256)
+    
+    printAnswer(6, answerPart1, answerPart2)

@@ -1,3 +1,6 @@
+from utils.AocUtils import *
+from utils.FileReader import FileReader
+
 from utils.Grid import Grid
 import copy
 
@@ -63,13 +66,16 @@ class OctopusFlashManager:
                 if flashLevel != None:
                     self.grid.increaseValue(x,y,1)
 
-            
 
+def solutionDay11():      
+    fileReader = FileReader()
+    initialMap = fileReader.readToIntMap("input/inputday11")
+    octopusFlashManager = OctopusFlashManager()
 
+    octopusFlashManager.setOctopusMap(initialMap)
+    answerPart1 = octopusFlashManager.getNumberOfFlashes(100)
 
+    octopusFlashManager.setOctopusMap(initialMap)
+    answerPart2 = octopusFlashManager.getFirstSynchronicCycle()
 
-
-            
-
-
-
+    printAnswer(11, answerPart1, answerPart2)

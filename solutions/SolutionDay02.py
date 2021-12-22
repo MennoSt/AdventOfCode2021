@@ -1,3 +1,6 @@
+import pandas as pd
+from utils.AocUtils import *
+
 class PositionCalculator:
     
     def __init__(self):
@@ -58,16 +61,13 @@ class PositionCalculator:
                 self.depthP += self.aim * positionArray[index]
             else:
                 raise Exception("Invalid Direction")
+
+def solutionDay02():
+    positionCalculator = PositionCalculator()
+    data = pd.read_csv("input/inputday2",names = ["Direction", "Ammount"], delim_whitespace=True)
+
+    answerPart1 = positionCalculator.getMultiplicationPart1(data["Direction"].astype(str).values.tolist(), data["Ammount"].to_numpy())
+    answerPart2 = positionCalculator.getMultiplicationPart2(data["Direction"].astype(str).values.tolist(), data["Ammount"].to_numpy())
     
-            
-
-            
-
-
-
-
-
-            
-
-
-
+    printAnswer(2, answerPart1, answerPart2)
+    

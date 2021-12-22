@@ -1,3 +1,5 @@
+from utils.AocUtils import *
+
 class VentDetector:
     
     def __init__(self ):
@@ -122,10 +124,11 @@ class VentDetector:
         
         return numberOfOverlaps
 
+def solutionDay05():
+    ventDetector = VentDetector()
+    ventDetector.readVentFile("input/inputday5")
 
-
-
-            
-
-
-
+    answerPart1 = ventDetector.getNumberOfOverlapsPart1()
+    answerPart2 = ventDetector.getNumberOfOverlapsPart2()
+    
+    printAnswer(5, answerPart1, answerPart2)

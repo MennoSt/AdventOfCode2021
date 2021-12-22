@@ -1,3 +1,6 @@
+from utils.AocUtils import *
+from utils.FileReader import FileReader
+
 from utils.AocEnums import *
 from utils.Operations import *
 from utils.Grid import Grid
@@ -127,4 +130,13 @@ class RiskCalculator():
 
         return multiplication
 
-        
+def solutionDay09():
+    fileReader = FileReader()
+    riskCalculator = RiskCalculator()
+    heightMap = fileReader.readToIntMap("input/inputday9")
+
+    riskCalculator.setHeightMap(heightMap)
+    answerPart1 =riskCalculator.calculateSumRiskLevels()
+    answerPart2 =riskCalculator.getMultiplicationLargest3Bassins()
+
+    printAnswer(9, answerPart1, answerPart2)

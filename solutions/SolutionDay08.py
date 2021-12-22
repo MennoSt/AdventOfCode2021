@@ -1,3 +1,33 @@
+from utils.AocUtils import *
+from utils.FileReader import FileReader
+
+class PatternReader:
+    
+    def __init__(self):
+        self.uniquePatternArray = []
+        self.fourDigitArray = []
+    
+    def readPattern(self, inputFile):
+
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+
+        uniquePatternArray = []
+        fourDigitArray = []
+        for file in fileString:
+            splittedString = file.split("|")
+            uniquePattern = splittedString[0].split(" ")
+            uniquePattern = list(filter(None, uniquePattern))
+            uniquePatternArray.append(uniquePattern)
+
+            fourDigitString = splittedString[1].split(" ")
+            fourDigitString = list(filter(None, fourDigitString))
+            fourDigitArray.append(fourDigitString)
+
+        self.uniquePatternArray = uniquePatternArray
+        self.fourDigitArray = fourDigitArray
+
 class PatternAnalyzer:
     def __init__(self):
         self.stringSeven = []
@@ -112,4 +142,16 @@ class PatternAnalyzer:
             else:
                 number = 2
         
-        return number
+        return number      
+
+def solutionDay08():
+    patternReader = PatternReader()
+    patternAnalyzer = PatternAnalyzer()
+    patternReader.readPattern("input/inputday8")
+    
+    uniquePatternArray = patternReader.uniquePatternArray
+    fourDigitArray = patternReader.fourDigitArray
+
+    answerPart1 = patternAnalyzer.getNumberOfDigitInstances(fourDigitArray)
+    answerPart2 = patternAnalyzer.calculateSumOfFourDigits(fourDigitArray, uniquePatternArray)
+    printAnswer(8, answerPart1, answerPart2)

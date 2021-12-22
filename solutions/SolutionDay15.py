@@ -1,4 +1,7 @@
 import copy
+
+from utils.AocUtils import *
+from utils.FileReader import FileReader
 from utils.AocEnums import Direction
 from utils.Grid import Grid
 
@@ -80,3 +83,17 @@ class Dijkstra:
                 self.dijkstraGrid.setValue(x,y,updatedValueDijkstra, direction)
         else:
             return
+
+def solutionDay15():
+    fileReader = FileReader()
+    dijkstra = Dijkstra()
+    
+    input = fileReader.readToIntMap("input/inputday15")
+    dijkstra.setGrid(input)
+    answerPart1 = dijkstra.findShortestPath()
+    
+    dijkstra.setGrid(input,True)
+    answerPart2 = dijkstra.findShortestPath()
+    
+    printAnswer(15, answerPart1, answerPart2)
+    
