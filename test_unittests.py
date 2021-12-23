@@ -17,6 +17,7 @@ from solutions.SolutionDay14 import Polymarizator
 from solutions.SolutionDay15 import Dijkstra
 from solutions.SolutionDay16 import Packet, PacketDecoder
 from solutions.SolutionDay17 import *
+from SolutionDay18 import SnailFishUpdater
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
@@ -606,8 +607,35 @@ class Test_ProbeLauncher(unittest.TestCase):
     def test_getNumberOfTargetVelocities(self):
         self.probeLauncher.determineMaxYCoordinate()
         counter = self.probeLauncher.targetCounter
-        
         self.assertEqual(counter, 112)
+
+
+class Test_SnailFishUpdater(unittest.TestCase):
+    
+    def setUp(self):
+        self.snailFishUpdater = SnailFishUpdater()
         
+    def test_testMutationExampleOne(self):
+        testList = [[[[[9,8],1],2],3],4]
+        mutatedTestList = self.snailFishUpdater.updateList(testList)
+        self.assertEqual(mutatedTestList, [[[[0,9],2],3],4])
+
+    def test_testMutationExampleTwo(self):
+        testList = [7,[6,[5,[4,[3,2]]]]]
+        mutatedTestList = self.snailFishUpdater.updateList(testList)
+        self.assertEqual(mutatedTestList, [7,[6,[5,[7,0]]]])
+
+    def test_testMutationExampleThree(self):
+        testList = [[6,[5,[4,[3,2]]]],1]
+        mutatedTestList = self.snailFishUpdater.updateList(testList)
+        self.assertEqual(mutatedTestList, [[6,[5,[7,0]]],3])
+
+    # def test_testMutationExampleFour(self):
+    #     testList = [[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]
+    #     mutatedTestList = self.snailFishUpdater.updateList(testList)
+    #     self.assertEqual(mutatedTestList, [[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]])
+
+ 
 if __name__ == '__main__':
-    unittest.main(defaultTest="Test_ProbeLauncher")
+    unittest.main(defaultTest="Test_SnailFishUpdater")
+    # unittest.main()

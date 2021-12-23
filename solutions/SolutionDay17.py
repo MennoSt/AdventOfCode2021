@@ -4,8 +4,8 @@ import copy
 
 class ProbeLauncher(object):
     def __init__(self):
-        self.velocity = {"vx" : 0 , "vy": 0 }
-        self.position = {"x" : 0 , "y": 0}
+        self.velocity = {"vx": 0, "vy": 0}
+        self.position = {"x": 0, "y": 0}
         self.targetArea = {"x1" : 0, "x2" :0, "y1": 0, "y2":0}
         self.maxYCoordinate = 0
         self.maxYInitialVelocity = {"vx" : 0 , "vy": 0 }
