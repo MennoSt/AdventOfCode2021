@@ -15,17 +15,32 @@ class SnailFishUpdater:
                                         left = index3-1
                                         right = index3+1
                                         
-                                        if left >= 0:
+                                        if index3-1 >= 0:
                                             initialList[index1][index2][index3][index4][0] += initialList[index1][index2][index3][index3-1]
                                         else:
                                             initialList[index1][index2][index3][index4][0] = 0
+                                         
                                             
-                                        if right < len(initialList[index1][index2][index3]):
+                                        if index3+1 < len(initialList[index1][index2][index3]):
                                             initialList[index1][index2][index3][index4][1] += initialList[index1][index2][index3][index3+1]
-                                        else:
+                                        
+                                        elif index2+1 < len(initialList[index1]):
+                                            if type(initialList[index1+1]) == list:
+                                                initialList[index2+1][0] += initialList[index1][index2][index3][index4][1]
+                                            else:
+                                                initialList[index2+1] += initialList[index1][index2][index3][index4][1]
                                             initialList[index1][index2][index3][index4][1] = 0
+                                            
+                                        elif index1+1 < len(initialList):
+                                            if type(initialList[index1+1]) == list:
+                                                initialList[index1+1][0] += initialList[index1][index2][index3][index4][1]
+                                            else:
+                                                initialList[index1+1] += initialList[index1][index2][index3][index4][1]
+                                            initialList[index1][index2][index3][index4][1] = 0
+                                        else: 
+                                            initialList[index1][index2][index3][index4][1] = 0
+                                        
                                         initialList[index1][index2][index3] = initialList[index1][index2][index3][index4]
-                                        break
     
         return initialList
 

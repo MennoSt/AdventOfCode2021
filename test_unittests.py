@@ -630,10 +630,10 @@ class Test_SnailFishUpdater(unittest.TestCase):
         mutatedTestList = self.snailFishUpdater.updateList(testList)
         self.assertEqual(mutatedTestList, [[6,[5,[7,0]]],3])
 
-    # def test_testMutationExampleFour(self):
-    #     testList = [[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]
-    #     mutatedTestList = self.snailFishUpdater.updateList(testList)
-    #     self.assertEqual(mutatedTestList, [[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]])
+    def test_testMutationExampleFour(self):
+        testList = [[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]
+        mutatedTestList = self.snailFishUpdater.updateList(testList)
+        self.assertEqual(mutatedTestList, [[3,[2,[8,0]]],[9,[5,[7,0]]]])
 
  
 if __name__ == '__main__':
