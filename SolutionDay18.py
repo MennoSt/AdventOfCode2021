@@ -12,26 +12,45 @@ class SnailFishUpdater:
                             if isinstance(initialList[index1][index2][index3], list):
                                 for index4 in range(0, len(initialList[index1][index2][index3])):
                                     if isinstance(initialList[index1][index2][index3][index4], list):
-                                        left = index3-1
-                                        right = index3+1
-                                        
+                                        depth1 = initialList[index1]
+                                        depth2 = initialList[index1][index2]
+                                        depth3 = initialList[index1][index2][index3]
+                                        depth4 = initialList[index1][index2][index3][index4]                     
                                         if index3-1 >= 0:
-                                            initialList[index1][index2][index3][index4][0] += initialList[index1][index2][index3][index3-1]
+                                            if type(initialList[index1][index2][index3][index3-1]) == list:
+                                                initialList[index1][index2][index3][index4][0] += initialList[index1][index2][index3][index3-1][0]
+                                            else:
+                                                initialList[index1][index2][index3][index4][0] += initialList[index1][index2][index3][index3-1]
+                                        elif index2-1 >= 0:
+                                            if type(initialList[index1][index2-1]) == list:
+                                                initialList[index1][index2-1][0] += initialList[index1][index2][index3][index4][1]
+                                            else:
+                                                initialList[index1][index2-1] += initialList[index1][index2][index3][index4][1]
+                                            initialList[index1][index2][index3][index4][1] = 0
+                                        elif index1-1 >= 0:
+                                            if type(initialList[index1-1]) == list:
+                                                initialList[index1-1][0] += initialList[index1][index2][index3][index4][1]
+                                            else:
+                                                initialList[index1-1] += initialList[index1][index2][index3][index4][1]
+                                            initialList[index1][index2][index3][index4][1] = 0
                                         else:
                                             initialList[index1][index2][index3][index4][0] = 0
                                          
                                             
                                         if index3+1 < len(initialList[index1][index2][index3]):
-                                            initialList[index1][index2][index3][index4][1] += initialList[index1][index2][index3][index3+1]
-                                        
-                                        elif index2+1 < len(initialList[index1]):
-                                            if type(initialList[index1+1]) == list:
-                                                initialList[index2+1][0] += initialList[index1][index2][index3][index4][1]
+                                            if type(initialList[index1][index2][index3][index3+1]) == list:
+                                                initialList[index1][index2][index3][index4][1] += initialList[index1][index2][index3][index3+1][0]
                                             else:
-                                                initialList[index2+1] += initialList[index1][index2][index3][index4][1]
+                                                initialList[index1][index2][index3][index4][1] += initialList[index1][index2][index3][index3+1]
+                                        
+                                        elif index2+1 < len(initialList[index1][index2]):
+                                            if type(initialList[index1][index2+1]) == list:
+                                                initialList[index1][index2+1][0] += initialList[index1][index2][index3][index4][1]
+                                            else:
+                                                initialList[index1][index2+1] += initialList[index1][index2][index3][index4][1]
                                             initialList[index1][index2][index3][index4][1] = 0
                                             
-                                        elif index1+1 < len(initialList):
+                                        elif index1+1 < len(initialList[index1]):
                                             if type(initialList[index1+1]) == list:
                                                 initialList[index1+1][0] += initialList[index1][index2][index3][index4][1]
                                             else:
@@ -41,14 +60,15 @@ class SnailFishUpdater:
                                             initialList[index1][index2][index3][index4][1] = 0
                                         
                                         initialList[index1][index2][index3] = initialList[index1][index2][index3][index4]
+                                        print(initialList)
     
         return initialList
 
-initialList = [[[[[9,8],1],2],3],4]
-initialList = [7,[6,[5,[7,0]]]]
-snailFishUpdater = SnailFishUpdater()
-list2 = snailFishUpdater.updateList(initialList)
-print(list2)
+# initialList = [[[[[9,8],1],2],3],4]
+# initialList = [7,[6,[5,[7,0]]]]
+# snailFishUpdater = SnailFishUpdater()
+# list2 = snailFishUpdater.updateList(initialList)
+# print(list2)
 
 def hasNestedDepth(depth, nestedList):
     nestCounter = 0
