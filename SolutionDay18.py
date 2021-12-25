@@ -8,6 +8,7 @@ class SnailFishUpdater:
 
     def updateList(self, initialList):
         i_initialList = copy.deepcopy(initialList)
+        
         for index1 in range(0, len(i_initialList)):
             if isinstance(i_initialList[index1], list):
                 for index2 in range(0, len(i_initialList[index1])):
@@ -20,33 +21,34 @@ class SnailFishUpdater:
                                         i_depth1 = i_initialList[index1]
                                         i_depth2 = i_initialList[index1][index2]
                                         i_depth3 = i_initialList[index1][index2][index3]
-                                        i_depth4 = i_initialList[index1][index2][index3][index4]
+                                        self.i_depth4 = i_initialList[index1][index2][index3][index4]
                                         
                                         depth0 = initialList
                                         depth1 = initialList[index1]
                                         depth2 = initialList[index1][index2]
                                         depth3 = initialList[index1][index2][index3]
                                         depth4 = initialList[index1][index2][index3][index4]
+                                        self.depth4 = initialList[index1][index2][index3][index4]
                                                           
                                         if index4-1 >= 0:
-                                            self.updateFourthNestedList(index4, i_depth3, depth4, Direction.LEFT)
+                                            self.updateFourthNestedList(index4, i_depth3, Direction.LEFT)
                                         elif index3-1 >= 0:
-                                            self.addExplodedValue(index3, i_depth2, i_depth4, depth2, depth4, Direction.LEFT)
+                                            self.addExplodedValue(index3, i_depth2, depth2, Direction.LEFT)
                                         elif index2-1 >= 0:
-                                            self.addExplodedValue(index2, i_depth1, i_depth4, depth1, depth4, Direction.LEFT)
+                                            self.addExplodedValue(index2, i_depth1, depth1, Direction.LEFT)
                                         elif index1-1 >= 0:
-                                            self.addExplodedValue(index1, i_depth0, i_depth4, depth0, depth4, Direction.LEFT)
+                                            self.addExplodedValue(index1, i_depth0, depth0, Direction.LEFT)
                                         else:
                                             initialList[index1][index2][index3][index4][0] = 0
                                             
                                         if index4+1 < len(i_depth3):
-                                            self.updateFourthNestedList(index4, i_depth3, depth4, Direction.RIGHT)
+                                            self.updateFourthNestedList(index4, i_depth3, Direction.RIGHT)
                                         elif index3+1 < len(i_depth2):
-                                            self.addExplodedValue(index3, i_depth2, i_depth4, depth2, depth4, Direction.RIGHT)
+                                            self.addExplodedValue(index3, i_depth2, depth2, Direction.RIGHT)
                                         elif index2+1 < len(i_depth1):
-                                            self.addExplodedValue(index2, i_depth1, i_depth4, depth1, depth4, Direction.RIGHT)
+                                            self.addExplodedValue(index2, i_depth1, depth1, Direction.RIGHT)
                                         elif index1+1 < len(i_depth0):
-                                            self.addExplodedValue(index1, i_depth0, i_depth4, depth0, depth4, Direction.RIGHT)
+                                            self.addExplodedValue(index1, i_depth0, depth0, Direction.RIGHT)
                                         else:
                                             initialList[index1][index2][index3][index4][1] = 0
                                         
@@ -54,7 +56,7 @@ class SnailFishUpdater:
     
         return initialList
 
-    def updateFourthNestedList(self, index4, i_depth3, depth4, direction=Direction.RIGHT):
+    def updateFourthNestedList(self, index4, i_depth3, direction=Direction.RIGHT):
         
         if direction == Direction.RIGHT:
             i = 1
@@ -64,11 +66,11 @@ class SnailFishUpdater:
             dir = 0
         
         if type(i_depth3[index4+i]) == list:
-            depth4[dir] += i_depth3[index4+i][0]
+            self.depth4[dir] += i_depth3[index4+i][0]
         else:
-            depth4[dir] += i_depth3[index4+i]
+            self.depth4[dir] += i_depth3[index4+i]
 
-    def addExplodedValue(self, index, i_depth, i_depth4, depth, depth4, direction=Direction.RIGHT):
+    def addExplodedValue(self, index, i_depth, depth, direction=Direction.RIGHT):
         if direction == Direction.RIGHT:
             i = 1
             dir = 1
@@ -77,17 +79,12 @@ class SnailFishUpdater:
             dir = 0
             
         if type(i_depth[index+i ]) == list:
-            depth[index+i] += i_depth4[1]
-            depth4[dir] = 0
+            depth[index+i] += self.i_depth4[dir]
+            self.depth4[dir] = 0
         else:
-            depth[index+i] += i_depth4[1]
-            depth4[dir] = 0
-
-# initialList = [[[[[9,8],1],2],3],4]
-# initialList = [7,[6,[5,[7,0]]]]
-# snailFishUpdater = SnailFishUpdater()
-# list2 = snailFishUpdater.updateList(initialList)
-# print(list2)
+            depth[index+i] += self.i_depth4[dir]
+            self.depth4[dir] = 0
+            
 
 def hasNestedDepth(depth, nestedList):
     nestCounter = 0
