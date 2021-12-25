@@ -615,30 +615,45 @@ class Test_SnailFishUpdater(unittest.TestCase):
     def setUp(self):
         self.snailFishUpdater = SnailFishUpdater()
         
-    def test_testMutationExampleOne(self):
+    def test_testMutationExampleOnePartOne(self):
         testList = [[[[[9,8],1],2],3],4]
         mutatedTestList = self.snailFishUpdater.updateList(testList)
         self.assertEqual(mutatedTestList, [[[[0,9],2],3],4])
+        
+    def test_testMutationExampleOnePartTwo(self):
+        testList = [[[[1,[8,8],1],2],3],4]
+        mutatedTestList = self.snailFishUpdater.updateList(testList)
+        self.assertEqual(mutatedTestList, [[[[9,9],2],3],4])
 
     def test_testMutationExampleTwo(self):
         testList = [7,[6,[5,[4,[3,2]]]]]
         mutatedTestList = self.snailFishUpdater.updateList(testList)
         self.assertEqual(mutatedTestList, [7,[6,[5,[7,0]]]])
 
-    def test_testMutationExampleThree(self):
+    def test_testMutationExampleThreePartOne(self):
         testList = [[6,[5,[4,[3,2]]]],1]
         mutatedTestList = self.snailFishUpdater.updateList(testList)
         self.assertEqual(mutatedTestList, [[6,[5,[7,0]]],3])
 
+    def test_testMutationExampleThreePartTwo(self):
+        testList = [[6,[5,[4,[3,2]]],1],1]
+        mutatedTestList = self.snailFishUpdater.updateList(testList)
+        self.assertEqual(mutatedTestList, [[6,[5,[7,0]],3],1])
+        
+    def test_testMutationExampleThreePartThree(self):
+        testList = [[6,[5,[4,[3,2]],1],1],1]
+        mutatedTestList = self.snailFishUpdater.updateList(testList)
+        self.assertEqual(mutatedTestList, [[6,[5,[7,0],3],1],1])
+
     def test_testMutationExampleFour(self):
-        testList = [[3,[2,[1,[7,3]]]],[6,[5,[4,[3,2]]]]]
+        testList = [[3,[2,[8,0]]],[9,[5,[4,[3,2]]]]]
         mutatedTestList = self.snailFishUpdater.updateList(testList)
         self.assertEqual(mutatedTestList, [[3,[2,[8,0]]],[9,[5,[7,0]]]])
 
-    def test_testMutationExampleFive(self):
-        testList = [[[[0,7],4],[7,[[8,4],9]]],[1,1]]
-        mutatedTestList = self.snailFishUpdater.updateList(testList)
-        self.assertEqual(mutatedTestList, [[[[0,7],4],[15,[0,13]]],[1,1]])
+    # def test_testMutationExampleFive(self):
+    #     testList = [[[[0,7],4],[7,[[8,4],9]]],[1,1]]
+    #     mutatedTestList = self.snailFishUpdater.updateList(testList)
+    #     self.assertEqual(mutatedTestList, [[[[0,7],4],[15,[0,13]]],[1,1]])
         
 
     # def testMutationWithSplit(self):
