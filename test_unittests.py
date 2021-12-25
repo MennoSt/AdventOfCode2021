@@ -623,7 +623,7 @@ class Test_SnailFishUpdater(unittest.TestCase):
     def test_testMutationExampleOnePartTwo(self):
         testList = [[[[1,[8,8],1],2],3],4]
         mutatedTestList = self.snailFishUpdater.updateListWithExplosions(testList)
-        self.assertEqual(mutatedTestList, [[[[9,9],2],3],4])
+        self.assertEqual(mutatedTestList, [[[[9,0,9],2],3],4])
 
     def test_testMutationExampleTwo(self):
         testList = [7,[6,[5,[4,[3,2]]]]]
@@ -695,11 +695,11 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
     #     finalSum = self.snailFishUpdater.calculateFinalSum()
     #     self.assertEqual(finalSum, [[[[1,1],[2,2]],[3,3]],[4,4]])
 
-    # def test_testMutationExampleOnePartOne(self):
-    #     # self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_1")
-    #     testList = [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]],[5, 5]]
-    #     finalSum = self.snailFishUpdater.updateListWithExplosions(testList)
-    #     self.assertEqual(finalSum, [[[[3,0],[5,3]],[4,4]],[5,5]])
+    def test_testMutationExampleOnePartOne(self):
+        # self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_1")
+        testList = [[[[[1, 1], [2, 2]], [3, 3]], [4, 4]],[5, 5]]
+        finalSum = self.snailFishUpdater.updateListWithExplosions(testList)
+        self.assertEqual(finalSum, [[[[3,0],[5,3]],[4,4]],[5,5]])
         
     # def test_testMutationExampleOnePartTwo(self):
     #     self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_2")

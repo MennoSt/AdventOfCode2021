@@ -94,7 +94,7 @@ class SnailFishUpdater:
                                         depth0 = initialList
                                         depth1 = initialList[index1]
                                         depth2 = initialList[index1][index2]
-                                        depth3 = initialList[index1][index2][index3]
+                                        self.depth3 = initialList[index1][index2][index3]
                                         depth4 = initialList[index1][index2][index3][index4]
                                         self.depth4 = initialList[index1][index2][index3][index4]
                                                           
@@ -106,8 +106,6 @@ class SnailFishUpdater:
                                             self.__addExplodedValue(index2, i_depth1, depth1, Direction.LEFT)
                                         elif index1-1 >= 0:
                                             self.__addExplodedValue(index1, i_depth0, depth0, Direction.LEFT)
-                                        else:
-                                            initialList[index1][index2][index3][index4][0] = 0
                                             
                                         if index4+1 < len(i_depth3):
                                             self.__updateFourthNestedList(index4, i_depth3, Direction.RIGHT)
@@ -117,11 +115,8 @@ class SnailFishUpdater:
                                             self.__addExplodedValue(index2, i_depth1, depth1, Direction.RIGHT)
                                         elif index1+1 < len(i_depth0):
                                             self.__addExplodedValue(index1, i_depth0, depth0, Direction.RIGHT)
-                                        else:
-                                            initialList[index1][index2][index3][index4][1] = 0
-                                        
-                                        initialList[index1][index2][index3] = initialList[index1][index2][index3][index4]
-                                        # initialList[index1][index2][index3][index4] = 0
+
+                                        initialList[index1][index2][index3][index4] = 0
     
         return initialList
 
@@ -135,9 +130,9 @@ class SnailFishUpdater:
             dir = 0
             
         if type(i_depth3[index4+i]) == list:
-            self.depth4[dir] += i_depth3[index4+i][0]
+            self.depth3[index4+i][0] += self.depth4[dir] 
         else:
-            self.depth4[dir] += i_depth3[index4+i]
+            self.depth3[index4+i] += self.depth4[dir]
 
     def __addExplodedValue(self, index, i_depth, depth, direction=Direction.RIGHT):
         if direction == Direction.RIGHT:
