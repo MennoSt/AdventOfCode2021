@@ -1,4 +1,5 @@
 import re
+import ast
 
 def split(word):
     return [char for char in word]
@@ -23,6 +24,17 @@ class FileReader:
         intArray = list(map(int,fileString[0].split(",")))
         
         return intArray
+    
+    def readLinesToListArray(self, inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+
+        listArray = []
+        for line in fileString:
+            listArray.append(ast.literal_eval(line))
+        
+        return listArray
     
     def readToIntMap(self, inputFile):
         fileObj = open(inputFile, "r")
