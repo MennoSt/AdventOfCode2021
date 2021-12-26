@@ -138,10 +138,8 @@ class SnailFishUpdater:
             
         if type(depth[index+i]) == list:
             depth[index+i][0] += self.depth4[dir]
-            self.depth4[dir] = 0
         else:
             depth[index+i] += self.depth4[dir]
-            self.depth4[dir] = 0
     
 
 def solutionDay18():

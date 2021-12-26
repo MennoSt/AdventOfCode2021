@@ -704,13 +704,18 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
         self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_3")
         finalSum = self.snailFishUpdater.calculateFinalSum()
         self.assertEqual(finalSum, [[[[5,0],[7,4]],[5,5]],[6,6]])
-
+    
     # def test_testMutationExampleOnePartFour(self):
     #     self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_4")
+    #     finalSum = self.snailFishUpdater.calculateFinalSum()
+    #     self.assertEqual(finalSum, [[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]])
+
+    # def test_testMutationExampleOnePartFive(self):
+    #     self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_5")
     #     finalSum = self.snailFishUpdater.calculateFinalSum()
     #     self.assertEqual(finalSum, [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]])
         
 if __name__ == '__main__':
     # unittest.main(defaultTest="Test_SnailFishUpdater")
-    # unittest.main(defaultTest="Test_SnailFishUpdaterWithInputData")
-    unittest.main()
+    unittest.main(defaultTest="Test_SnailFishUpdaterWithInputData")
+    # unittest.main()
