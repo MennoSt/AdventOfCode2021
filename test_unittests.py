@@ -756,8 +756,26 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
     #     magnitude = self.snailFishUpdater.calculateMagnitude(finalSum)
     #     self.assertEqual(finalSum, [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]])
     #     self.assertEqual(magnitude, 4140)
+
+def run_some_tests():
+    # Run only the tests in the specified classes
+
+    test_classes_to_run = [Test_SnailFishUpdaterWithInputData, Test_SnailFishUpdater]
+
+    loader = unittest.TestLoader()
+
+    suites_list = []
+    for test_class in test_classes_to_run:
+        suite = loader.loadTestsFromTestCase(test_class)
+        suites_list.append(suite)
+        
+    big_suite = unittest.TestSuite(suites_list)
+
+    runner = unittest.TextTestRunner()
+    results = runner.run(big_suite)
         
 if __name__ == '__main__':
+    run_some_tests()
     # unittest.main(defaultTest="Test_SnailFishUpdater")
-    unittest.main(defaultTest="Test_SnailFishUpdaterWithInputData")
+    # unittest.main(defaultTest="Test_SnailFishUpdaterWithInputData")
     # unittest.main()

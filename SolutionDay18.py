@@ -39,7 +39,6 @@ class SnailFishUpdater:
         
         for index in range(0, len(self.fishLists)-1):
             updatedList = self.addTwoLists(updatedList, self.fishLists[index+1])
-            print(updatedList)
             updatedList = self.updateSnailFishNumbers(updatedList)
         
         return updatedList
@@ -53,14 +52,10 @@ class SnailFishUpdater:
         listChanged = True
         updatedList = initialList
         
-        print("New Update:")
-        
         while(listChanged):
             startList = copy.deepcopy(updatedList)
             updatedList = self.updateListWithExplosions(updatedList)
-            print("after explosions" + str(updatedList))
             updatedList = self.updateListWithSplits(updatedList)
-            print("after splits" + str(updatedList))
             if startList == updatedList:
                 listChanged = False
             else:
@@ -182,7 +177,10 @@ class SnailFishUpdater:
             depth[index+i] += self.depth4[dir]
     
 def solutionDay18():
-    fileReader = FileReader()
-    listArray = fileReader.readLinesToListArray("input/inputday18")
+    snailFishUpdater = SnailFishUpdater()
+    snailFishUpdater.readDataIntoLists("input/inputday18")
+    finalSum = snailFishUpdater.calculateFinalSum()
+    magnitude = snailFishUpdater.calculateMagnitude(finalSum)
+    print("AnserPart1:", magnitude)
     
     
