@@ -663,17 +663,17 @@ class Test_SnailFishUpdater(unittest.TestCase):
     def test_MutationSplitExample1Part1(self):
         testList = [11, 12, 13,[2,13]]
         mutatedTestList = self.snailFishUpdater.updateListWithSplits(testList)
-        self.assertEqual(mutatedTestList, [[5,6],[6,6],[6,7],[2,[6,7]]])
+        self.assertEqual(mutatedTestList, [[5, 6], 12, 13, [2, 13]])
 
     def test_MutationSplitExample1Part2(self):
         testList = [[[2,13],2], 11, 12, 13]
         mutatedTestList = self.snailFishUpdater.updateListWithSplits(testList)
-        self.assertEqual(mutatedTestList, [[[2,[6,7]],2],[5,6],[6,6],[6,7]])
+        self.assertEqual(mutatedTestList, [[[2, [6, 7]], 2], 11, 12, 13])
         
     def testMutationWithExample2(self):
         testList = [[[[0,7],4],[15,[0,13]]],[1,1]]
         mutatedTestList = self.snailFishUpdater.updateListWithSplits(testList)
-        self.assertEqual(mutatedTestList, [[[[0,7],4],[[7,8],[0,[6,7]]]],[1,1]])
+        self.assertEqual(mutatedTestList, [[[[0, 7], 4], [[7, 8], [0, 13]]], [1, 1]])
         
     def testMutationWithExample3(self):
         testList = [[[[0,7],4],[[7,8],[0,[6,7]]]],[1,1]]
@@ -705,15 +705,57 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
         finalSum = self.snailFishUpdater.calculateFinalSum()
         self.assertEqual(finalSum, [[[[5,0],[7,4]],[5,5]],[6,6]])
     
-    # def test_testMutationExampleOnePartFour(self):
-    #     self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_4")
-    #     finalSum = self.snailFishUpdater.calculateFinalSum()
-    #     self.assertEqual(finalSum, [[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]])
+    def test_testMutationExampleOnePartFour(self):
+        self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_4")
+        finalSum = self.snailFishUpdater.calculateFinalSum()
+        self.assertEqual(finalSum, [[[[4,0],[5,4]],[[7,7],[6,0]]],[[8,[7,7]],[[7,9],[5,0]]]])
 
-    # def test_testMutationExampleOnePartFive(self):
-    #     self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_5")
+    def test_testMutationExampleOnePartFive(self):
+        self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_5")
+        finalSum = self.snailFishUpdater.calculateFinalSum()
+        self.assertEqual(finalSum, [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]])
+
+    def test_calculateMagnitudeExampleOne(self):
+        inputString = [[9,1],[1,9]]
+        magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
+        self.assertEqual(magnitude, 129)
+        
+    def test_calculateMagnitudeExampleTwo(self):
+        inputString = [[1,2],[[3,4],5]]
+        magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
+        self.assertEqual(magnitude, 143)
+
+    def test_calculateMagnitudeExampleThree(self):
+        inputString = [[[[1,1],[2,2]],[3,3]],[4,4]]
+        magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
+        self.assertEqual(magnitude, 445)
+
+    def test_calculateMagnitudeExampleFour(self):
+        inputString = [[[[3,0],[5,3]],[4,4]],[5,5]]
+        magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
+        self.assertEqual(magnitude, 791)
+
+    def test_calculateMagnitudeExampleFive(self):
+        inputString = [[[[5,0],[7,4]],[5,5]],[6,6]]
+        magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
+        self.assertEqual(magnitude, 1137)
+
+    def test_calculateMagnitudeExampleSix(self):
+        inputString = [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]]
+        magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
+        self.assertEqual(magnitude, 3488)
+
+    def test_calculateMagnitudeExampleSeven(self):
+        inputString = [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]
+        magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
+        self.assertEqual(magnitude, 4140)
+        
+    # def test_calculateMagnitudeExampleFinal(self):
+    #     self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_6")
     #     finalSum = self.snailFishUpdater.calculateFinalSum()
-    #     self.assertEqual(finalSum, [[[[8,7],[7,7]],[[8,6],[7,7]]],[[[0,7],[6,6]],[8,7]]])
+    #     magnitude = self.snailFishUpdater.calculateMagnitude(finalSum)
+    #     self.assertEqual(finalSum, [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]])
+    #     self.assertEqual(magnitude, 4140)
         
 if __name__ == '__main__':
     # unittest.main(defaultTest="Test_SnailFishUpdater")
