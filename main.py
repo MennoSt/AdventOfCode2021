@@ -15,7 +15,7 @@ from solutions.SolutionDay14 import *
 from solutions.SolutionDay15 import *
 from solutions.SolutionDay16 import *
 from solutions.SolutionDay17 import *
-from SolutionDay18 import *
+from solutions.SolutionDay18 import *
 
 def PrintAllSolutions():
     print("Solutions of Advent of Code 2021:")
@@ -36,5 +36,4 @@ def PrintAllSolutions():
     solutionDay15()
     solutionDay16()
     solutionDay17()
-    
-solutionDay18()
+    solutionDay18()

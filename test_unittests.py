@@ -17,7 +17,7 @@ from solutions.SolutionDay14 import Polymarizator
 from solutions.SolutionDay15 import Dijkstra
 from solutions.SolutionDay16 import Packet, PacketDecoder
 from solutions.SolutionDay17 import *
-from SolutionDay18 import SnailFishUpdater
+from solutions.SolutionDay18 import SnailFishUpdater
 
 class Test_SumbarineCalculator(unittest.TestCase):
 
