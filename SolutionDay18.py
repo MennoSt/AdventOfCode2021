@@ -38,30 +38,31 @@ class SnailFishUpdater:
         updatedList = self.fishLists[0]
         
         for index in range(0, len(self.fishLists)-1):
-            updatedList = self.addTwoLists(updatedList, self.fishLists[index+1])
+            updatedList = self.__addTwoLists(updatedList, self.fishLists[index+1])
             updatedList = self.updateSnailFishNumbers(updatedList)
         
         return updatedList
             
-    def addTwoLists(self, list1, list2):
+    def __addTwoLists(self, list1, list2):
         listSum = [list1,list2]
         return listSum
     
     def updateSnailFishNumbers(self, initialList):
         
         listChanged = True
-        updatedList = initialList
+        startList = copy.deepcopy(initialList)
+        updatedList = self.updateListWithExplosions(initialList)
+        updatedList = self.updateListWithSplits(updatedList)
         
-        while(listChanged):
-            startList = copy.deepcopy(updatedList)
-            updatedList = self.updateListWithExplosions(updatedList)
-            updatedList = self.updateListWithSplits(updatedList)
-            if startList == updatedList:
-                listChanged = False
-            else:
-                listChanged = True
+        if startList == updatedList:
+            listChanged = False
+        else:
+            listChanged = True
         
-        return updatedList
+        if not listChanged:
+            return updatedList
+        else:
+            return self.updateSnailFishNumbers(updatedList)
         
     def updateListWithSplits(self,initialList):
         
@@ -110,8 +111,7 @@ class SnailFishUpdater:
                                         self.depth1 = initialList[index1]
                                         self.depth2 = initialList[index1][index2]
                                         self.depth3 = initialList[index1][index2][index3]
-                                        self.depth4 = initialList[index1][index2][index3][index4]
-                                                          
+                                        self.depth4 = initialList[index1][index2][index3][index4]         
                                         if index4-1 >= 0:
                                             self.__updateFourthNestedList(index4, Direction.LEFT)
                                         elif index3-1 >= 0:
@@ -147,7 +147,7 @@ class SnailFishUpdater:
             dir = 0
             iadd = 1
         
-        self.checkOnNestedList(index4, self.depth3, i, dir, iadd)
+        self.__checkOnNestedList(index4, self.depth3, i, dir, iadd)
 
     def __addExplodedValue(self, index, depth, direction=Direction.RIGHT):
         if direction == Direction.RIGHT:
@@ -159,14 +159,14 @@ class SnailFishUpdater:
             dir = 0
             iadd = 1
      
-        self.checkOnNestedList(index, depth, i, dir, iadd)
+        self.__checkOnNestedList(index, depth, i, dir, iadd)
 
-    def checkOnNestedList(self, index, depth, i, dir, iadd):
+    def __checkOnNestedList(self, index, depth, i, dir, iadd):
         if isinstance(depth[index+i], list):
             if isinstance(depth[index+i][iadd], list):
                 if isinstance(depth[index+i][iadd][iadd], list):
                     if isinstance(depth[index+i][iadd][iadd][iadd], list):
-                        Exception("ErrorNestedList")
+                        depth[index+i][iadd][iadd][iadd][iadd] += self.depth4[dir]
                     else:
                         depth[index+i][iadd][iadd][iadd] += self.depth4[dir]        
                 else:
@@ -181,6 +181,6 @@ def solutionDay18():
     snailFishUpdater.readDataIntoLists("input/inputday18")
     finalSum = snailFishUpdater.calculateFinalSum()
     magnitude = snailFishUpdater.calculateMagnitude(finalSum)
-    print("AnserPart1:", magnitude)
+    print("AnswerPart1:", magnitude)
     
     

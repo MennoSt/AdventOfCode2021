@@ -749,13 +749,18 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
         inputString = [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]]
         magnitude = self.snailFishUpdater.calculateMagnitude(inputString)
         self.assertEqual(magnitude, 4140)
-        
-    # def test_calculateMagnitudeExampleFinal(self):
-    #     self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_6")
-    #     finalSum = self.snailFishUpdater.calculateFinalSum()
-    #     magnitude = self.snailFishUpdater.calculateMagnitude(finalSum)
-    #     self.assertEqual(finalSum, [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]])
-    #     self.assertEqual(magnitude, 4140)
+
+    def test_calculateMagnitudeExampleFinal(self):
+        self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_6")
+        finalSum = self.snailFishUpdater.calculateFinalSum()
+        magnitude = self.snailFishUpdater.calculateMagnitude(finalSum)
+        self.assertEqual(finalSum, [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]])
+        self.assertEqual(magnitude, 4140)
+
+class Test_SnailFishUpdaterFail(unittest.TestCase):
+    
+    def setUp(self):
+        self.snailFishUpdater = SnailFishUpdater()      
 
 def run_some_tests():
     # Run only the tests in the specified classes
@@ -776,6 +781,5 @@ def run_some_tests():
         
 if __name__ == '__main__':
     run_some_tests()
-    # unittest.main(defaultTest="Test_SnailFishUpdater")
     # unittest.main(defaultTest="Test_SnailFishUpdaterWithInputData")
     # unittest.main()
