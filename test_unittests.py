@@ -757,10 +757,17 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
         self.assertEqual(finalSum, [[[[6,6],[7,6]],[[7,7],[7,0]]],[[[7,7],[7,7]],[[7,8],[9,9]]]])
         self.assertEqual(magnitude, 4140)
 
+    def test_calculateHighestMagnitudeSum(self):
+        self.snailFishUpdater.readDataIntoLists("testinput/unittestinputday18_6")
+        magnitude = self.snailFishUpdater.determineLargestMagnitueOfSums()
+        self.assertEqual(magnitude, 3993) 
+
 class Test_SnailFishUpdaterFail(unittest.TestCase):
     
     def setUp(self):
-        self.snailFishUpdater = SnailFishUpdater()      
+        self.snailFishUpdater = SnailFishUpdater()     
+        
+
 
 def run_some_tests():
     # Run only the tests in the specified classes
@@ -781,5 +788,5 @@ def run_some_tests():
         
 if __name__ == '__main__':
     run_some_tests()
-    # unittest.main(defaultTest="Test_SnailFishUpdaterWithInputData")
+    # unittest.main(defaultTest="Test_SnailFishUpdaterFail")
     # unittest.main()

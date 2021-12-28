@@ -3,8 +3,6 @@ from utils.AocEnums import *
 from utils.FileReader import FileReader
 import copy
 import math
-import ast
-
 
 class SnailFishUpdater:
     def __init__(self):
@@ -14,6 +12,20 @@ class SnailFishUpdater:
         fileReader = FileReader()
         self.fishLists = fileReader.readLinesToListArray(input)
 
+    def determineLargestMagnitueOfSums(self):
+        magnitude = 0
+        for index in range(0, len(self.fishLists)-1):
+            for fishList in self.fishLists:
+                if fishList != self.fishLists[index+1]:
+                    updatedList = self.__addTwoLists(fishList, self.fishLists[index])
+                    copyUpdatedList = copy.deepcopy(updatedList)
+                    copyUpdatedList = self.updateSnailFishNumbers(copyUpdatedList)
+                    newMagnitude = self.calculateMagnitude(copyUpdatedList)
+                if newMagnitude > magnitude:
+                    magnitude = newMagnitude
+        
+        return magnitude
+                        
     def calculateMagnitude(self, snailFishSumini):
         
         leftScore = 3
@@ -21,14 +33,17 @@ class SnailFishUpdater:
         
         snailFishSum = copy.deepcopy(snailFishSumini)
         
-        for index in range(0, len(snailFishSum)+1):
-            if isinstance(snailFishSum, int):
-                break
-            elif len(snailFishSum) == 2:
-                if isinstance(snailFishSum[0], int) and isinstance(snailFishSum[1],int):
-                    snailFishSum = snailFishSum[0] *leftScore + snailFishSum[1]*rightScore
-                else:
-                    snailFishSum[index] = self.calculateMagnitude(snailFishSum[index])
+        if isinstance(snailFishSum,int):
+            snailFishSum=snailFishSum
+        else:
+            for index in range(0, len(snailFishSum)+1):
+                if isinstance(snailFishSum, int):
+                    break
+                elif len(snailFishSum) == 2:
+                    if isinstance(snailFishSum[0], int) and isinstance(snailFishSum[1],int):
+                        snailFishSum = snailFishSum[0] *leftScore + snailFishSum[1]*rightScore
+                    else:
+                        snailFishSum[index] = self.calculateMagnitude(snailFishSum[index])
     
         return snailFishSum
     
@@ -178,9 +193,14 @@ class SnailFishUpdater:
     
 def solutionDay18():
     snailFishUpdater = SnailFishUpdater()
+    
     snailFishUpdater.readDataIntoLists("input/inputday18")
     finalSum = snailFishUpdater.calculateFinalSum()
-    magnitude = snailFishUpdater.calculateMagnitude(finalSum)
-    print("AnswerPart1:", magnitude)
+    answerPart1 = snailFishUpdater.calculateMagnitude(finalSum)
+    
+    snailFishUpdater.readDataIntoLists("input/inputday18")
+    answerPart2 = snailFishUpdater.determineLargestMagnitueOfSums()
+    
+    printAnswer(18, answerPart1, answerPart2)
     
     
