@@ -21,9 +21,9 @@ class SnailFishUpdater:
                     copyUpdatedList = copy.deepcopy(updatedList)
                     copyUpdatedList = self.updateSnailFishNumbers(copyUpdatedList)
                     newMagnitude = self.calculateMagnitude(copyUpdatedList)
-                if newMagnitude > magnitude:
-                    magnitude = newMagnitude
-        
+                
+                magnitude = max(magnitude,newMagnitude)
+
         return magnitude
                         
     def calculateMagnitude(self, snailFishSumini):
@@ -33,9 +33,7 @@ class SnailFishUpdater:
         
         snailFishSum = copy.deepcopy(snailFishSumini)
         
-        if isinstance(snailFishSum,int):
-            snailFishSum=snailFishSum
-        else:
+        if not isinstance(snailFishSum,int):
             for index in range(0, len(snailFishSum)+1):
                 if isinstance(snailFishSum, int):
                     break

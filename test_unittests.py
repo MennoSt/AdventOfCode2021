@@ -1,4 +1,5 @@
 import unittest
+from SolutionDay19 import ScanManager
 
 from solutions.SolutionDay01 import SubmarineCalculator
 from solutions.SolutionDay02 import PositionCalculator
@@ -762,17 +763,26 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
         magnitude = self.snailFishUpdater.determineLargestMagnitueOfSums()
         self.assertEqual(magnitude, 3993) 
 
-class Test_SnailFishUpdaterFail(unittest.TestCase):
+class Test_ScanManager(unittest.TestCase):
     
     def setUp(self):
-        self.snailFishUpdater = SnailFishUpdater()     
-        
+        self.scanManager = ScanManager()
+    
+    def test_calculateGetCommonBeacons(self):
+        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
+        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[0], self.scanManager.scanners[1])
+        self.assertEqual(overlaps, [68, -1246, -43])
+
+    def test_calculateGetCommonBeaconsBetweenOneAndFour(self):
+        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
+        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[1], self.scanManager.scanners[3])
+        self.assertEqual(overlaps, [88, 113, -1104])
 
 
 def run_some_tests():
     # Run only the tests in the specified classes
 
-    test_classes_to_run = [Test_SnailFishUpdaterWithInputData, Test_SnailFishUpdater]
+    test_classes_to_run = [Test_ScanManager]
 
     loader = unittest.TestLoader()
 
