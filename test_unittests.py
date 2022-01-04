@@ -775,8 +775,18 @@ class Test_ScanManager(unittest.TestCase):
 
     def test_calculateGetCommonBeaconsBetweenOneAndFour(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
+        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[1], self.scanManager.scanners[4])
+        self.assertEqual(overlaps, [-88, 113, -1104])
+
+    def test_calculateGetCommonBeaconsBetweenOneAndThree(self):
+        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
         overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[1], self.scanManager.scanners[3])
-        self.assertEqual(overlaps, [88, 113, -1104])
+        self.assertEqual(overlaps, [-160, -1134, -23])
+        
+    def test_calculateGetCommonBeaconsBetweenOneAndTwo(self):
+        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
+        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[4], self.scanManager.scanners[2])
+        self.assertEqual(overlaps, [-168, 1125, 72])
 
 
 def run_some_tests():

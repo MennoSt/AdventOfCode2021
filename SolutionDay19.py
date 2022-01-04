@@ -16,6 +16,14 @@ def most_frequent(List):
     
     return numberCount
 
+class Operator(Enum):
+    MINUSX = 0
+    PLUSX = 1
+    MINUSY = 2
+    PLUSY = 3
+    MINUSZ = 4
+    PLUSZ = 5
+    
 class Scanner:
     def __init__(self, name:str, position):
         self.name = name
@@ -25,63 +33,70 @@ class Scanner:
 class ScanManager:
     def __init__(self):
         self.scanners = []
+        
+    def findCommonCoordinate(self, scanner1:Scanner, scanner2:Scanner, forString:str):
+        diffList = []
+        xMatches =[]
+        coordinateOutput = None
+        operators = [Operator.MINUSX, Operator.PLUSX, Operator.MINUSY, Operator.PLUSY, Operator.MINUSZ, Operator.PLUSZ]
+
+        for operator in operators:
+            for index1 in range (0, len(scanner1.positions)):
+                for index2 in range(0,len(scanner2.positions)):
+                    if operator == Operator.MINUSX:
+                        diff = scanner1.positions[index1][forString] - scanner2.positions[index2]["x"]
+                    elif operator == Operator.PLUSX:
+                        diff = scanner1.positions[index1][forString] + scanner2.positions[index2]["x"]
+                    elif operator == Operator.MINUSY:
+                        diff = scanner1.positions[index1][forString] - scanner2.positions[index2]["y"]
+                    elif operator == Operator.PLUSY:
+                        diff = scanner1.positions[index1][forString] + scanner2.positions[index2]["y"]
+                    elif operator == Operator.MINUSZ:
+                        diff = scanner1.positions[index1][forString] - scanner2.positions[index2]["z"]
+                    elif operator == Operator.PLUSZ:
+                        diff = scanner1.positions[index1][forString] + scanner2.positions[index2]["z"]
+                        
+                    diffList.append(diff)
+                    xMatches.append({'scanner1':scanner1.positions[index1], 'scanner2' :scanner2.positions[index2], 'diff':diff})
+            
+            beacon1 = []
+            beacon2 = []    
+            coordinate = most_frequent(diffList)
+            if coordinate["count"] >= 12:
+                coordinateOutput = coordinate
+                lastOperator = operator
+                print(lastOperator)
+                Matches = xMatches
+                for match in Matches:
+                    if match["diff"] == coordinate["number"]:
+                        beacon1.append(match["scanner1"])
+                        beacon2.append(match["scanner2"])
+                Beacons =[beacon1,beacon2]
+                
+                for match in Matches:
+                    if match["diff"]== coordinate["number"]:
+                        if lastOperator == Operator.MINUSX:
+                            if match["scanner1"]["x"] > match["scanner2"]["x"]:
+                                coordinate["number"] *= -1
+                        elif lastOperator == Operator.MINUSY:
+                            if match["scanner1"]["y"] > match["scanner2"]["y"]:
+                                coordinate["number"] *= -1
+                        elif lastOperator == Operator.MINUSZ:
+                            if match["scanner1"]["z"] > match["scanner2"]["z"]:
+                                coordinate["number"] *= -1
+                 
+            diffList = []
+            xMatches = []
+            
+        return [coordinateOutput, Beacons]
     
     def coordinatesBetweenScanners(self, scanner1:Scanner, scanner2:Scanner):
-        xdiff = []
-        xMatches = []
-        ydiff = []
-        zdiff = []
-        xdiffTmp = []
-        
-        for index1 in range (0, len(scanner1.positions)):
-            for index2 in range(0,len(scanner2.positions)):
-                # diff = scanner1.positions[index1]["x"] + scanner2.positions[index2]["x"]
-                # xdiff.append(diff)
-                # xMatches.append({'scanner1':scanner1.positions[index1], 'scanner2' :scanner2.positions[index2], 'diff':diff})
+    
+        xcoor = self.findCommonCoordinate(scanner1, scanner2, "x")
+        ycoor = self.findCommonCoordinate(scanner1, scanner2, "y")
+        zcoor = self.findCommonCoordinate(scanner1, scanner2, "z")
                 
-                xdiff.append(scanner1.positions[index1]["x"] - scanner2.positions[index2]["x"])
-                xdiff.append(scanner1.positions[index1]["x"] + scanner2.positions[index2]["x"])
-                xdiff.append(scanner1.positions[index1]["x"] - scanner2.positions[index2]["y"])
-                xdiff.append(scanner1.positions[index1]["x"] + scanner2.positions[index2]["y"])
-                xdiff.append(scanner1.positions[index1]["x"] - scanner2.positions[index2]["z"])               
-                xdiff.append(scanner1.positions[index1]["x"] + scanner2.positions[index2]["z"])
-                
-                ydiff.append(scanner1.positions[index1]["y"] - scanner2.positions[index2]["y"])
-                ydiff.append(scanner1.positions[index1]["y"] + scanner2.positions[index2]["y"])
-                ydiff.append(scanner1.positions[index1]["y"] - scanner2.positions[index2]["x"])
-                ydiff.append(scanner1.positions[index1]["y"] + scanner2.positions[index2]["x"])
-                ydiff.append(scanner1.positions[index1]["y"] - scanner2.positions[index2]["z"])                
-                ydiff.append(scanner1.positions[index1]["y"] + scanner2.positions[index2]["z"])
-                
-                zdiff.append(scanner1.positions[index1]["z"] - scanner2.positions[index2]["z"])
-                zdiff.append(scanner1.positions[index1]["z"] + scanner2.positions[index2]["z"])
-                zdiff.append(scanner1.positions[index1]["z"] - scanner2.positions[index2]["x"])
-                zdiff.append(scanner1.positions[index1]["z"] + scanner2.positions[index2]["x"])
-                zdiff.append(scanner1.positions[index1]["z"] - scanner2.positions[index2]["y"])
-                zdiff.append(scanner1.positions[index1]["z"] + scanner2.positions[index2]["y"])
-        
-        beacon1 = []
-        beacon2 = []
-        xcoor = most_frequent(xdiff)
-        if xcoor["count"]>=12:
-            for match in xMatches:
-                if match["diff"] == xcoor["number"]:
-                    beacon1.append(match["scanner1"])
-                    beacon2.append(match["scanner2"])
-        
-        print(beacon1)
-        print(beacon2)
-        
-        ycoor = most_frequent(ydiff)
-        zcoor = most_frequent(zdiff)
-        
-        print("xdiff:"+ str(xcoor))
-        print("ydiff:"+ str(ycoor))
-        print("zdiff:"+ str(zcoor))
-        
-        return [xcoor["number"], ycoor["number"], zcoor["number"]]
-        
-        
+        return [xcoor[0]["number"], ycoor[0]["number"], zcoor[0]["number"]]
         
     def readInputDataIntoScanners(self, input):
         with open (input, "r") as myfile:
