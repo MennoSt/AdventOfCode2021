@@ -33,79 +33,83 @@ class Scanner:
 
 class ScanManager:
     def __init__(self):
-        self.scanners = []
-        self.beacons = []
+        self.scanners = [Scanner]
+        self.visitedScanners = [0]
+        self.lastOperation = {'x':Operator.PLUSX, 'y':Operator.PLUSZ, 'z':Operator.PLUSZ,}
     
     def getLengthBeacons(self):
-        #from Scanner0:
-        for index in range(1,5):
-            beacons = self.updateCommonBeacons(self.scanners[0], self.scanners[index])
-            if beacons != None:
-                tmpBeacons = copy.deepcopy(beacons)
-                for beacon in tmpBeacons:
-                    self.beacons.append(beacon)
-        
-        #Scanner1:
-        for index in range(2,5):
-            beacons = self.updateCommonBeacons(self.scanners[1], self.scanners[index])
-            if beacons != None:
-                coordinates = self.coordinatesBetweenScanners(self.scanners[0], self.scanners[1])
-                
-                tmpBeacons = copy.deepcopy(beacons)
-                for lap in tmpBeacons:
-                    lap['x'] = -1*(lap['x']-coordinates[0])
-                    lap['y'] = lap['y']+coordinates[1]
-                    lap['z'] = -1*(lap['z']-coordinates[2])
-                
-                for beacon in tmpBeacons:
-                    self.beacons.append(beacon)
-        
-        # remove duplicates:
-        self.beacons = [dict(t) for t in {tuple(d.items()) for d in self.beacons}]
-        
-        lengthBeacons = len(self.beacons[0])
-        
+        lengthBeacons = len(self.scanners[0].positions)
         return lengthBeacons
     
-    def updateCommonBeacons(self, scanner1:Scanner, scanner2:Scanner):
-        forString = "x"
-        beacon1 = None
-        xMatches =[]
-        diffList = []
-        operators = [Operator.MINUSX, Operator.PLUSX, Operator.MINUSY, Operator.PLUSY, Operator.MINUSZ, Operator.PLUSZ]
+    def AddBeaconsRelativeToScanner(self):
+        
+        self.scanners.pop(0)
+        
+        self.addAllCoordinatesRelativeToScanner(self.scanners[0])
+        
+        # remove duplicates:
+        self.scanners[0].positions = [dict(t) for t in {tuple(d.items()) for d in self.scanners[0].positions}]
+        # self.addAllCoordinatesRelativeToScanner(self.scanners[0])
+        
+        print("duplicates removed")
+        
+        
+    def addAllCoordinatesRelativeToScanner(self, scannerInput:Scanner):
+        
+        for index in range(0,5):
+            coordinates = self.coordinatesBetweenScanners(scannerInput, self.scanners[index])
+            if coordinates != None:
+                if index not in self.visitedScanners:
+                    self.visitedScanners.append(index)
+                    scannerTmp = copy.deepcopy(self.scanners[index])
+                    
+                    for beacon in scannerTmp.positions:
+                        self.updateBeacon(coordinates, beacon, "x")
+                        self.updateBeacon(coordinates, beacon, "y")
+                        self.updateBeacon(coordinates, beacon, "z")
+                    
+                    for beacon in scannerTmp.positions:
+                        scannerInput.positions.append(beacon)
 
-        for operator in operators:
-            for index1 in range (0, len(scanner1.positions)):
-                for index2 in range(0,len(scanner2.positions)):
-                    if operator == Operator.MINUSX:
-                        diff = scanner1.positions[index1][forString] - scanner2.positions[index2]["x"]
-                    elif operator == Operator.PLUSX:
-                        diff = scanner1.positions[index1][forString] + scanner2.positions[index2]["x"]
-                    elif operator == Operator.MINUSY:
-                        diff = scanner1.positions[index1][forString] - scanner2.positions[index2]["y"]
-                    elif operator == Operator.PLUSY:
-                        diff = scanner1.positions[index1][forString] + scanner2.positions[index2]["y"]
-                    elif operator == Operator.MINUSZ:
-                        diff = scanner1.positions[index1][forString] - scanner2.positions[index2]["z"]
-                    elif operator == Operator.PLUSZ:
-                        diff = scanner1.positions[index1][forString] + scanner2.positions[index2]["z"]
+        index = 4
+        coordinates = self.coordinatesBetweenScanners(scannerInput, self.scanners[index])
+        if coordinates != None:
+            if index not in self.visitedScanners:
+                self.visitedScanners.append(index)
+                # self.addAllCoordinatesRelativeToScanner(self.scanners[index])
+                scannerTmp = copy.deepcopy(self.scanners[index])
+                
+                for beacon in scannerTmp.positions:
+                    self.updateBeacon(coordinates, beacon, "x")
+                    self.updateBeacon(coordinates, beacon, "y")
+                    self.updateBeacon(coordinates, beacon, "z")
+                
+                for beacon in scannerTmp.positions:
+                    scannerInput.positions.append(beacon)
                         
-                    diffList.append(diff)
-                    xMatches.append({'scanner1':scanner1.positions[index1], 'diff':diff})
-                
-            coordinate = most_frequent(diffList)
-            if coordinate["count"] >= 12:
-                Matches = xMatches    
-                beacon1 = []
-                for match in Matches:
-                    if match["diff"] == coordinate["number"]:
-                        beacon1.append(match["scanner1"])
-                
-            diffList = []
-            xMatches = []
+    def updateBeacon(self, coordinates, beacon, coor:str):
         
-        return beacon1
-        
+        coordinate = 0
+        if coor == "x":
+            coordinate = coordinates[0]
+        elif coor == "y":
+            coordinate = coordinates[1]
+        elif coor == "z":
+            coordinate = coordinates[2]
+            
+        operator = self.lastOperation[coor]
+        if operator == Operator.PLUSX:
+            beacon[coor] = -1*(beacon['x'] - coordinate)
+        elif operator == Operator.MINUSX:
+            beacon[coor] = beacon['x'] + coordinate
+        elif operator == Operator.PLUSY:
+            beacon[coor] = -1*(beacon['y']-coordinate)
+        elif operator == Operator.MINUSY:
+            beacon[coor] = beacon['y'] + coordinate  
+        elif operator== Operator.PLUSZ:
+            beacon[coor] = -1*(beacon['z']-coordinate)
+        elif operator == Operator.MINUSZ:
+            beacon[coor] = beacon['z'] + coordinate
      
     def findCommonCoordinate(self, scanner1:Scanner, scanner2:Scanner, forString:str):
         diffList = []
@@ -136,6 +140,7 @@ class ScanManager:
             if coordinate["count"] >= 12:
                 coordinateOutput = coordinate
                 lastOperator = operator
+                self.lastOperation[forString] = lastOperator
                 print(lastOperator)
                 Matches = xMatches
                 self.handleMinusSign(coordinate, lastOperator, Matches)
@@ -164,7 +169,10 @@ class ScanManager:
         ycoor = self.findCommonCoordinate(scanner1, scanner2, "y")
         zcoor = self.findCommonCoordinate(scanner1, scanner2, "z")
         
-        coordinate = [xcoor["number"], ycoor["number"], zcoor["number"]]
+        if xcoor != None and ycoor != 0 and zcoor != 0:
+            coordinate = [xcoor["number"], ycoor["number"], zcoor["number"]]
+        else:
+            coordinate = None
             
         return coordinate
     
