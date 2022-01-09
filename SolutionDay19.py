@@ -17,6 +17,9 @@ def most_frequent(List):
     
     return numberCount
 
+def removeDuplicatesInDictionairy(listInput):
+    return [dict(t) for t in {tuple(d.items()) for d in listInput}]
+
 class Operator(Enum):
     MINUSX = 0
     PLUSX = 1
@@ -29,7 +32,6 @@ class Scanner:
     def __init__(self, name:str, position):
         self.name = name
         self.positions = position
-         
 
 class ScanManager:
     def __init__(self):
@@ -39,12 +41,34 @@ class ScanManager:
         self.visitedScanners = [0]
         self.lastOperation = {'x':Operator.PLUSX, 'y':Operator.PLUSY, 'z':Operator.PLUSZ,}
         self.scannerCoordinates = [[0,0,0]]
-    
+        
+    def readInputDataIntoScanners(self, input):
+        with open (input, "r") as myfile:
+            dataread = myfile.read().rstrip()
+            chartData = dataread.split('\n\n')
+
+        for data in chartData:
+            scanData = data.split("\n")
+            self.__readDataIntoScanners(scanData)
+        
+    def coordinatesBetweenScanners(self, scanner1:Scanner, scanner2:Scanner):
+        
+        xcoor = self.__findCommonCoordinate(scanner1, scanner2, "x")
+        ycoor = self.__findCommonCoordinate(scanner1, scanner2, "y")
+        zcoor = self.__findCommonCoordinate(scanner1, scanner2, "z")
+        
+        if xcoor != None and ycoor != None and zcoor != None:
+            coordinate = [xcoor["number"], ycoor["number"], zcoor["number"]]
+        else:
+            coordinate = None
+            
+        return coordinate
+            
     def getLengthBeacons(self):
         lengthBeacons = len(self.beaconsRelativeToScanner)
         return lengthBeacons
     
-    def calculateLargestManhattanDistance(self):
+    def getLargestManhattanDistance(self):
         maxManhattanSum = 0
         manhattanSum = 0
         for index1 in range(0, len(self.scannerCoordinates)):
@@ -69,11 +93,9 @@ class ScanManager:
             for beacon in scanner.positions:
                 beacons.append(beacon)
         
-        beacons = self.__removeDuplicatesInDictionairy(beacons)
+        beacons = removeDuplicatesInDictionairy(beacons)
         self.beaconsRelativeToScanner = sorted(beacons, key=lambda x: x['x'])
-    
-    def __removeDuplicatesInDictionairy(self, listInput):
-        return [dict(t) for t in {tuple(d.items()) for d in listInput}]
+
         
     def addAllCoordinatesRelativeToScanner(self, scannerInput:Scanner):
         numberOfScanners = len(self.scanners)
@@ -90,15 +112,15 @@ class ScanManager:
                         scannerTmp = []
                         for beacon in self.scanners[index].positions:
                             beaconInit = copy.deepcopy(beacon)
-                            self.updateBeacon(coordinates, beacon, beaconInit, "x")
-                            self.updateBeacon(coordinates, beacon, beaconInit, "y")
-                            self.updateBeacon(coordinates, beacon, beaconInit, "z")
+                            self.__updateBeacon(coordinates, beacon, beaconInit, "x")
+                            self.__updateBeacon(coordinates, beacon, beaconInit, "y")
+                            self.__updateBeacon(coordinates, beacon, beaconInit, "z")
                             scannerTmp.append(beacon)
                         self.scanners[index].positions = scannerTmp
                         self.addAllCoordinatesRelativeToScanner(self.scanners[index])
         
                 
-    def updateBeacon(self, coordinates, beacon, beaconInit, coor:str):
+    def __updateBeacon(self, coordinates, beacon, beaconInit, coor:str):
         
         coordinate = 0
         if coor == "x":
@@ -122,7 +144,7 @@ class ScanManager:
         elif operator == Operator.MINUSZ:
             beacon[coor] = beaconInit['z'] + coordinate
      
-    def findCommonCoordinate(self, scanner1:Scanner, scanner2:Scanner, forString:str):
+    def __findCommonCoordinate(self, scanner1:Scanner, scanner2:Scanner, forString:str):
         diffList = []
         xMatches =[]
         coordinateOutput = None
@@ -158,29 +180,7 @@ class ScanManager:
             diffList = []
             xMatches = []
             
-        return coordinateOutput
-    
-    def coordinatesBetweenScanners(self, scanner1:Scanner, scanner2:Scanner):
-    
-        xcoor = self.findCommonCoordinate(scanner1, scanner2, "x")
-        ycoor = self.findCommonCoordinate(scanner1, scanner2, "y")
-        zcoor = self.findCommonCoordinate(scanner1, scanner2, "z")
-        
-        if xcoor != None and ycoor != None and zcoor != None:
-            coordinate = [xcoor["number"], ycoor["number"], zcoor["number"]]
-        else:
-            coordinate = None
-            
-        return coordinate
-    
-    def readInputDataIntoScanners(self, input):
-        with open (input, "r") as myfile:
-            dataread = myfile.read().rstrip()
-            chartData = dataread.split('\n\n')
-    
-        for data in chartData:
-            scanData = data.split("\n")
-            self.__readDataIntoScanners(scanData)    
+        return coordinateOutput 
         
     def __readDataIntoScanners(self,scanData):
         name = scanData[0]
@@ -193,10 +193,6 @@ class ScanManager:
             positions.append(position)
         
         scanner = Scanner(name,positions)
-        self.scanners.append(scanner) 
-        
-        
-    def addScanner(self, scanner:Scanner):
         self.scanners.append(scanner)
         
 def solutionDay19():
@@ -204,8 +200,9 @@ def solutionDay19():
 
     scanManager.readInputDataIntoScanners("input/inputday19")
     scanManager.AddBeaconsRelativeToScanner()
+    
     answerPart1 = scanManager.getLengthBeacons()
-    answerPart2 = scanManager.calculateLargestManhattanDistance()
+    answerPart2 = scanManager.getLargestManhattanDistance()
     
     printAnswer(19, answerPart1, answerPart2)
 

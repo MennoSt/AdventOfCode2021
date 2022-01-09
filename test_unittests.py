@@ -800,7 +800,7 @@ class Test_ScanManager(unittest.TestCase):
     def test_calculateLargestManhattanDistance(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
         self.scanManager.AddBeaconsRelativeToScanner()
-        largestManhattenDistance = self.scanManager.calculateLargestManhattanDistance()
+        largestManhattenDistance = self.scanManager.getLargestManhattanDistance()
         self.assertEqual(largestManhattenDistance, 3621)
 
     
