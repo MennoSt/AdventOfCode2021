@@ -1,5 +1,5 @@
 import unittest
-from SolutionDay19 import ScanManager
+from solutions.SolutionDay19 import ScanManager
 
 from solutions.SolutionDay01 import SubmarineCalculator
 from solutions.SolutionDay02 import PositionCalculator
@@ -786,20 +786,24 @@ class Test_ScanManager(unittest.TestCase):
     def test_calculateGetCommonBeacons(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
         overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[0], self.scanManager.scanners[1])
-        self.assertEqual(overlaps, [68, -1246, -43])
+        self.assertEqual(overlaps, {'x': 68, 'y': -1246, 'z': -43})
         
     def test_getLengthBeacons(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        self.scanManager.AddBeaconsRelativeToScanner()
+        self.scanManager.AddBeaconsRelativeToScanner(0)
         length = self.scanManager.getLengthBeacons()
         
         self.assertEqual(length, 79)
         self.assertEqual(self.scanManager.beaconsRelativeToScanner, self.testanswer)
-        self.assertEqual(self.scanManager.scannerCoordinates, [[0, 0, 0], [68, -1246, -43], [-92, -2380, -20], [-20, -1133, 1061], [1105, -1205, 1229]])
+        self.assertEqual(self.scanManager.scannerCoordinates, [{'x': 0, 'y': 0, 'z': 0}, 
+                                                               {'x': 68, 'y': -1246, 'z': -43}, 
+                                                               {'x': -92, 'y': -2380, 'z': -20}, 
+                                                               {'x': -20, 'y': -1133, 'z': 1061}, 
+                                                               {'x': 1105, 'y': -1205, 'z': 1229}])
 
     def test_calculateLargestManhattanDistance(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        self.scanManager.AddBeaconsRelativeToScanner()
+        self.scanManager.AddBeaconsRelativeToScanner(0)
         largestManhattenDistance = self.scanManager.getLargestManhattanDistance()
         self.assertEqual(largestManhattenDistance, 3621)
 

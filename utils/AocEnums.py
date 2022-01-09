@@ -16,3 +16,11 @@ class char(str, Enum):
     roundClosed = ")"
     bracketClosed = "}"
     squareClosed = "]"
+
+class Operator(Enum):
+    MINUSX = 0
+    PLUSX = 1
+    MINUSY = 2
+    PLUSY = 3
+    MINUSZ = 4
+    PLUSZ = 5

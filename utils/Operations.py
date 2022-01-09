@@ -1,5 +1,8 @@
 from collections import defaultdict
 
+def removeDuplicatesInDictionairy(listInput):
+    return [dict(t) for t in {tuple(d.items()) for d in listInput}]
+
 def findMiddle(input_list):
     middle = float(len(input_list))/2
     if middle % 2 != 0:
