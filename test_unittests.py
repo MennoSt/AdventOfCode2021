@@ -795,6 +795,13 @@ class Test_ScanManager(unittest.TestCase):
         
         self.assertEqual(length, 79)
         self.assertEqual(self.scanManager.beaconsRelativeToScanner, self.testanswer)
+        self.assertEqual(self.scanManager.scannerCoordinates, [[0, 0, 0], [68, -1246, -43], [-92, -2380, -20], [-20, -1133, 1061], [1105, -1205, 1229]])
+
+    def test_calculateLargestManhattanDistance(self):
+        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
+        self.scanManager.AddBeaconsRelativeToScanner()
+        largestManhattenDistance = self.scanManager.calculateLargestManhattanDistance()
+        self.assertEqual(largestManhattenDistance, 3621)
 
     
 def run_some_tests():

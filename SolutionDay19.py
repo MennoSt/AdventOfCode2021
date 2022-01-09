@@ -38,11 +38,28 @@ class ScanManager:
         self.beaconsRelativeToScanner = []
         self.visitedScanners = [0]
         self.lastOperation = {'x':Operator.PLUSX, 'y':Operator.PLUSY, 'z':Operator.PLUSZ,}
+        self.scannerCoordinates = [[0,0,0]]
     
     def getLengthBeacons(self):
         lengthBeacons = len(self.beaconsRelativeToScanner)
         return lengthBeacons
     
+    def calculateLargestManhattanDistance(self):
+        maxManhattanSum = 0
+        manhattanSum = 0
+        for index1 in range(0, len(self.scannerCoordinates)):
+            for index2 in range(0, len(self.scannerCoordinates)):
+                if index1 != index2:
+                    xdist = abs(self.scannerCoordinates[index1][0] - self.scannerCoordinates[index2][0])
+                    ydist = abs(self.scannerCoordinates[index1][1] - self.scannerCoordinates[index2][1])
+                    zdist = abs(self.scannerCoordinates[index1][2] - self.scannerCoordinates[index2][2])
+                    manhattanSum = xdist+ydist+zdist
+                if manhattanSum > maxManhattanSum:
+                    maxManhattanSum = manhattanSum
+        
+        return maxManhattanSum
+                
+                
     def AddBeaconsRelativeToScanner(self):
         
         self.addAllCoordinatesRelativeToScanner(self.scanners[0])
@@ -54,8 +71,6 @@ class ScanManager:
         
         beacons = self.__removeDuplicatesInDictionairy(beacons)
         self.beaconsRelativeToScanner = sorted(beacons, key=lambda x: x['x'])
-        
-        print("sorted removed")
     
     def __removeDuplicatesInDictionairy(self, listInput):
         return [dict(t) for t in {tuple(d.items()) for d in listInput}]
@@ -70,6 +85,7 @@ class ScanManager:
             
                 if coordinates != None:
                     if index not in self.visitedScanners:
+                        self.scannerCoordinates.append(coordinates)
                         self.visitedScanners.append(index)
                         scannerTmp = []
                         for beacon in self.scanners[index].positions:
@@ -77,7 +93,6 @@ class ScanManager:
                             self.updateBeacon(coordinates, beacon, beaconInit, "x")
                             self.updateBeacon(coordinates, beacon, beaconInit, "y")
                             self.updateBeacon(coordinates, beacon, beaconInit, "z")
-                            # scannerInput.positions.append(beacon)
                             scannerTmp.append(beacon)
                         self.scanners[index].positions = scannerTmp
                         self.addAllCoordinatesRelativeToScanner(self.scanners[index])
@@ -166,8 +181,6 @@ class ScanManager:
         for data in chartData:
             scanData = data.split("\n")
             self.__readDataIntoScanners(scanData)    
-
-
         
     def __readDataIntoScanners(self,scanData):
         name = scanData[0]
@@ -192,8 +205,8 @@ def solutionDay19():
     scanManager.readInputDataIntoScanners("input/inputday19")
     scanManager.AddBeaconsRelativeToScanner()
     answerPart1 = scanManager.getLengthBeacons()
-    answerPart2 = 0
+    answerPart2 = scanManager.calculateLargestManhattanDistance()
     
-    printAnswer(18, answerPart1, answerPart2)
+    printAnswer(19, answerPart1, answerPart2)
 
     
