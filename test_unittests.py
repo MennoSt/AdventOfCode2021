@@ -763,97 +763,39 @@ class Test_SnailFishUpdaterWithInputData(unittest.TestCase):
         magnitude = self.snailFishUpdater.determineLargestMagnitueOfSums()
         self.assertEqual(magnitude, 3993) 
 
+def readTestAnswerIntoDictionary(answerTestData):
+    with open (answerTestData, "r") as myfile:
+        dataread = myfile.read().rstrip()
+        chartData = dataread.split('\n\n')
+        for data in chartData:
+            scanData = data.split("\n")
+            positions = []
+            for line in scanData:
+                line = list(map(int,line.split(",")))
+                position = {"x" : line[0], "y" :line[1], "z": line[2]}
+                positions.append(position)
+    
+    return positions
+
 class Test_ScanManager(unittest.TestCase):
     
     def setUp(self):
         self.scanManager = ScanManager()
+        self.testanswer = readTestAnswerIntoDictionary("testinput/unittestinputday19_answer")
     
     def test_calculateGetCommonBeacons(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
         overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[0], self.scanManager.scanners[1])
         self.assertEqual(overlaps, [68, -1246, -43])
-
-    def test_calculateGetCommonBeaconsBetweenOneAndFour(self):
-        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[1], self.scanManager.scanners[4])
-        self.assertEqual(overlaps, [-88, 113, -1104])
-
-    def test_calculateGetCommonBeaconsBetweenOneAndThree(self):
-        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[1], self.scanManager.scanners[3])
-        self.assertEqual(overlaps, [-160, -1134, -23])
         
-    def test_calculateGetCommonBeaconsBetweenOneAndTwo(self):
-        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[4], self.scanManager.scanners[2])
-        self.assertEqual(overlaps, [-168, 1125, 72])
-
-    def test_calculateGetCommonBeaconsBetweentwoAndTwo(self):
-        self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        overlaps = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[2], self.scanManager.scanners[3])
-        self.assertEqual(overlaps, [-168, 1125, 72])
-        
-    # def test_calculateGetCommonBeaconsBetweenZeroAndOne(self):
-    #     self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-    #     overlaps = self.scanManager.updateCommonBeacons(self.scanManager.scanners[0], self.scanManager.scanners[1])
-    #     testOutput = [{'x': 404, 'y': -588, 'z': -901},
-    #                   {'x': 528, 'y': -643, 'z': 409},
-    #                   {'x': 390, 'y': -675, 'z': -793},
-    #                   {'x': -537, 'y': -823, 'z': -458},
-    #                   {'x': -485, 'y': -357, 'z': 347},
-    #                   {'x': -345, 'y': -311, 'z': 381},
-    #                   {'x': -661, 'y': -816, 'z': -575},
-    #                   {'x': -618, 'y': -824, 'z': -621},
-    #                   {'x': -447, 'y': -329, 'z': 318},
-    #                   {'x': 544, 'y': -627, 'z': -890},
-    #                   {'x': 423, 'y': -701, 'z': 434},
-    #                   {'x': 459, 'y': -707, 'z': 401}]
-        
-    #     self.assertEqual(overlaps, testOutput)
-    
-    # def test_calculateGetCommonBeaconsBetweenZeroAndTwo(self):
-    #     self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-    #     overlaps = self.scanManager.updateCommonBeacons(self.scanManager.scanners[0], self.scanManager.scanners[4])
-        
-    #     self.assertEqual(overlaps, None)
-
-    # def test_calculateGetCommonBeaconsBetweenZeroAndOne(self):
-    #     self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-    #     overlaps = self.scanManager.updateCommonBeacons(self.scanManager.scanners[1], self.scanManager.scanners[4])
-    #     coordinates = self.scanManager.coordinatesBetweenScanners(self.scanManager.scanners[0], self.scanManager.scanners[1])
-        
-    #     for lap in overlaps:
-    #         lap['x'] = -1*(lap['x']-coordinates[0])
-    #         lap['y'] = lap['y']+coordinates[1]
-    #         lap['z'] = -1*(lap['z']-coordinates[2])
-        
-    #     testOutput = [{'x': -447, 'y': -329, 'z': 318}, 
-    #                   {'x': 408, 'y': -1815, 'z': 803}, 
-    #                   {'x': 528, 'y': -643, 'z': 409}, 
-    #                   {'x': 534, 'y': -1912, 'z': 768}, 
-    #                   {'x': 423, 'y': -701, 'z': 434}, 
-    #                   {'x': -635, 'y': -1737, 'z': 486}, 
-    #                   {'x': -345, 'y': -311, 'z': 381}, 
-    #                   {'x': 459, 'y': -707, 'z': 401}, 
-    #                   {'x': 432, 'y': -2009, 'z': 850}, 
-    #                   {'x': -739, 'y': -1745, 'z': 668}, 
-    #                   {'x': -687, 'y': -1600, 'z': 576}, 
-    #                   {'x': -485, 'y': -357, 'z': 347}]
-        
-    #     self.assertEqual(overlaps, testOutput)
-
-
-class Test_ScanManagerFail(unittest.TestCase):
-    
-    def setUp(self):
-        self.scanManager = ScanManager()
-
     def test_getLengthBeacons(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
         self.scanManager.AddBeaconsRelativeToScanner()
         length = self.scanManager.getLengthBeacons()
         
         self.assertEqual(length, 79)
+        self.assertEqual(self.scanManager.scanners[0].positions, self.testanswer)
+
     
 def run_some_tests():
     # Run only the tests in the specified classes
@@ -874,5 +816,5 @@ def run_some_tests():
         
 if __name__ == '__main__':
     # run_some_tests()
-    unittest.main(defaultTest="Test_ScanManagerFail")
+    unittest.main(defaultTest="Test_ScanManager")
     # unittest.main()
