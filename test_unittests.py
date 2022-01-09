@@ -794,7 +794,7 @@ class Test_ScanManager(unittest.TestCase):
         length = self.scanManager.getLengthBeacons()
         
         self.assertEqual(length, 79)
-        self.assertEqual(self.scanManager.scanners[0].positions, self.testanswer)
+        self.assertEqual(self.scanManager.beaconsRelativeToScanner, self.testanswer)
 
     
 def run_some_tests():

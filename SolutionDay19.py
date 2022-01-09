@@ -35,17 +35,26 @@ class ScanManager:
     def __init__(self):
         self.scanners = [Scanner]
         self.scanners.pop(0)
+        self.beaconsRelativeToScanner = []
         self.visitedScanners = [0]
         self.lastOperation = {'x':Operator.PLUSX, 'y':Operator.PLUSY, 'z':Operator.PLUSZ,}
     
     def getLengthBeacons(self):
-        lengthBeacons = len(self.scanners[0].positions)
+        lengthBeacons = len(self.beaconsRelativeToScanner)
         return lengthBeacons
     
     def AddBeaconsRelativeToScanner(self):
         
-        self.addAllCoordinatesRelativeToScanner(self.scanners[0])   
-        self.scanners[0].positions = sorted(self.scanners[0].positions, key=lambda x: x['x'])
+        self.addAllCoordinatesRelativeToScanner(self.scanners[0])
+        
+        beacons = []
+        for scanner in self.scanners:
+            for beacon in scanner.positions:
+                beacons.append(beacon)
+        
+        beacons = self.__removeDuplicatesInDictionairy(beacons)
+        self.beaconsRelativeToScanner = sorted(beacons, key=lambda x: x['x'])
+        
         print("sorted removed")
     
     def __removeDuplicatesInDictionairy(self, listInput):
@@ -62,20 +71,16 @@ class ScanManager:
                 if coordinates != None:
                     if index not in self.visitedScanners:
                         self.visitedScanners.append(index)
-                        scannerTmp = copy.deepcopy(self.scanners[index])
-                        
-                        for beacon in scannerTmp.positions:
+                        scannerTmp = []
+                        for beacon in self.scanners[index].positions:
                             beaconInit = copy.deepcopy(beacon)
                             self.updateBeacon(coordinates, beacon, beaconInit, "x")
                             self.updateBeacon(coordinates, beacon, beaconInit, "y")
                             self.updateBeacon(coordinates, beacon, beaconInit, "z")
-                            scannerInput.positions.append(beacon)
-        
-                self.scanners[0].positions = self.__removeDuplicatesInDictionairy(self.scanners[0].positions)
-        
-        #if not all scanners are visited, perform function again
-        if numberOfScanners > len(self.visitedScanners):
-            self.addAllCoordinatesRelativeToScanner(scannerInput) 
+                            # scannerInput.positions.append(beacon)
+                            scannerTmp.append(beacon)
+                        self.scanners[index].positions = scannerTmp
+                        self.addAllCoordinatesRelativeToScanner(self.scanners[index])
         
                 
     def updateBeacon(self, coordinates, beacon, beaconInit, coor:str):
