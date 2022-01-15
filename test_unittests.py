@@ -839,11 +839,10 @@ class Test_trenchMapperFail(unittest.TestCase):
     def setUp(self):
         self.trenchMapper = Trenchmapper()
         self.trenchMapper.readData("testinput/unittestinputday20")
-    
-    def test_getUpdatedPixel2(self):
+
+    def test_calculateLitPixelsZeroTimes(self):
         self.trenchMapper.enhanceImage(0)
-        updatedPixel = self.trenchMapper.getUpdatedPixel(5,4)
-        self.assertEqual(updatedPixel,"#")
+        self.assertEqual(self.trenchMapper.lightPixels, 10)
         
     def test_calculateLitPixelsOneTime(self):
         self.trenchMapper.enhanceImage(1)
@@ -852,6 +851,10 @@ class Test_trenchMapperFail(unittest.TestCase):
     def test_calculateLitPixelsTwoTimes(self):
         self.trenchMapper.enhanceImage(2)
         self.assertEqual(self.trenchMapper.lightPixels, 35)
+
+    # def test_calculateLitPixelsTwoTimes(self):
+    #     self.trenchMapper.enhanceImage(50)
+    #     self.assertEqual(self.trenchMapper.lightPixels, 3351)
         
 def run_some_tests():
     # Run only the tests in the specified classes

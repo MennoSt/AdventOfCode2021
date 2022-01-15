@@ -21,6 +21,7 @@ class Trenchmapper:
         for _ in range (2):
             strMap.pop(0)
 
+
         self.grid.setGrid(strMap)
     
     def getUpdatedPixel(self,x, y):
@@ -37,6 +38,7 @@ class Trenchmapper:
         middlePart = [self.grid.getValue(x-1,y), self.grid.getValue(x,y), self.grid.getValue(x+1,y)]
         lowerPart = [self.grid.getValue(x-1,y+1), self.grid.getValue(x,y+1), self.grid.getValue(x+1,y+1)]
 
+        
         upperPart = ["." if v is None else v for v in upperPart]
         middlePart = ["." if v is None else v for v in middlePart]
         lowerPart = ["." if v is None else v for v in lowerPart]
@@ -69,8 +71,8 @@ class Trenchmapper:
             addedLine.append(".")
         
         for _ in range(Ndots):
-            mapCopy.append(addedLine)
-            mapCopy.insert(0,addedLine)
+            mapCopy.append(copy.deepcopy(addedLine))
+            mapCopy.insert(0,copy.deepcopy(addedLine))
         
         
         self.grid.gridMap = mapCopy
@@ -84,15 +86,24 @@ class Trenchmapper:
                 updatedPixel = self.getUpdatedPixel(x,y)
                 updatedGrid.setValue(x, y, updatedPixel)
         
-        self.grid = updatedGrid
+        width = updatedGrid.mapWidth-2
+        height = updatedGrid.mapHeight-2
+        for line in updatedGrid.gridMap:
+            line.pop(0)
+            line.pop(width)
         
+        updatedGrid.gridMap.pop(0)
+        updatedGrid.gridMap.pop(height)    
+
+        updatedGrid.updateMapSizes()
+        self.grid = updatedGrid
+    
+    
     def enhanceImage(self, NTimes):
         
-        self.__extendGrid(10)
-        for i in range(0,NTimes): 
+        self.__extendGrid(5)
+        for _ in range(0,NTimes):
             self.__updateGrid()            
-            name = "Enhancement iteration " + str(i+1) + ":"
-            self.grid.printGrid(name)
         
         self.lightPixels = self.grid.countElementsInGrid("#")
         
@@ -102,6 +113,7 @@ def solutionDay20():
     trenchMapper.enhanceImage(2)
     
     answerPart1 = trenchMapper.lightPixels
+    
     answerPart2 = 0
     
     printAnswer(20, answerPart1, answerPart2)
