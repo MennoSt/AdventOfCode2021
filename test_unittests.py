@@ -838,6 +838,22 @@ class Test_trenchMapper(unittest.TestCase):
         self.trenchMapper.enhanceImage(50)
         self.assertEqual(self.trenchMapper.lightPixels, 3351)
 
+
+class Test_trenchMapper(unittest.TestCase):
+    
+    def setUp(self):
+        self.trenchMapper = Trenchmapper()
+        self.trenchMapper.readData("testinput/unittestinputday20")
+    
+    def test_getUpdatedPixel(self):
+        
+        binaryNumber = self.trenchMapper.calculateBinaryNumber(2,2)
+        self.assertEqual(binaryNumber,"000100010")
+        
+        updatedPixel = self.trenchMapper.getUpdatedPixel(2,2)
+        self.assertEqual(updatedPixel, "#")
+
+
 def run_some_tests():
     # Run only the tests in the specified classes
 
