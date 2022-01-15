@@ -1,10 +1,7 @@
-#%%
-
 from utils.AocUtils import *
 from utils.FileReader import FileReader
 from utils.Grid import Grid
 import copy
-
 
 class Trenchmapper:
     
@@ -22,11 +19,9 @@ class Trenchmapper:
         for _ in range (2):
             strMap.pop(0)
 
-
         self.grid.setGrid(strMap)
     
     def getUpdatedPixel(self,x, y):
-        
         binaryNumber = self.calculateBinaryNumber(x, y)
         decimalNumber = int(binaryNumber,2)
         updatedPixel = self.enhancementAlgorithm[decimalNumber]
@@ -43,7 +38,6 @@ class Trenchmapper:
         middlePart = [self.infiniteBound if v is None else v for v in middlePart]
         lowerPart = [self.infiniteBound if v is None else v for v in lowerPart]
 
-        
         for pixel in upperPart:
             binaryNumber += pixel
         for pixel in middlePart:
@@ -53,9 +47,10 @@ class Trenchmapper:
 
         binaryNumber = binaryNumber.replace("#","1")
         binaryNumber = binaryNumber.replace(".","0")
+        
         return binaryNumber
 
-    def updateInfinitePixelValue(self):
+    def __updateInfinitePixelValue(self):
         self.infiniteBound = "."
         if self.cycle == 0:
             self.infiniteBound = "."
@@ -81,7 +76,6 @@ class Trenchmapper:
             mapCopy.append(copy.deepcopy(addedLine))
             mapCopy.insert(0,copy.deepcopy(addedLine))
         
-        
         self.grid.gridMap = mapCopy
         self.grid.updateMapSizes()
     
@@ -96,11 +90,10 @@ class Trenchmapper:
         updatedGrid.updateMapSizes()
         self.grid = updatedGrid
     
-    
     def enhanceImage(self, NTimes):
         for cycle in range(0,NTimes):
             self.cycle = cycle
-            self.updateInfinitePixelValue()
+            self.__updateInfinitePixelValue()
             self.__extendGrid(2)
             self.__updateGrid()            
         
@@ -119,5 +112,3 @@ def solutionDay20():
     
     printAnswer(20, answerPart1, answerPart2)
     
-    
-# %%

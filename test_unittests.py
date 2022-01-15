@@ -20,7 +20,7 @@ from solutions.SolutionDay16 import Packet, PacketDecoder
 from solutions.SolutionDay17 import *
 from solutions.SolutionDay18 import SnailFishUpdater
 from solutions.SolutionDay19 import ScanManager
-from SolutionDay20 import Trenchmapper
+from solutions.SolutionDay20 import Trenchmapper
 class Test_SumbarineCalculator(unittest.TestCase):
 
     def setUp(self):
@@ -834,32 +834,14 @@ class Test_trenchMapper(unittest.TestCase):
         self.trenchMapper.enhanceImage(2)
         self.assertEqual(self.trenchMapper.lightPixels, 35)
 
-class Test_trenchMapperFail(unittest.TestCase):
-    
-    def setUp(self):
-        self.trenchMapper = Trenchmapper()
-        self.trenchMapper.readData("testinput/unittestinputday20")
-
-    def test_calculateLitPixelsZeroTimes(self):
-        self.trenchMapper.enhanceImage(0)
-        self.assertEqual(self.trenchMapper.lightPixels, 10)
-        
-    def test_calculateLitPixelsOneTime(self):
-        self.trenchMapper.enhanceImage(1)
-        self.assertEqual(self.trenchMapper.lightPixels, 24)
-
-    def test_calculateLitPixelsTwoTimes(self):
-        self.trenchMapper.enhanceImage(2)
-        self.assertEqual(self.trenchMapper.lightPixels, 35)
-
     def test_calculateLitPixelsThreeTimes(self):
         self.trenchMapper.enhanceImage(50)
         self.assertEqual(self.trenchMapper.lightPixels, 3351)
-        
+
 def run_some_tests():
     # Run only the tests in the specified classes
 
-    test_classes_to_run = [Test_trenchMapperFail]
+    test_classes_to_run = [Test_trenchMapper]
 
     loader = unittest.TestLoader()
 
@@ -874,6 +856,6 @@ def run_some_tests():
     results = runner.run(big_suite)
         
 if __name__ == '__main__':
-    run_some_tests()
-    # unittest.main(defaultTest="Test_trenchMapper")
+    # run_some_tests()
+    unittest.main(defaultTest="Test_trenchMapper")
     # unittest.main()

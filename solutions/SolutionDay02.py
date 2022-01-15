@@ -2,7 +2,6 @@ import pandas as pd
 
 from utils.AocUtils import *
 
-
 class PositionCalculator:
     def __init__(self):
         self.horizontalP = 0

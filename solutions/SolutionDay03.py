@@ -2,7 +2,6 @@ import pandas as pd
 
 from utils.AocUtils import *
 
-
 class PowerManager:
     def __init__(self):
         self.binList = []
@@ -14,7 +13,6 @@ class PowerManager:
         self.oxygenRating = binList
         self.co2ScrubberRating = binList
         numberOfCharacters = len(self.binList[0])
-
 
         for index in range(0, numberOfCharacters):
             mostCommonBitValue = self.__getMostCommenBit(
