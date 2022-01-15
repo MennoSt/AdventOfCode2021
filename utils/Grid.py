@@ -1,10 +1,10 @@
+from ast import Str
 from utils.AocEnums import *
-import copy
 
 class Grid:
 
     def __init__(self):
-        self.gridMap = 0
+        self.gridMap = []
         self.mapWidth = 0
         self.mapHeight = 0
     
@@ -13,20 +13,22 @@ class Grid:
         self.mapWidth = len(gridMap[0])
         self.mapHeight = len(gridMap)
 
+    def updateMapSizes(self):
+        self.mapWidth = len(self.gridMap[0])
+        self.mapHeight = len(self.gridMap)
+        
+    def countElementsInGrid(self, strElement):
+        counts = 0
+        for line in self.gridMap:
+            count = line.count(strElement)
+            counts+=count
+        
+        return counts
+    
     def printGrid(self, name = ""):
         print("\n " + name)
         for line in self.gridMap:
             print(line)
-            
-    def __getValue(self, x, y):
-        mapWidth = self.mapWidth-1
-        mapHeight = self.mapHeight -1
-        if x < 0 or x > mapWidth or y < 0 or y > mapHeight:
-            value = None
-        else:
-            value = self.gridMap[y][x]
-
-        return value
     
     def getTotalSum(self):
         sumtotal = 0
@@ -50,6 +52,15 @@ class Grid:
 
         return value
     
+    def __getValue(self, x, y):
+        mapWidth = self.mapWidth-1
+        mapHeight = self.mapHeight -1
+        if x < 0 or x > mapWidth or y < 0 or y > mapHeight:
+            value = None
+        else:
+            value = self.gridMap[y][x]
+
+        return value
     def __setValue(self, x, y, value):
         mapWidth = self.mapWidth-1
         mapHeight = self.mapHeight -1

@@ -44,6 +44,14 @@ class FileReader:
         
         return integerMap
 
+    def readToStringMap(self, inputFile):
+        fileObj = open(inputFile, "r")
+        fileString = fileObj.read().splitlines()
+        fileObj.close()
+        integerMap = [list(map(str, list(line))) for line in fileString]
+        
+        return integerMap
+    
     def readPolymerTemplate(self, inputFile):
         fileString = self.readLinesToStringArray(inputFile)
         

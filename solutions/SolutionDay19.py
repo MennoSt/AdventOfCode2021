@@ -52,7 +52,7 @@ class ScanManager:
             
         return coordinate
                 
-    def AddBeaconsRelativeToScanner(self, scannerIndex):
+    def addBeaconsRelativeToScanner(self, scannerIndex):
         
         self.addAllCoordinatesRelativeToScanner(self.scanners[scannerIndex])
         
@@ -161,7 +161,7 @@ def solutionDay19():
     scanManager = ScanManager()
 
     scanManager.readInputDataIntoScanners("input/inputday19")
-    scanManager.AddBeaconsRelativeToScanner(0)
+    scanManager.addBeaconsRelativeToScanner(0)
     
     answerPart1 = scanManager.getLengthBeacons()
     answerPart2 = scanManager.getLargestManhattanDistance()

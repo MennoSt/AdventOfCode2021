@@ -1,5 +1,5 @@
 import unittest
-from solutions.SolutionDay19 import ScanManager
+
 
 from solutions.SolutionDay01 import SubmarineCalculator
 from solutions.SolutionDay02 import PositionCalculator
@@ -19,7 +19,8 @@ from solutions.SolutionDay15 import Dijkstra
 from solutions.SolutionDay16 import Packet, PacketDecoder
 from solutions.SolutionDay17 import *
 from solutions.SolutionDay18 import SnailFishUpdater
-
+from solutions.SolutionDay19 import ScanManager
+from SolutionDay20 import Trenchmapper
 class Test_SumbarineCalculator(unittest.TestCase):
 
     def setUp(self):
@@ -790,7 +791,7 @@ class Test_ScanManager(unittest.TestCase):
         
     def test_getLengthBeacons(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        self.scanManager.AddBeaconsRelativeToScanner(0)
+        self.scanManager.addBeaconsRelativeToScanner(0)
         length = self.scanManager.getLengthBeacons()
         
         self.assertEqual(length, 79)
@@ -803,15 +804,59 @@ class Test_ScanManager(unittest.TestCase):
 
     def test_calculateLargestManhattanDistance(self):
         self.scanManager.readInputDataIntoScanners("testinput/unittestinputday19")
-        self.scanManager.AddBeaconsRelativeToScanner(0)
+        self.scanManager.addBeaconsRelativeToScanner(0)
         largestManhattenDistance = self.scanManager.getLargestManhattanDistance()
         self.assertEqual(largestManhattenDistance, 3621)
 
+class Test_trenchMapper(unittest.TestCase):
     
+    def setUp(self):
+        self.trenchMapper = Trenchmapper()
+        self.trenchMapper.readData("testinput/unittestinputday20")
+    
+    def test_getUpdatedPixel(self):
+        
+        binaryNumber = self.trenchMapper.calculateBinaryNumber(2,2)
+        self.assertEqual(binaryNumber,"000100010")
+        
+        updatedPixel = self.trenchMapper.getUpdatedPixel(2,2)
+        self.assertEqual(updatedPixel, "#")
+
+    def test_getUpdatedPixel2(self):
+        updatedPixel = self.trenchMapper.getUpdatedPixel(0,0)
+        self.assertEqual(updatedPixel, ".")
+
+    def test_calculateLitPixelsInit(self):
+        self.trenchMapper.enhanceImage(0)
+        self.assertEqual(self.trenchMapper.lightPixels, 10)
+
+    def test_calculateLitPixelsThreeTimes(self):
+        self.trenchMapper.enhanceImage(2)
+        self.assertEqual(self.trenchMapper.lightPixels, 35)
+
+class Test_trenchMapperFail(unittest.TestCase):
+    
+    def setUp(self):
+        self.trenchMapper = Trenchmapper()
+        self.trenchMapper.readData("testinput/unittestinputday20")
+    
+    def test_getUpdatedPixel2(self):
+        self.trenchMapper.enhanceImage(0)
+        updatedPixel = self.trenchMapper.getUpdatedPixel(5,4)
+        self.assertEqual(updatedPixel,"#")
+        
+    def test_calculateLitPixelsOneTime(self):
+        self.trenchMapper.enhanceImage(1)
+        self.assertEqual(self.trenchMapper.lightPixels, 24)
+
+    def test_calculateLitPixelsTwoTimes(self):
+        self.trenchMapper.enhanceImage(2)
+        self.assertEqual(self.trenchMapper.lightPixels, 35)
+        
 def run_some_tests():
     # Run only the tests in the specified classes
 
-    test_classes_to_run = [Test_ScanManager]
+    test_classes_to_run = [Test_trenchMapperFail]
 
     loader = unittest.TestLoader()
 
@@ -826,6 +871,6 @@ def run_some_tests():
     results = runner.run(big_suite)
         
 if __name__ == '__main__':
-    # run_some_tests()
-    unittest.main(defaultTest="Test_ScanManager")
+    run_some_tests()
+    # unittest.main(defaultTest="Test_trenchMapper")
     # unittest.main()
