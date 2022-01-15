@@ -852,9 +852,9 @@ class Test_trenchMapperFail(unittest.TestCase):
         self.trenchMapper.enhanceImage(2)
         self.assertEqual(self.trenchMapper.lightPixels, 35)
 
-    # def test_calculateLitPixelsTwoTimes(self):
-    #     self.trenchMapper.enhanceImage(50)
-    #     self.assertEqual(self.trenchMapper.lightPixels, 3351)
+    def test_calculateLitPixelsThreeTimes(self):
+        self.trenchMapper.enhanceImage(50)
+        self.assertEqual(self.trenchMapper.lightPixels, 3351)
         
 def run_some_tests():
     # Run only the tests in the specified classes
