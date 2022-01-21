@@ -1,4 +1,5 @@
 import unittest
+from SolutionDay21 import DiceRoller
 
 
 from solutions.SolutionDay01 import SubmarineCalculator
@@ -21,6 +22,9 @@ from solutions.SolutionDay17 import *
 from solutions.SolutionDay18 import SnailFishUpdater
 from solutions.SolutionDay19 import ScanManager
 from solutions.SolutionDay20 import Trenchmapper
+from SolutionDay21 import DiceRoller
+
+
 class Test_SumbarineCalculator(unittest.TestCase):
 
     def setUp(self):
@@ -839,25 +843,43 @@ class Test_trenchMapper(unittest.TestCase):
         self.assertEqual(self.trenchMapper.lightPixels, 3351)
 
 
-class Test_trenchMapper(unittest.TestCase):
+class Test_diceRoller(unittest.TestCase):
     
     def setUp(self):
-        self.trenchMapper = Trenchmapper()
-        self.trenchMapper.readData("testinput/unittestinputday20")
+        fileReader = FileReader()
+        self.diceRoller = DiceRoller()
+        fileString = fileReader.readLinesToStringArray("testinput/unittestinputday21")
+        self.diceRoller.loadStartPositions(fileString)
     
-    def test_getUpdatedPixel(self):
+    def test_rollCycleData(self):
+        self.diceRoller.performNextRound()
+        info = self.diceRoller.playerInfo
+        self.assertEqual(info[0], {'player': 1, 'position': 10, 'score': 10})
+        self.assertEqual(info[1], {'player': 2, 'position': 3, 'score': 3})
         
-        binaryNumber = self.trenchMapper.calculateBinaryNumber(2,2)
-        self.assertEqual(binaryNumber,"000100010")
+        self.diceRoller.performNextRound()
+        info = self.diceRoller.playerInfo
+        self.assertEqual(info[0], {'player': 1, 'position': 4, 'score': 14})
+        self.assertEqual(info[1], {'player': 2, 'position': 6, 'score': 9})
+
+        self.diceRoller.performNextRound()
+        info = self.diceRoller.playerInfo
+        self.assertEqual(info[0], {'player': 1, 'position': 6, 'score': 20})
+        self.assertEqual(info[1], {'player': 2, 'position': 7, 'score': 16})
         
-        updatedPixel = self.trenchMapper.getUpdatedPixel(2,2)
-        self.assertEqual(updatedPixel, "#")
+        self.diceRoller.performNextRound()
+        info = self.diceRoller.playerInfo
+        self.assertEqual(info[0], {'player': 1, 'position': 6, 'score': 26})
+        self.assertEqual(info[1], {'player': 2, 'position': 6, 'score': 22})
 
-
+    def test_gameScore(self):
+        gameScore = self.diceRoller.determineGameScore()
+        self.assertEqual(gameScore, 739785)
+        
 def run_some_tests():
     # Run only the tests in the specified classes
 
-    test_classes_to_run = [Test_trenchMapper]
+    test_classes_to_run = [Test_diceRoller]
 
     loader = unittest.TestLoader()
 
@@ -873,5 +895,5 @@ def run_some_tests():
         
 if __name__ == '__main__':
     # run_some_tests()
-    unittest.main(defaultTest="Test_trenchMapper")
+    unittest.main(defaultTest="Test_diceRoller")
     # unittest.main()
