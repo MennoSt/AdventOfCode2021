@@ -846,9 +846,9 @@ class Test_trenchMapper(unittest.TestCase):
 class Test_diceRoller(unittest.TestCase):
     
     def setUp(self):
-        fileReader = FileReader()
+        self.fileReader = FileReader()
         self.diceRoller = DiceRoller()
-        fileString = fileReader.readLinesToStringArray("testinput/unittestinputday21")
+        fileString = self.fileReader.readLinesToStringArray("testinput/unittestinputday21")
         self.diceRoller.loadStartPositions(fileString)
     
     def test_rollCycleData(self):
@@ -875,6 +875,57 @@ class Test_diceRoller(unittest.TestCase):
     def test_gameScore(self):
         gameScore = self.diceRoller.determineGameScore()
         self.assertEqual(gameScore, 739785)
+
+    def test_gameScore2(self):
+        fileString = self.fileReader.readLinesToStringArray("input/inputday21")
+        self.diceRoller.loadStartPositions(fileString)
+        gameScore = self.diceRoller.determineGameScore()
+        self.assertEqual(gameScore, 916083)
+
+    def test_calculateUniverseWinsExample1(self):
+        dicePossibilities = [{"throw":3, "count":1},{"throw":4, "count":1}]
+        maxPoints = 8
+        mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
+        self.assertEqual(mostUniverseWins, 5)
+
+    def test_calculateUniverseWinsExample2(self):
+        dicePossibilities = [{"throw":3, "count":1},{"throw":7, "count":1}]
+        maxPoints = 8
+        mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
+        self.assertEqual(mostUniverseWins, 10)
+
+class Test_diceRollerFailed(unittest.TestCase):
+    def setUp(self):
+        fileReader = FileReader()
+        self.diceRoller = DiceRoller()
+        fileString = fileReader.readLinesToStringArray("testinput/unittestinputday21")
+        self.diceRoller.loadStartPositions(fileString)
+
+    def test_calculateUniverseWins(self):
+        dicePossibilities = [{"throw":3, "count":1},{"throw":7, "count":1}]
+        maxPoints = 8
+        # hashTablePlayer1 = self.diceRoller.getHashTable(1, dicePossibilities, maxPoints)
+        # hashTablePlayer2 = self.diceRoller.getHashTable(2, dicePossibilities, maxPoints)
+        
+        # self.assertEqual(hashTablePlayer1, [{'turns': 0, 'count': 0, 'minus': 0}, {'turns': 2, 'count': 3, 'minus': 3}, {'turns': 3, 'count': 1, 'minus': 7}, {'turns': 4, 'count': 2, 'minus': 16}])
+        # self.assertEqual(hashTablePlayer2, [{'turns': 0, 'count': 0, 'minus': 0}, {'turns': 2, 'count': 2, 'minus': 0}, {'turns': 3, 'count': 3, 'minus': 2}, {'turns': 4, 'count': 2, 'minus': 7}])
+
+        mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities)
+        # self.assertEqual(mostUniverseWins, 10)
+
+    def test_determineMostWinsExample(self):
+        
+        dicePossibilities = [{"throw":3, "count":1},
+                             {"throw":4, "count":3},
+                             {"throw":5, "count":6},
+                             {"throw":6, "count":7},
+                             {"throw":7, "count":6},
+                             {"throw":8, "count":3},
+                             {"throw":9, "count":1}]
+        maxPoints = 21
+        # wins = self.diceRoller.determineMostWins(maxPoints, dicePossibilities)
+        # self.assertEqual(wins, 444356092776315)
+        
         
 def run_some_tests():
     # Run only the tests in the specified classes
@@ -894,6 +945,6 @@ def run_some_tests():
     results = runner.run(big_suite)
         
 if __name__ == '__main__':
-    # run_some_tests()
-    unittest.main(defaultTest="Test_diceRoller")
+    run_some_tests()
+    # unittest.main(defaultTest="Test_diceRollerFailed")
     # unittest.main()

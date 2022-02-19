@@ -1,5 +1,6 @@
 from utils.AocUtils import *
 from utils.FileReader import FileReader
+import copy
 
 # %%
 
@@ -13,7 +14,11 @@ class DiceRoller:
         self.diceThree = 0
         self.totalScore = 0
         
+        self.universWinsPlayer1 = 0
+        self.universWinsPlayer2 = 0
+        
     def loadStartPositions(self, fileString):
+        self.playerInfo = []
         for player in fileString:
             player = player.replace("Player ", "")
             player = player.split(" starting position: ")
@@ -30,7 +35,8 @@ class DiceRoller:
         self.diceTwo = self.updateDice(self.diceTwo)
         self.diceThree = self.updateDice(self.diceThree)
             
-        self.totalScore = self.diceOne + self.diceTwo + self.diceThree
+        score = self.diceOne + self.diceTwo + self.diceThree
+        return score
 
     def updateDice(self, dice):
         dice += 3
@@ -45,27 +51,18 @@ class DiceRoller:
     def performNextRound(self):
         highestPlayerScore = max(self.playerInfo[0]["score"], self.playerInfo[1]["score"])
         if highestPlayerScore <1000:
-            self.playerThrowsDice(1)
+            self.playerThrowsDeterDice(1)
             
         highestPlayerScore = max(self.playerInfo[0]["score"], self.playerInfo[1]["score"])
         if highestPlayerScore <1000:   
-            self.playerThrowsDice(2)
+            self.playerThrowsDeterDice(2)
 
-    def playerThrowsDice(self, playerNumber):
+    def playerThrowsDeterDice(self, playerNumber):
         self.rollCycles += 3
-        self.__throwDices()
-        for player in self.playerInfo:
-            if player["player"] == playerNumber:
-                player["position"] += self.totalScore
-                if player["position"] > 10:
-                    modulus = player["position"] % 10
-                    if modulus == 0:
-                        player["position"] = 10
-                    else:
-                        player["position"] = modulus
-                player["score"] += player["position"]
-    
-    def playGame(self):
+        score = self.__throwDices()
+        self.updateScore(playerNumber,score)
+
+    def playDeterDiceGame(self):
         highestPlayerScore = 0
         self.rollCycles = 0
         
@@ -74,12 +71,56 @@ class DiceRoller:
             highestPlayerScore = max(self.playerInfo[0]["score"], self.playerInfo[1]["score"])
     
     def determineGameScore(self):
-        self.playGame()
+        self.playDeterDiceGame()
         lowestScore = min(self.playerInfo[0]["score"], self.playerInfo[1]["score"])
         gameScore = lowestScore * self.rollCycles
         
         return gameScore
+    
+    def updateScore(self, playerNumber,score):
+        for player in self.playerInfo:
+            if player["player"] == playerNumber:
+                player["position"] += score
+                if player["position"] > 10:
+                    modulus = player["position"] % 10
+                    if modulus == 0:
+                        player["position"] = 10
+                    else:
+                        player["position"] = modulus
+                player["score"] += player["position"]
+    
+    
+    def __throwDiracDice(self, dicePossibilities, maxPoints):
         
+        scorePlayer1 = copy.deepcopy(self.playerInfo[0]["score"])
+        posPlayer1 = copy.deepcopy(self.playerInfo[0]["position"])
+        scorePlayer2 = copy.deepcopy(self.playerInfo[1]["score"])
+        posPlayer2 = copy.deepcopy(self.playerInfo[1]["position"])
+        
+        
+        for dice in dicePossibilities:
+            self.updateScore(1, dice["throw"])
+            if self.playerInfo[0]["score"] >= maxPoints:
+                self.universWinsPlayer1 += 1
+            else:
+                for dice in dicePossibilities:
+                    self.updateScore(2, dice["throw"])
+                    if self.playerInfo[1]["score"] > maxPoints:
+                        self.universWinsPlayer2 += 1
+                    else:
+                        self.__throwDiracDice(dicePossibilities,maxPoints)
+                    self.playerInfo[1]["score"] = scorePlayer2
+                    self.playerInfo[1]["position"] = posPlayer2
+            
+            self.playerInfo[0]["score"] = scorePlayer1
+            self.playerInfo[1]["score"] = scorePlayer2
+            self.playerInfo[0]["position"] = posPlayer1
+            self.playerInfo[1]["position"] = posPlayer2
+               
+    def mostUniverseWins(self, dicePossibilities, maxPoints):
+        self.__throwDiracDice(dicePossibilities, maxPoints) 
+        mostWins = max(self.universWinsPlayer1, self.universWinsPlayer2)
+        return mostWins
             
 def solutionDay21():
     fileReader = FileReader()
