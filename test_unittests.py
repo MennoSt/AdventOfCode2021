@@ -895,28 +895,40 @@ class Test_diceRoller(unittest.TestCase):
         self.assertEqual(mostUniverseWins, 10)
 
     def test_calculateUniverseWinsExample3(self):
+        dicePossibilities = [{"throw":3, "count":1},{"throw":4, "count":1},{"throw":4, "count":1}]
+        maxPoints = 8
+        mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
+        self.assertEqual(mostUniverseWins, 11)
+
+    def test_calculateUniverseWinsExample4(self):
         dicePossibilities = [{"throw":3, "count":1},{"throw":4, "count":2}]
         maxPoints = 8
         mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
-        self.assertEqual(mostUniverseWins, 8)
-
-    def test_calculateUniverseWinsExample3(self):
+        self.assertEqual(mostUniverseWins, 11)
+        
+    def test_calculateUniverseWinsExample5(self):
         dicePossibilities = [{"throw":3, "count":2},{"throw":4, "count":1}]
         maxPoints = 8
         mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
         self.assertEqual(mostUniverseWins, 19)
+
+    def test_calculateUniverseWinsExample6(self):
+        dicePossibilities = [{"throw":3, "count":1}, {"throw":3, "count":1}, {"throw":4, "count":1}]
+        maxPoints = 8
+        mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
+        self.assertEqual(mostUniverseWins, 19)
         
-    # def test_calculateUniverseWinsExample5(self):
-    #     dicePossibilities = [{"throw":3, "count":1},
-    #                          {"throw":4, "count":3},
-    #                          {"throw":5, "count":6},
-    #                          {"throw":6, "count":7},
-    #                          {"throw":7, "count":6},
-    #                          {"throw":8, "count":3},
-    #                          {"throw":9, "count":1}]
-    #     maxPoints = 21
-    #     mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
-    #     self.assertEqual(mostUniverseWins, 444356092776315)
+    def test_calculateUniverseWinsExample6(self):
+        dicePossibilities = [{"throw":3, "count":1},
+                             {"throw":4, "count":3},
+                             {"throw":5, "count":6},
+                             {"throw":6, "count":7},
+                             {"throw":7, "count":6},
+                             {"throw":8, "count":3},
+                             {"throw":9, "count":1}]
+        maxPoints = 21
+        mostUniverseWins = self.diceRoller.mostUniverseWins(dicePossibilities, maxPoints)
+        self.assertEqual(mostUniverseWins, 444356092776315)
         
         
 def run_some_tests():

@@ -16,8 +16,7 @@ class DiceRoller:
         
         self.universWinsPlayer1 = 0
         self.universWinsPlayer2 = 0
-        self.multiplicationFactorP1 = 1
-        self.multiplicationFactorP2 = 1
+        self.multiplicationFactor = 1
         
     def loadStartPositions(self, fileString):
         self.playerInfo = []
@@ -93,37 +92,38 @@ class DiceRoller:
     
     
     def __throwDiracDice(self, dicePossibilities, maxPoints):
+        if(self.playerInfo[0]["score"]>444356092776315):
+            raise Exception("too large")
         
         scorePlayer1 = copy.deepcopy(self.playerInfo[0]["score"])
         posPlayer1 = copy.deepcopy(self.playerInfo[0]["position"])
+        multiplicationFactor = copy.deepcopy(self.multiplicationFactor)
         scorePlayer2 = copy.deepcopy(self.playerInfo[1]["score"])
         posPlayer2 = copy.deepcopy(self.playerInfo[1]["position"])
-        multiplicationFactorP1 = copy.deepcopy(self.multiplicationFactorP1)
-        multiplicationFactorP2 = copy.deepcopy(self.multiplicationFactorP2)
         
         for dice in dicePossibilities:
             self.updateScore(1, dice["throw"])
-            self.multiplicationFactorP1 *= dice["count"]
+            self.multiplicationFactor *= dice["count"]
             if self.playerInfo[0]["score"] >= maxPoints:
-                self.universWinsPlayer1 += 1 * self.multiplicationFactorP1 *self.multiplicationFactorP2
+                self.universWinsPlayer1 += 1 * self.multiplicationFactor
             else:
                 for dice in dicePossibilities:
+                    multiplicationFactortmp = copy.deepcopy(self.multiplicationFactor)
                     self.updateScore(2, dice["throw"])
-                    self.multiplicationFactorP2 *= dice["count"]
-                    if self.playerInfo[1]["score"] > maxPoints:
-                        self.universWinsPlayer2 += 1 * self.multiplicationFactorP1 * self.multiplicationFactorP2
+                    self.multiplicationFactor *= dice["count"]
+                    if self.playerInfo[1]["score"] >= maxPoints:
+                        self.universWinsPlayer2 += 1 * self.multiplicationFactor
                     else:
                         self.__throwDiracDice(dicePossibilities,maxPoints)
                     self.playerInfo[1]["score"] = scorePlayer2
                     self.playerInfo[1]["position"] = posPlayer2
-                    self.multiplicationFactorP2 = multiplicationFactorP2
+                    self.multiplicationFactor = multiplicationFactortmp
 
             self.playerInfo[0]["score"] = scorePlayer1
             self.playerInfo[1]["score"] = scorePlayer2
             self.playerInfo[0]["position"] = posPlayer1
             self.playerInfo[1]["position"] = posPlayer2
-            self.multiplicationFactorP1 = multiplicationFactorP1
-            self.multiplicationFactorP2 = multiplicationFactorP2
+            self.multiplicationFactor = multiplicationFactor
                
     def mostUniverseWins(self, dicePossibilities, maxPoints):
         self.__throwDiracDice(dicePossibilities, maxPoints)
@@ -136,11 +136,22 @@ class DiceRoller:
 def solutionDay21():
     fileReader = FileReader()
     diceRoller = DiceRoller()
+    
     fileString = fileReader.readLinesToStringArray("input/inputday21")
     diceRoller.loadStartPositions(fileString)
-    
     answerPart1 = diceRoller.determineGameScore()
-    answerPart2 = 0
+    
+    dicePossibilitiesDirac = [{"throw":3, "count":1},
+                        {"throw":4, "count":3},
+                        {"throw":5, "count":6},
+                        {"throw":6, "count":7},
+                        {"throw":7, "count":6},
+                        {"throw":8, "count":3},
+                        {"throw":9, "count":1}]
+    maxScoreDirac = 21
+    fileString = fileReader.readLinesToStringArray("input/inputday21")
+    diceRoller.loadStartPositions(fileString)
+    answerPart2 = diceRoller.mostUniverseWins(dicePossibilitiesDirac, maxScoreDirac)
     printAnswer(20, answerPart1, answerPart2)
     
 
