@@ -2,8 +2,6 @@ from utils.AocUtils import *
 from utils.FileReader import FileReader
 import copy
 
-# %%
-
 class DiceRoller:
     
     def __init__(self):
@@ -153,6 +151,3 @@ def solutionDay21():
     diceRoller.loadStartPositions(fileString)
     answerPart2 = diceRoller.mostUniverseWins(dicePossibilitiesDirac, maxScoreDirac)
     printAnswer(20, answerPart1, answerPart2)
-    
-
-# %%
