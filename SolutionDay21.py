@@ -16,6 +16,8 @@ class DiceRoller:
         
         self.universWinsPlayer1 = 0
         self.universWinsPlayer2 = 0
+        self.multiplicationFactorP1 = 1
+        self.multiplicationFactorP2 = 1
         
     def loadStartPositions(self, fileString):
         self.playerInfo = []
@@ -96,29 +98,38 @@ class DiceRoller:
         posPlayer1 = copy.deepcopy(self.playerInfo[0]["position"])
         scorePlayer2 = copy.deepcopy(self.playerInfo[1]["score"])
         posPlayer2 = copy.deepcopy(self.playerInfo[1]["position"])
-        
+        multiplicationFactorP1 = copy.deepcopy(self.multiplicationFactorP1)
+        multiplicationFactorP2 = copy.deepcopy(self.multiplicationFactorP2)
         
         for dice in dicePossibilities:
             self.updateScore(1, dice["throw"])
+            self.multiplicationFactorP1 *= dice["count"]
             if self.playerInfo[0]["score"] >= maxPoints:
-                self.universWinsPlayer1 += 1
+                self.universWinsPlayer1 += 1 * self.multiplicationFactorP1 *self.multiplicationFactorP2
             else:
                 for dice in dicePossibilities:
                     self.updateScore(2, dice["throw"])
+                    self.multiplicationFactorP2 *= dice["count"]
                     if self.playerInfo[1]["score"] > maxPoints:
-                        self.universWinsPlayer2 += 1
+                        self.universWinsPlayer2 += 1 * self.multiplicationFactorP1 * self.multiplicationFactorP2
                     else:
                         self.__throwDiracDice(dicePossibilities,maxPoints)
                     self.playerInfo[1]["score"] = scorePlayer2
                     self.playerInfo[1]["position"] = posPlayer2
-            
+                    self.multiplicationFactorP2 = multiplicationFactorP2
+
             self.playerInfo[0]["score"] = scorePlayer1
             self.playerInfo[1]["score"] = scorePlayer2
             self.playerInfo[0]["position"] = posPlayer1
             self.playerInfo[1]["position"] = posPlayer2
+            self.multiplicationFactorP1 = multiplicationFactorP1
+            self.multiplicationFactorP2 = multiplicationFactorP2
                
     def mostUniverseWins(self, dicePossibilities, maxPoints):
-        self.__throwDiracDice(dicePossibilities, maxPoints) 
+        self.__throwDiracDice(dicePossibilities, maxPoints)
+        print("Game ended:")
+        print("universe wins player1:" + str(self.universWinsPlayer1))
+        print("universe wins player2:" + str(self.universWinsPlayer2))
         mostWins = max(self.universWinsPlayer1, self.universWinsPlayer2)
         return mostWins
             
